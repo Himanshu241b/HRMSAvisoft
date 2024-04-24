@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="" />
+    <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/security/JWTAuthentication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/security/JWTAuthenticationConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/security/JWTAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/security/JWTAuthenticationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/JWTService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/HrmsAvisoftApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/HrmsAvisoftApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/HrmsAvisoftApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/HrmsAvisoftApplicationTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,10 +27,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2fUpN4gPR3Zc9qrV0BC6ddUdjGT" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -27,12 +48,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.HrmsAvisoftApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev-server",
+    "git-widget-placeholder": "jwt-auth-and-tests",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/himanshu/Desktop/Avisoft/HRMSAvisoft"
+    "last_opened_file_path": "/home/himanshu/Desktop/Avisoft/HRMSAvisoft/src/main/java/com/example/HRMSAvisoft",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service" />
+      <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
