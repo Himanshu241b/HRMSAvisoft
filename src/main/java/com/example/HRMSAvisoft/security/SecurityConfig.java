@@ -2,6 +2,7 @@ package com.example.HRMSAvisoft.security;
 
 
 import com.example.HRMSAvisoft.service.JWTService;
+import com.example.HRMSAvisoft.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
