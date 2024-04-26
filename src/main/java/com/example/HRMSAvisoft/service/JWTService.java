@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.HRMSAvisoft.entity.Role;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
@@ -19,6 +20,12 @@ public class JWTService {
     //TODO: move key to eparate properties file (not in git)
 
     private static String JWT_KEY = "slkfjewofjowifwoi409u34jr43ut3oi4jtfoi3j";
+
+    @Value("${jwt.secret}")
+    public void setJwtKey(String jwtKey) {
+        JWTService.JWT_KEY = jwtKey;
+    }
+
     private static final long EXPIRATION_TIME_MILLIS = 3600000; // 1 hour in milliseconds
 
     private static Algorithm algorithm = Algorithm.HMAC256(JWT_KEY);
