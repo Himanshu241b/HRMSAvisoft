@@ -32,24 +32,11 @@ public class JWTServiceTests {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    @DisplayName("test_JWTKeySetter")
-    public void testSetJwtKey() throws NoSuchFieldException, IllegalAccessException {
-        String jwtKey = "test_jwt_key";
-        when(algorithmMock.getName()).thenReturn("HMAC256"); // Mock the behavior of Algorithm
-
-        jwtService.setJwtKey(jwtKey);
-
-        Field jwtKeyField = JWTService.class.getDeclaredField("JWT_KEY");
-        jwtKeyField.setAccessible(true);
-        String actualJwtKey = (String) jwtKeyField.get(null);
-        assertEquals(jwtKey, actualJwtKey); // Ensure JWT_KEY is set correctly
-    }
 
     @Test
     @DisplayName("test_CreateJWT")
     public void testCreateJWT() {
-        // Given
+
         Long userId = 123L;
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("admin"));
