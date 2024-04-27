@@ -3,10 +3,15 @@ pipeline{
     tools{
         maven 'maven_3_9_6'
     }
+    environment {
+        SSH_HOST = 'ec2-51-20-3-193.eu-north-1.compute.amazonaws.com'
+        SSH_USER = 'ec2-user'
+        SSH_CREDENTIALS_ID = credentials('aws_EC2_cluster_key-pair')
+    }
     stages{
         stage('Maven Build'){
             steps{
-                checkout scmGit(branches: [[name: '*/jwt-auth-and-tests']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Himanshu241b/HRMSAvisoft']])
+                checkout scmGit(branches: [[name: '*/dev-server']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Himanshu241b/HRMSAvisoft']])
                 sh 'mvn clean install'
             }
         }
@@ -25,6 +30,21 @@ pipeline{
                     }
                     sh 'docker push himanshu241b/app'
                 }
+            }
+        }
+         stage('SSH to EC2 and Run Script') {
+            steps {
+
+                    script {
+                          // SSH into EC2 instance and run commands
+                    def sshCommand = "ssh -i ${SSH_CREDENTIALS_ID} ${SSH_USER}@${SSH_HOST}"
+                    sshCommand += " 'docker stop \$(docker ps -q) &&  docker system prune -a --force && docker pull himanshu241b/app && docker run -p 80:5555 -d himanshu241b/app'"
+
+                    // Execute SSH command
+                    sh(script: sshCommand, returnStatus: true)
+
+                    }
+
             }
         }
     }
