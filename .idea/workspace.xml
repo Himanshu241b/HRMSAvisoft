@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/jenkinsfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,23 +43,23 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HrmsAvisoftApplication.executor": "Run",
-    "JUnit.JWTServiceTests.executor": "Run",
-    "JUnit.JWTServiceTests.testCreateJWT.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveRoles.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveUserId.executor": "Run",
-    "JUnit.JWTServiceTests.testSetJwtKey.executor": "Run",
-    "JUnit.UserTests.testSetters.executor": "Run",
-    "JUnit.UserTests.testUserConstructor.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "jwt-auth-and-tests",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/himanshu/Desktop/Avisoft/HRMSAvisoft/src/main/java/com/example/HRMSAvisoft",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testCreateJWT.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveRoles.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testSetJwtKey.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testSetters.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testUserConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;jwt-auth-and-tests&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/himanshu/Desktop/Avisoft/HRMSAvisoft/src/main/java/com/example/HRMSAvisoft&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
@@ -66,7 +67,7 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.JWTServiceTests">
     <configuration name="JWTServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">

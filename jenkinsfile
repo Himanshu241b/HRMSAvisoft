@@ -1,0 +1,31 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven_3_9_6'
+    }
+    stages{
+        stage('Maven Build'){
+            steps{
+                checkout scmGit(branches: [[name: '*/jwt-auth-and-tests']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Himanshu241b/HRMSAvisoft']])
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build docker image'){
+            steps{
+                script{
+                    sh 'docker build -t himanshu241b/app .'
+                }
+            }
+        }
+        stage('push image to dockerhub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'dockerHubPass', variable: 'dockerHubPass')])  {
+                        sh 'docker login -u himanshu241b -p ${dockerHubPass}'
+                    }
+                    sh 'docker push himanshu241b/app'
+                }
+            }
+        }
+    }
+}
