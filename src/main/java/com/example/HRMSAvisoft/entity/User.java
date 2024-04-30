@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = false)
     private String CreatedAt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="created_by")
     private User createdBy;
 
