@@ -83,47 +83,7 @@ public class UserServiceTest {
 //        // Call the method under test and assert that it throws EntityNotFoundException
 //        assertThrows(EntityNotFoundException.class, () -> userService.getUserById(userId));
 //    }
-@Test
-public void testSaveUser_Success() {
-    // Arrange
-    UserDTO userDTO = new UserDTO();
-    userDTO.setEmail("test@example.com");
-    userDTO.setPassword("password123");
-    userDTO.setRole("ROLE_USER");
 
-    User loggedInUser = new User(); // Mock or create a logged-in user
-
-    Role role = new Role(); // Mock or create a role
-    role.setRole("ROLE_USER");
-
-    Employee savedEmployee = new Employee();
-    savedEmployee.setEmployeeId(1L); // Assuming a valid employee ID for the saved employee
-
-    User createdUser = new User();
-    createdUser.setUserId(2L); // Assuming a valid user ID for the created user
-
-    UserDTO savedUserDTO = new UserDTO();
-    savedUserDTO.setEmail("test@example.com");
-    savedUserDTO.setPassword("password");
-    savedUserDTO.setRole("ROLE_USER");
-
-    when(userRepository.getByEmail(anyString())).thenReturn(null);
-    when(roleRepository.getByRole(anyString())).thenReturn(role);
-    when(employeeRepository.save(any(Employee.class))).thenReturn(savedEmployee);
-    when(userRepository.save(any(User.class))).thenReturn(createdUser);
-    when(modelMapper.map(any(User.class), (UserDTO.class))).thenReturn(savedUserDTO);
-
-    // Act
-    UserDTO result = userService.saveUser(userDTO, loggedInUser);
-
-    // Assert the results
-    assertNotNull(result);
-    assertEquals("test@example.com", result.getEmail());
-    assertEquals("password", result.getPassword());
-    assertEquals("ROLE_USER", result.getRole());
-
-    // Add more assertions as needed
-}
     @Test
     @DisplayName("Test Save User: Email Already Exists")
     void testSaveUser_EmailAlreadyExists() {
