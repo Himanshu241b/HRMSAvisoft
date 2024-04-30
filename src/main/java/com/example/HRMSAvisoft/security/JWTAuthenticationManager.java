@@ -2,7 +2,9 @@ package com.example.HRMSAvisoft.security;
 
 
 
+import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.service.JWTService;
+import com.example.HRMSAvisoft.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

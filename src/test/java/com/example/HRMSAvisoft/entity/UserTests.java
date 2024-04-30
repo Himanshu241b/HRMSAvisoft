@@ -1,4 +1,4 @@
-package com.example.HRMSAvisoft.entitiy;
+package com.example.HRMSAvisoft.entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,9 @@ public class UserTests {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         Employee employee=new Employee();
+
         User user1=new User(userId,email,password,createdAt,createdBy,employee,roles);
+
         assertEquals(userId, user1.getUserId());
         assertEquals(email, user1.getEmail());
         assertEquals(password, user1.getPassword());

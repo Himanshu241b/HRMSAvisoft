@@ -1,4 +1,4 @@
-package com.example.HRMSAvisoft.entitiy;
+package com.example.HRMSAvisoft.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

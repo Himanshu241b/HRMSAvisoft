@@ -1,4 +1,4 @@
-package com.example.HRMSAvisoft.entitiy;
+package com.example.HRMSAvisoft.entity;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

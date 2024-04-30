@@ -1,4 +1,4 @@
-package com.example.HRMSAvisoft.entitiy;
+package com.example.HRMSAvisoft.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = false)
     private String CreatedAt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="created_by")
     private User createdBy;
 
