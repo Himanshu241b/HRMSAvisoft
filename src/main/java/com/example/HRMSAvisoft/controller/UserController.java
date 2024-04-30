@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -34,14 +34,14 @@ public class UserController {
     }
 
 
-    @PostMapping("/v1/saveUser")
+    @PostMapping("/saveUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
 
     public ResponseEntity<UserDTO>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody UserDTO userDTO ) {
         UserDTO createdUser =userService.saveUser(userDTO,loggedInUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
-    @PostMapping("/v1/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginUserResponseDTO> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException {
         User loggedInUser = userService.userLogin(loginUserDTO);
         LoginUserResponseDTO userResponse = modelMapper.map(loggedInUser, LoginUserResponseDTO.class);
@@ -49,7 +49,7 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
-    @PostMapping("/v1/loginAsSuperAdmin")
+    @PostMapping("/loginAsSuperAdmin")
     public  ResponseEntity<LoginUserResponseDTO>superAdminLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException,UserService.WrongPasswordCredentialsException,UserService.RoleDoesNotMatchException
     {
         User loggedInUser = userService.superAdminLogin(loginUserDTO);

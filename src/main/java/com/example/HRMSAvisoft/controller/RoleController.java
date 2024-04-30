@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/api/v1/role")
 public class RoleController {
     @Autowired
     ModelMapper modelMapper;
