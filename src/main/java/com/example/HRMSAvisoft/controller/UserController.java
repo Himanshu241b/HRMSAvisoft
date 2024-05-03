@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.*;
+import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
@@ -39,23 +40,61 @@ public class UserController {
 
     @PostMapping("/saveUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
-    public ResponseEntity<RegisterUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody UserDTO userDTO ) {
-        RegisterUserResponseDTO createdUser =userService.saveUser(userDTO,loggedInUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    public ResponseEntity<Long>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody CreateUserDTO createUserDTO ) {
+        Long createdEmployeeId =userService.saveUser(createUserDTO, loggedInUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployeeId);
     }
+
+
     @PostMapping("/login")
     public ResponseEntity<LoginUserResponseDTO> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException {
         User loggedInUser = userService.userLogin(loginUserDTO);
-        LoginUserResponseDTO userResponse = modelMapper.map(loggedInUser, LoginUserResponseDTO.class);
+
+        LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
+        if(loggedInUser!=null) {
+            userResponse.setUserId(loggedInUser.getUserId());
+            userResponse.setEmail(loggedInUser.getEmail());
+            Employee employee = loggedInUser.getEmployee();
+
+            userResponse.setFirstName(employee.getFirstName());
+            userResponse.setLastName(employee.getLastName());
+            userResponse.setContact(employee.getContact());
+            userResponse.setAddresses(employee.getAddresses());
+            userResponse.setPosition(employee.getPosition());
+            userResponse.setJoinDate(employee.getJoinDate());
+            userResponse.setGender(employee.getGender());
+            userResponse.setProfileImage(employee.getProfileImage());
+            userResponse.setDateOfBirth(employee.getDateOfBirth());
+            userResponse.setAccount(employee.getAccount());
+            userResponse.setSalary(employee.getSalary());
+        }
         userResponse.setToken(
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
+
     }
+
     @PostMapping("/loginAsSuperAdmin")
     public  ResponseEntity<LoginUserResponseDTO>superAdminLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException,UserService.WrongPasswordCredentialsException,UserService.RoleDoesNotMatchException
     {
         User loggedInUser = userService.superAdminLogin(loginUserDTO);
-        LoginUserResponseDTO userResponse = modelMapper.map(loggedInUser, LoginUserResponseDTO.class);
+
+        LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
+        userResponse.setUserId(loggedInUser.getUserId());
+        userResponse.setEmail(loggedInUser.getEmail());
+        Employee employee = loggedInUser.getEmployee();
+
+        userResponse.setFirstName(employee.getFirstName());
+        userResponse.setLastName(employee.getLastName());
+        userResponse.setContact(employee.getContact());
+        userResponse.setAddresses(employee.getAddresses());
+        userResponse.setPosition(employee.getPosition());
+        userResponse.setJoinDate(employee.getJoinDate());
+        userResponse.setGender(employee.getGender());
+        userResponse.setProfileImage(employee.getProfileImage());
+        userResponse.setDateOfBirth(employee.getDateOfBirth());
+        userResponse.setAccount(employee.getAccount());
+        userResponse.setSalary(employee.getSalary());
         userResponse.setToken(
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);

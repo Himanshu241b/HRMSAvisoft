@@ -16,8 +16,6 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@TestPropertySource(locations = "classpath:test.properties")
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -38,7 +36,7 @@ public class EmployeeRepositoryTests {
         Gender gender = Gender.MALE;
         String joinDate = "2022/12/12";
         String dateOfBirth = "2004/12/22";
-        String profileImage = "profile.jpg";
+
 
         Employee employee = new Employee();
         employee.setEmployeeId(empId);
@@ -48,7 +46,6 @@ public class EmployeeRepositoryTests {
         employee.setSalary(salary);
         employee.setPosition(position);
         employee.setGender(gender);
-        employee.setProfileImage(profileImage);
         employee.setJoinDate(joinDate);
         employee.setDateOfBirth(dateOfBirth);
 
@@ -61,7 +58,6 @@ public class EmployeeRepositoryTests {
         assertEquals(salary, savedEmployee.getSalary());
         assertEquals(position, savedEmployee.getPosition());
         assertEquals(gender, savedEmployee.getGender());
-        assertEquals(profileImage, savedEmployee.getProfileImage());
         assertEquals(joinDate, savedEmployee.getJoinDate());
         assertEquals(dateOfBirth, savedEmployee.getDateOfBirth());
     }

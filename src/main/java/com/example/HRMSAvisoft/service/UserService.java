@@ -1,8 +1,7 @@
 package com.example.HRMSAvisoft.service;
 
+import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
-import com.example.HRMSAvisoft.dto.RegisterUserResponseDTO;
-import com.example.HRMSAvisoft.dto.UserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
@@ -10,30 +9,23 @@ import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.RoleRepository;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-
 
 @Service
 public class UserService {
 
     final private UserRepository userRepository;
 
-    final private ModelMapper modelMapper;
-
     final private PasswordEncoder passwordEncoder;
 
     final private RoleRepository roleRepository;
 
     final private EmployeeRepository employeeRepository;
-    UserService(UserRepository userRepository,ModelMapper modelMapper,PasswordEncoder passwordEncoder,RoleRepository roleRepository,EmployeeRepository employeeRepository){
+    UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,RoleRepository roleRepository,EmployeeRepository employeeRepository){
         this.userRepository=userRepository;
-        this.modelMapper=modelMapper;
         this.passwordEncoder=passwordEncoder;
         this.roleRepository=roleRepository;
         this.employeeRepository=employeeRepository;
@@ -43,36 +35,43 @@ public class UserService {
 
         return user;
     }
-    public RegisterUserResponseDTO saveUser(UserDTO userDTO, User loggedInUser){
+    public Long saveUser(CreateUserDTO createUserDTO, User loggedInUser){
 
-        User user1 = userRepository.getByEmail(userDTO.getEmail());
+        User alreadyRegisteredUser = userRepository.getByEmail(createUserDTO.getEmail());
 
-        if(user1!=null){
-            throw new EmailAlreadyExistsException(userDTO.getEmail());
+        if(alreadyRegisteredUser!=null){
+            throw new EmailAlreadyExistsException(createUserDTO.getEmail());
         }
 
         User newUser=new User();
-        newUser.setEmail(userDTO.getEmail());
-        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        newUser.setEmail(createUserDTO.getEmail());
+        newUser.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
 
 
         newUser.setCreatedBy(loggedInUser);
         LocalDateTime createdAt = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        newUser.setCreatedAt(createdAt.format(formatter));
+        DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        newUser.setCreatedAt(createdAt.format(createdAtFormatter));
 
-        Role roleToAdd = roleRepository.getByRole(userDTO.getRole());
+        Role roleToAdd = roleRepository.getByRole(createUserDTO.getRole());
         newUser.getRoles().add(roleToAdd);
 
+        // make employee instance corresponding to the user and set some data of employee
+
         Employee newEmployee = new Employee();
+        newEmployee.setFirstName(createUserDTO.getFirstName());
+        newEmployee.setLastName(createUserDTO.getLastName());
+        newEmployee.setJoinDate(createUserDTO.getJoinDate());
+        newEmployee.setGender(createUserDTO.getGender());
+        newEmployee.setPosition(createUserDTO.getPosition());
+        newEmployee.setSalary(createUserDTO.getSalary());
+        newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
         Employee savedEmployee =employeeRepository.save(newEmployee);
 
         newUser.setEmployee(savedEmployee);
-        User createdUser=userRepository.save(newUser);
-        RegisterUserResponseDTO responseDTO = modelMapper.map(createdUser, RegisterUserResponseDTO.class);
-        responseDTO.setRole(createdUser.getRoles());
+        userRepository.save(newUser);
 
-        return responseDTO;
+        return savedEmployee.getEmployeeId();
     }
 
     public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException{

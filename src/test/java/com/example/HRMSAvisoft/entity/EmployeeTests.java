@@ -27,11 +27,11 @@ public class EmployeeTests {
         String joinDate = "2022/12/12";
         Account account = new Account();
         String dateOfBirth = "2004/12/22";
-        String profileImage = "profile.jpg";
+        byte[] profileImage = new byte[0];
         List<Address> addresses = new ArrayList<Address>();
 
 
-        Employee employeeByConstructor = new Employee(empId, firstName, lastName, contact, addresses, position, joinDate, gender, profileImage, dateOfBirth, salary, account);
+        Employee employeeByConstructor = new Employee(empId, firstName, lastName, contact,addresses, position, joinDate, gender, profileImage, dateOfBirth, salary, account);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
         assertEquals(firstName, employeeByConstructor.getFirstName());
@@ -40,10 +40,10 @@ public class EmployeeTests {
         assertEquals(position, employeeByConstructor.getPosition());
         assertEquals(joinDate, employeeByConstructor.getJoinDate());
         assertEquals(gender, employeeByConstructor.getGender());
-        assertEquals(profileImage, employeeByConstructor.getProfileImage());
         assertEquals(dateOfBirth, employeeByConstructor.getDateOfBirth());
         assertEquals(salary, employeeByConstructor.getSalary());
         assertEquals(account, employeeByConstructor.getAccount());
+        assertEquals(profileImage, employeeByConstructor.getProfileImage());
     }
 
 
@@ -60,7 +60,6 @@ public class EmployeeTests {
         String joinDate = "2022/12/12";
         Account account = new Account();
         String dateOfBirth = "2004/12/22";
-        String profileImage = "profile.jpg";
         List<Address> addresses = new ArrayList<Address>();
 
         Employee employee = new Employee();
@@ -72,7 +71,6 @@ public class EmployeeTests {
         employee.setSalary(salary);
         employee.setPosition(position);
         employee.setGender(gender);
-        employee.setProfileImage(profileImage);
         employee.setJoinDate(joinDate);
         employee.setAccount(account);
         employee.setDateOfBirth(dateOfBirth);
@@ -85,7 +83,6 @@ public class EmployeeTests {
         assertEquals(salary, employee.getSalary());
         assertEquals(position, employee.getPosition());
         assertEquals(gender, employee.getGender());
-        assertEquals(profileImage, employee.getProfileImage());
         assertEquals(joinDate, employee.getJoinDate());
         assertEquals(account, employee.getAccount());
         assertEquals(dateOfBirth, employee.getDateOfBirth());

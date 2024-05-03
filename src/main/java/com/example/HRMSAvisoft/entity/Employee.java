@@ -40,7 +40,9 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String profileImage;
+    @Lob
+    @Column(name = "profile_image", columnDefinition = "longblob")
+    private byte[] profileImage;
 
     private String dateOfBirth;
 
