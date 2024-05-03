@@ -27,7 +27,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String CreatedAt;
+    private String createdAt;
 
     @ManyToOne
     @JoinColumn(name="created_by")

@@ -1,10 +1,9 @@
 package com.example.HRMSAvisoft.dto;
 
-import com.example.HRMSAvisoft.entity.Role;
+import com.example.HRMSAvisoft.entity.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.Set;
 
 @Getter

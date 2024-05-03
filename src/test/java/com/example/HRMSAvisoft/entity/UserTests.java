@@ -17,15 +17,16 @@ public class UserTests {
     @BeforeEach
     public void setUp(){
         user=new User();
-        user.setUserId(1l);
+        user.setUserId(1L);
         user.setEmail("test@example.com");
         user.setPassword("password123");
         user.setCreatedAt("2024-04-24");
     }
+
     @Test
     @DisplayName("testConstructor 1")
     public void testUserConstructor(){
-        Long userId=1l;
+        Long userId=1L;
         String email="test2@gmail.com";
         String password="test";
         String createdAt="2024-04-24";
@@ -46,6 +47,7 @@ public class UserTests {
         assertEquals(roles, user1.getRoles());
         assertEquals(employee,user1.getEmployee());
     }
+
     @Test
     @DisplayName("Setter Test 1")
     public void testSetters() {

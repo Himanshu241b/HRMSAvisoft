@@ -4,9 +4,11 @@ import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -16,17 +18,16 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
+@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class TestUserRepository {
     @Autowired
     private UserRepository userRepository;
+
     @Test
     @Transactional
-
     public void testSaveUser() {
 
-
-        Employee employee = new Employee();
 
         Role role = new Role();
         role.setRole("ROLE_USER");
@@ -39,7 +40,6 @@ public class TestUserRepository {
         user.setPassword("password");
         user.setCreatedAt(LocalDateTime.now().toString());
         user.setCreatedBy(null);
-        user.setEmployee(employee);
         user.setRoles(roles);
 
         // When

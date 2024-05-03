@@ -1,10 +1,8 @@
 package com.example.HRMSAvisoft.controller;
 
-import com.example.HRMSAvisoft.dto.RoleDTO;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.service.RoleService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/role")
 public class RoleController {
-    @Autowired
-    ModelMapper modelMapper;
-    @Autowired
-    RoleService roleService;
+
+    private final ModelMapper modelMapper;
+
+    private final RoleService roleService;
+
+    RoleController(ModelMapper modelMapper, RoleService roleService){
+        this.modelMapper = modelMapper;
+        this.roleService = roleService;
+    }
     @PostMapping("/addRole")
-    public ResponseEntity<RoleDTO> saveUser(@RequestBody RoleDTO roleDTO ) {
-        Role role = modelMapper.map(roleDTO, Role.class);
+    public ResponseEntity<Role> saveRole(@RequestBody String role) {
         Role roleAdded =roleService.addRole(role);
-        RoleDTO addedRoleDTO = modelMapper.map(roleAdded,RoleDTO.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedRoleDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(roleAdded);
     }
 }

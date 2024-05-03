@@ -17,7 +17,6 @@ public class RoleTest {
         role.setRole(roleName);
         String retrievedRoleName = role.getRole();
 
-
         assertEquals(roleName, retrievedRoleName);
     }
 }

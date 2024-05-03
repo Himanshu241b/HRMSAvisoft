@@ -7,10 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RoleService {
-    @Autowired
-    RoleRepository roleRepository;
-    public Role addRole(Role role)
+
+    private final RoleRepository roleRepository;
+
+    RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+    public Role addRole(String role)
     {
-        return roleRepository.save(role);
+        Role newRole = new Role(role);
+        return roleRepository.save(newRole);
     }
 }
