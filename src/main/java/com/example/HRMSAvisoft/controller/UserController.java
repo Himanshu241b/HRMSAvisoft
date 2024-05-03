@@ -1,9 +1,6 @@
 package com.example.HRMSAvisoft.controller;
 
-import com.example.HRMSAvisoft.dto.CreateUserDTO;
-import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
-import com.example.HRMSAvisoft.dto.LoginUserDTO;
-import com.example.HRMSAvisoft.dto.LoginUserResponseDTO;
+import com.example.HRMSAvisoft.dto.*;
 import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
@@ -17,16 +14,21 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    private final UserService userService;
+    final private UserService userService;
 
-    private final ModelMapper modelMapper;
 
-    UserController(UserService userService, ModelMapper modelMapper) {
-        this.userService = userService;
-        this.modelMapper = modelMapper;
+    final private JWTService jwtService;
+
+    final private ModelMapper modelMapper;
+    public UserController(UserService userService,JWTService jwtService,ModelMapper modelMapper)
+    {
+        this.userService=userService;
+        this.jwtService=jwtService;
+        this.modelMapper=modelMapper;
     }
 
     @GetMapping("/hello")
@@ -37,12 +39,10 @@ public class UserController {
 
     @PostMapping("/saveUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
-    public ResponseEntity<Long>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody CreateUserDTO createUserDTO ) {
-        Long createdEmployeeId =userService.saveUser(createUserDTO, loggedInUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployeeId);
+    public ResponseEntity<RegisterUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody UserDTO userDTO ) {
+        RegisterUserResponseDTO createdUser =userService.saveUser(userDTO,loggedInUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
-
-
     @PostMapping("/login")
     public ResponseEntity<LoginUserResponseDTO> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException {
         User loggedInUser = userService.userLogin(loginUserDTO);
@@ -51,7 +51,6 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
-
     @PostMapping("/loginAsSuperAdmin")
     public  ResponseEntity<LoginUserResponseDTO>superAdminLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException,UserService.WrongPasswordCredentialsException,UserService.RoleDoesNotMatchException
     {
@@ -61,8 +60,6 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
-
-
     @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;

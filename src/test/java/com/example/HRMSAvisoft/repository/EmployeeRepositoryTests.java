@@ -3,14 +3,24 @@ package com.example.HRMSAvisoft.repository;
 import com.example.HRMSAvisoft.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
+@DataJpaTest
+@ExtendWith(SpringExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class EmployeeRepositoryTests {
 
     @Autowired
@@ -27,7 +37,6 @@ public class EmployeeRepositoryTests {
         Position position = Position.TESTER;
         Gender gender = Gender.MALE;
         String joinDate = "2022/12/12";
-        Account account = new Account();
         String dateOfBirth = "2004/12/22";
         String profileImage = "profile.jpg";
 
@@ -41,7 +50,6 @@ public class EmployeeRepositoryTests {
         employee.setGender(gender);
         employee.setProfileImage(profileImage);
         employee.setJoinDate(joinDate);
-        employee.setAccount(account);
         employee.setDateOfBirth(dateOfBirth);
 
         Employee savedEmployee = employeeRepository.save(employee);
@@ -55,7 +63,6 @@ public class EmployeeRepositoryTests {
         assertEquals(gender, savedEmployee.getGender());
         assertEquals(profileImage, savedEmployee.getProfileImage());
         assertEquals(joinDate, savedEmployee.getJoinDate());
-        assertEquals(account, savedEmployee.getAccount());
         assertEquals(dateOfBirth, savedEmployee.getDateOfBirth());
     }
 }

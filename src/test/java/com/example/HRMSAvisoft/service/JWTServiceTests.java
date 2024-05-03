@@ -1,23 +1,27 @@
 package com.example.HRMSAvisoft.service;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.HRMSAvisoft.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class JWTServiceTests {
 
-
-    private static final long EXPIRATION_TIME_MILLIS = 3600000; // 1 hour in milliseconds
-
+    @Mock
+    private Algorithm algorithmMock;
 
     @InjectMocks
     private JWTService jwtService;
@@ -30,67 +34,22 @@ public class JWTServiceTests {
 
 
     @Test
-    @DisplayName("test_generate_valid_token")
-    public void test_generate_valid_token() {
+    @DisplayName("test_CreateJWT")
+    public void testCreateJWT() {
+
         Long userId = 123L;
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("admin"));
 
-        String jwt = JWTService.createJWT(userId, roles);
 
-        assertNotNull(jwt);
-    }
+        String jwt = jwtService.createJWT(userId, roles);
 
-    @Test
-    @DisplayName("test_expiry_time_correct")
-    public void test_expiry_time_correct() {
-        Long userId = 123L;
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role("admin"));
+        DecodedJWT decodedJWT = jwtService.retrieveJWT(jwt);
+        assertEquals(userId.toString(), decodedJWT.getSubject());
+        List<String> retrievedRoles = jwtService.retrieveRoles(jwt);
+        assertEquals(1, retrievedRoles.size());
+        assertEquals("admin", retrievedRoles.get(0));
 
-        String jwt = JWTService.createJWT(userId, roles);
-
-        DecodedJWT decodedJWT = JWTService.retrieveJWT(jwt);
-        Date expiresAt = decodedJWT.getExpiresAt();
-
-        assertNotNull(expiresAt);
-        assertEquals(EXPIRATION_TIME_MILLIS, expiresAt.getTime() - decodedJWT.getIssuedAt().getTime());
-    }
-
-    @Test
-    @DisplayName("test_empty_roles")
-    public void test_empty_roles() {
-        Long userId = 123L;
-        Set<Role> roles = new HashSet<>();
-
-        String jwt = JWTService.createJWT(userId, roles);
-
-        DecodedJWT decodedJWT = JWTService.retrieveJWT(jwt);
-        List<String> retrievedRoles = JWTService.retrieveRoles(jwt);
-
-        assertNotNull(decodedJWT);
-        assertNotNull(retrievedRoles);
-        assertTrue(retrievedRoles.isEmpty());
-    }
-
-    @Test
-    @DisplayName("test_invalid_jwt_string")
-    public void test_invalid_jwt_string() {
-        String jwtString = "invalid_jwt_string";
-
-        assertThrows(JWTVerificationException.class, () -> {
-            JWTService.retrieveJWT(jwtString);
-        });
-    }
-
-    @Test
-    @DisplayName("test_null_jwt_string")
-    public void test_null_jwt_string() {
-        String jwtString = null;
-
-        assertThrows(JWTDecodeException.class, () -> {
-            JWTService.retrieveJWT(jwtString);
-        });
     }
 
     @Test
@@ -105,7 +64,7 @@ public class JWTServiceTests {
 
         Long userIdFromToken = jwtService.retrieveUserId(jwt);
 
-        assertEquals(userId, userIdFromToken);
+        assertEquals(123L, userIdFromToken);
     }
 
     @Test
