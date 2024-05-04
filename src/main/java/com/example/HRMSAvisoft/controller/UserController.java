@@ -11,12 +11,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/user")
+@Transactional
 public class UserController {
 
     final private UserService userService;
@@ -40,9 +45,11 @@ public class UserController {
 
     @PostMapping("/saveUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
-    public ResponseEntity<Long>saveUser(@AuthenticationPrincipal User loggedInUser, @RequestBody CreateUserDTO createUserDTO ) {
-        Long createdEmployeeId =userService.saveUser(createUserDTO, loggedInUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployeeId);
+    public ResponseEntity<String>saveUser(@AuthenticationPrincipal User loggedInUser,
+                                        @RequestBody CreateUserDTO createUserDTO) throws IOException {
+        userService.saveUser(createUserDTO, loggedInUser);
+        String message = "{\"message\": \"User created successfully\"}";
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
 
@@ -52,8 +59,10 @@ public class UserController {
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
         if(loggedInUser!=null) {
+            userResponse.setMessage("Login Successful");
             userResponse.setUserId(loggedInUser.getUserId());
             userResponse.setEmail(loggedInUser.getEmail());
+            userResponse.setRoles(loggedInUser.getRoles());
             Employee employee = loggedInUser.getEmployee();
 
             userResponse.setFirstName(employee.getFirstName());
@@ -80,8 +89,10 @@ public class UserController {
         User loggedInUser = userService.superAdminLogin(loginUserDTO);
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
+        userResponse.setMessage("Login Successful");
         userResponse.setUserId(loggedInUser.getUserId());
         userResponse.setEmail(loggedInUser.getEmail());
+        userResponse.setRoles(loggedInUser.getRoles());
         Employee employee = loggedInUser.getEmployee();
 
         userResponse.setFirstName(employee.getFirstName());
@@ -99,7 +110,7 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
-    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class})
+    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class, IOException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
@@ -110,6 +121,10 @@ public class UserController {
         else if(exception instanceof UserService.WrongPasswordCredentialsException) {
             message = exception.getMessage();
             status = HttpStatus.BAD_REQUEST;
+        }
+        else if(exception instanceof IOException){
+            message = "Failed to upload Profile Image";
+            status = HttpStatus.FAILED_DEPENDENCY;
         }
         else if (exception instanceof UserService.EmailAlreadyExistsException){
             message = exception.getMessage();
@@ -129,3 +144,5 @@ public class UserController {
         return ResponseEntity.status(status).body(errorResponse);
     }
 }
+
+

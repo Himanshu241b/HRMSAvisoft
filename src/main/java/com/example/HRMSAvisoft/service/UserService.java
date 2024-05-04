@@ -11,10 +11,15 @@ import com.example.HRMSAvisoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@Transactional
 public class UserService {
 
     final private UserRepository userRepository;
@@ -35,7 +40,7 @@ public class UserService {
 
         return user;
     }
-    public Long saveUser(CreateUserDTO createUserDTO, User loggedInUser){
+    public void saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
 
         User alreadyRegisteredUser = userRepository.getByEmail(createUserDTO.getEmail());
 
@@ -71,7 +76,6 @@ public class UserService {
         newUser.setEmployee(savedEmployee);
         userRepository.save(newUser);
 
-        return savedEmployee.getEmployeeId();
     }
 
     public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException{
