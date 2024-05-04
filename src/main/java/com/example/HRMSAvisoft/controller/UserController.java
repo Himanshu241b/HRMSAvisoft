@@ -45,11 +45,14 @@ public class UserController {
 
     @PostMapping("/saveUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
-    public ResponseEntity<String>saveUser(@AuthenticationPrincipal User loggedInUser,
+    public ResponseEntity<CreateUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser,
                                         @RequestBody CreateUserDTO createUserDTO) throws IOException {
-        userService.saveUser(createUserDTO, loggedInUser);
+        Long createdUserEmployeeId = userService.saveUser(createUserDTO, loggedInUser);
+        CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
+        createUserResponseDTO.setMessage("User Created Successfully");
+        createUserResponseDTO.setEmployeeId(createdUserEmployeeId);
         String message = "{\"message\": \"User created successfully\"}";
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
 
 
