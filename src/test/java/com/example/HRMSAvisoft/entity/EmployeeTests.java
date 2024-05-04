@@ -27,7 +27,7 @@ public class EmployeeTests {
         String joinDate = "2022/12/12";
         Account account = new Account();
         String dateOfBirth = "2004/12/22";
-        byte[] profileImage = new byte[0];
+        String profileImage = "";
         List<Address> addresses = new ArrayList<Address>();
 
 
