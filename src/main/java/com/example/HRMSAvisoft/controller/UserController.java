@@ -47,10 +47,12 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     public ResponseEntity<CreateUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser,
                                         @RequestBody CreateUserDTO createUserDTO) throws IOException {
-        Long createdUserEmployeeId = userService.saveUser(createUserDTO, loggedInUser);
+        Employee createdUserEmployee = userService.saveUser(createUserDTO, loggedInUser);
         CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
         createUserResponseDTO.setMessage("User Created Successfully");
-        createUserResponseDTO.setEmployeeId(createdUserEmployeeId);
+        createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
+        String profileImageOfEmployee = (createdUserEmployee.getProfileImage() != null) ? createdUserEmployee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+createdUserEmployee.getFirstName()+" "+createdUserEmployee.getLastName();
+        createUserResponseDTO.setProfileImage(profileImageOfEmployee);
         String message = "{\"message\": \"User created successfully\"}";
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
@@ -75,7 +77,8 @@ public class UserController {
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());
             userResponse.setGender(employee.getGender());
-            userResponse.setProfileImage(employee.getProfileImage());
+            String profileImageOfEmployee = (employee.getProfileImage() != null) ? employee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+employee.getFirstName()+" "+employee.getLastName();
+            userResponse.setProfileImage(profileImageOfEmployee);
             userResponse.setDateOfBirth(employee.getDateOfBirth());
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());
@@ -105,7 +108,8 @@ public class UserController {
         userResponse.setPosition(employee.getPosition());
         userResponse.setJoinDate(employee.getJoinDate());
         userResponse.setGender(employee.getGender());
-        userResponse.setProfileImage(employee.getProfileImage());
+        String profileImageOfEmployee = (employee.getProfileImage() != null) ? employee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+employee.getFirstName()+" "+employee.getLastName();
+        userResponse.setProfileImage(profileImageOfEmployee);
         userResponse.setDateOfBirth(employee.getDateOfBirth());
         userResponse.setAccount(employee.getAccount());
         userResponse.setSalary(employee.getSalary());

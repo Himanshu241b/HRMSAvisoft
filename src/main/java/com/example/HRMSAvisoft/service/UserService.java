@@ -40,7 +40,7 @@ public class UserService {
 
         return user;
     }
-    public Long saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
+    public Employee saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
 
         User alreadyRegisteredUser = userRepository.getByEmail(createUserDTO.getEmail());
 
@@ -76,7 +76,7 @@ public class UserService {
         newUser.setEmployee(savedEmployee);
         userRepository.save(newUser);
 
-        return savedEmployee.getEmployeeId();
+        return savedEmployee;
 
     }
 

@@ -12,5 +12,6 @@ import lombok.Setter;
 public class CreateUserResponseDTO {
     private String message;
     private Long employeeId;
+    private String profileImage;
 
 }

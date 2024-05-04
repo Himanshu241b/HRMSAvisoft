@@ -27,7 +27,7 @@ public class LoginUserResponseDTO {
     private Position position;
     private String joinDate;
     private Gender gender;
-    private byte[] profileImage;
+    private String profileImage;
     private String dateOfBirth;
     private BigDecimal salary;
     private Account account;
