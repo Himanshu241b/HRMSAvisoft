@@ -1,10 +1,8 @@
 package com.example.HRMSAvisoft.service;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
-import com.example.HRMSAvisoft.dto.RegisterUserResponseDTO;
-import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
@@ -152,6 +150,8 @@ class UserServiceTest {
         verify(userRepository,times(1)).getByEmail("test@example.com");
 
     }
+
+
     @Test
     @DisplayName("Test Super Admin Login:RoleDoesNotMatchException")
     public void testSuperAdminLogin_throwsRoleDoesNotMatchException(){

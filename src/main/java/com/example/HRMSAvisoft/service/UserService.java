@@ -98,7 +98,6 @@ public class UserService {
             throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");
         }else {
             Role superAdmin = roleRepository.getByRole("super_admin");
-
              if (!loggedInUser.getRoles().contains(superAdmin)) {
                 throw new RoleDoesNotMatchException("User does not have superAdmin as role ");
             } else if (passwordEncoder.matches(loginUserDTO.getPassword(), loggedInUser.getPassword())) {

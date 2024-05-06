@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 public class TestUserRepository {
     @Autowired
     private UserRepository userRepository;
@@ -50,31 +52,31 @@ public class TestUserRepository {
         // Clean up the database after each test
         userRepository.deleteAll();
     }
-//    @Test
-////   @Transactional
-//    public void testSaveUser() {
-//
-//        Role role = new Role();
-//        role.setRole("ROLE_USER");
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//        User user = new User();
-//        user.setEmail("john.doe@example.com");
-//        user.setPassword("password");
-//        user.setCreatedAt(LocalDateTime.now().toString());
-//        user.setCreatedBy(null);
-//
-//        user.setRoles(roles);
-//
-//        // When
-//        User savedUser = userRepository.save(user);
-//
-//        // Then
-//        assertThat(savedUser).isNotNull();
-//        assertThat(savedUser.getUserId()).isNotNull();
-//        assertThat(savedUser.getEmail()).isEqualTo("john.doe@example.com");
-//        assertThat(savedUser.getPassword()).isEqualTo("password");
-//    }
+    @Test
+//   @Transactional
+    public void testSaveUser() {
+
+        Role role = new Role();
+        role.setRole("ROLE_USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        User user = new User();
+        user.setEmail("john.doe@example.com");
+        user.setPassword("password");
+        user.setCreatedAt(LocalDateTime.now().toString());
+        user.setCreatedBy(null);
+
+        user.setRoles(roles);
+
+        // When
+        User savedUser = userRepository.save(user);
+
+        // Then
+        assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getUserId()).isNotNull();
+        assertThat(savedUser.getEmail()).isEqualTo("john.doe@example.com");
+        assertThat(savedUser.getPassword()).isEqualTo("password");
+    }
     @Test
     @Transactional
     public void testGetByEmail() {

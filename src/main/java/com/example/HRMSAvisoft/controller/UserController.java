@@ -19,7 +19,6 @@ import java.io.IOException;
 
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1/user")
 @Transactional
 public class UserController {
@@ -117,6 +116,8 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
+
+
     @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class, IOException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
