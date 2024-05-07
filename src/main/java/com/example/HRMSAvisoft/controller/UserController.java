@@ -7,6 +7,7 @@ import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,9 @@ import java.io.IOException;
 @Transactional
 public class UserController {
 
+    @Value("${spring.mvc.cors.allowed-origins}")
+    String cors;
+
     private UserService userService;
 
 
@@ -38,7 +42,7 @@ public class UserController {
 
     @GetMapping("/hello")
     public String hello(){
-        return "Hello";
+        return "Hello "+cors;
     }
 
 
