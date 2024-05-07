@@ -80,10 +80,15 @@ public class UserService {
 
     }
 
-    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException{
+    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException, IllegalAccessRoleException{
         User loggedInUser = userRepository.getByEmail(loginUserDTO.getEmail());
         if(loggedInUser == null){
             throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");
+        }
+        Role roleUserWantToLoginWith = roleRepository.getByRole(loginUserDTO.getRole());
+
+        if(!loggedInUser.getRoles().contains(roleUserWantToLoginWith)){
+            throw new IllegalAccessRoleException(loginUserDTO.getEmail(), loginUserDTO.getRole());
         }
         else if(passwordEncoder.matches(loginUserDTO.getPassword(), loggedInUser.getPassword())){
             return loggedInUser;
@@ -92,23 +97,13 @@ public class UserService {
             throw new WrongPasswordCredentialsException(loggedInUser.getEmail());
         }
     }
-    public User superAdminLogin(LoginUserDTO loginUserDTO)throws EntityNotFoundException, WrongPasswordCredentialsException,RoleDoesNotMatchException{
-        User loggedInUser=userRepository.getByEmail(loginUserDTO.getEmail());
-        if(loggedInUser==null){
-            throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");
-        }else {
-            Role superAdmin = roleRepository.getByRole("super_admin");
-             if (!loggedInUser.getRoles().contains(superAdmin)) {
-                throw new RoleDoesNotMatchException("User does not have superAdmin as role ");
-            } else if (passwordEncoder.matches(loginUserDTO.getPassword(), loggedInUser.getPassword())) {
-                return loggedInUser;
-            } else {
-                throw new WrongPasswordCredentialsException(loggedInUser.getEmail());
-            }
+
+    public static class IllegalAccessRoleException extends IllegalAccessException{
+        public IllegalAccessRoleException(String email, String role){
+            super(email +" does not have the access to "+ role +" role.");
         }
-
-
     }
+
     public static class WrongPasswordCredentialsException extends IllegalAccessException{
         public WrongPasswordCredentialsException(String email){
             super("Wrong password for " + email);
@@ -120,8 +115,5 @@ public class UserService {
             super(email+ " already exists");
         }
     }
-    public static class RoleDoesNotMatchException extends IllegalAccessException{
-        public RoleDoesNotMatchException(String message){super(message);}
 
-    }
 }
