@@ -25,47 +25,48 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PostMapping("/{employeeId}/uploadImage")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException {
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         employeeService.uploadProfileImage(employeeId, file);
         String message = "{\"message\": \"Profile Uploaded Successfully\"}";
         return ResponseEntity.ok().body(message);
     }
 
 
-    @GetMapping("/getAllEmployees")
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
-    }
-    @GetMapping("{employeeId}")
-    public ResponseEntity<Object> getEmployeeById(@PathVariable Long employeeId)
-    {
-       Employee employee= employeeService.getEmployeeById(employeeId);
-       if(employee!=null){
-           return MyResponseGenerator.generateResponse(HttpStatus.OK,true,"Employee Retrieved",employee);
-       }else {
-           return MyResponseGenerator.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR,false,"Something Went Wrong",employee);
-       }
+//    @GetMapping("/getAllEmployees")
+//    public List<Employee> getAllEmployees() {
+//        return employeeService.getAllEmployees();
+//    }
+//    @GetMapping("{employeeId}")
+//    public ResponseEntity<Object> getEmployeeById(@PathVariable Long employeeId)
+//    {
+//       Employee employee= employeeService.getEmployeeById(employeeId);
+//       if(employee!=null){
+//           return MyResponseGenerator.generateResponse(HttpStatus.OK,true,"Employee Retrieved",employee);
+//       }else {
+//           return MyResponseGenerator.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR,false,"Something Went Wrong",employee);
+//       }
+//    }
 
-    }
-    @PutMapping("/{employeeId}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {
-        try {
-            Employee existingEmployee = employeeService.getEmployeeById(employeeId);
-            if (existingEmployee == null) {
-                return ResponseEntity.notFound().build();
-            }
-            updatedEmployee.setEmployeeId(employeeId);
-            Employee savedEmployee = employeeService.updateEmployee(updatedEmployee);
-
-            return ResponseEntity.ok(savedEmployee);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+//    @PutMapping("/{employeeId}")
+//    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {
+//        try {
+//            Employee existingEmployee = employeeService.getEmployeeById(employeeId);
+//            if (existingEmployee == null) {
+//                return ResponseEntity.notFound().build();
+//            }
+//            updatedEmployee.setEmployeeId(employeeId);
+//            Employee savedEmployee = employeeService.updateEmployee(updatedEmployee);
+//
+//            return ResponseEntity.ok(savedEmployee);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
             IOException.class,
+            RuntimeException.class
 
     })
 
@@ -82,6 +83,10 @@ public class EmployeeController {
         }else if(exception instanceof NullPointerException) {
             message = exception.getMessage();
             status =  HttpStatus.BAD_REQUEST;
+        }
+        else if (exception instanceof RuntimeException) {
+            message = "Invalid image file";
+            status = HttpStatus.BAD_REQUEST;
         }
         else{
             message = "something went wrong";

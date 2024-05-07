@@ -25,7 +25,7 @@ public class EmployeeService {
     this.cloudinary = cloudinary;
     }
 
-    public void uploadProfileImage(Long employeeId, MultipartFile file)throws EmployeeNotFoundException, IOException, NullPointerException {
+    public void uploadProfileImage(Long employeeId, MultipartFile file)throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
 
         // Upload file to Cloudinary
@@ -43,7 +43,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public class EmployeeNotFoundException extends RuntimeException {
+    public class EmployeeNotFoundException extends Exception {
         public EmployeeNotFoundException(Long employeeId) {
             super("Employee not found with ID: " + employeeId);
         }

@@ -9,13 +9,17 @@ import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.RoleRepository;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -34,11 +38,17 @@ class UserServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
+
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
+
+    @BeforeEach
+    void setup() throws Exception {
+        Mockito.when(passwordEncoder.encode("password")).thenReturn(new BCryptPasswordEncoder().encode("password"));
+    }
 
 //    @Test
 //    @DisplayName("Test Save User :Success")
@@ -124,5 +134,90 @@ class UserServiceTest {
 //        when(roleRepository.getByRole("super_admin")).thenReturn(new Role());
 //
 //    }
+
+    @Test
+    public void test_valid_login() throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        User mockUser = new User();
+        mockUser.setEmail("test@example.com");
+        mockUser.setPassword(passwordEncoder.encode("password"));
+        Role role1 = new Role();
+        role1.setRole("admin");
+        mockUser.getRoles().add(role1);
+
+        when(userRepository.getByEmail(loginUserDTO.getEmail())).thenReturn(mockUser);
+        when(roleRepository.getByRole(loginUserDTO.getRole())).thenReturn(role1);
+        when(passwordEncoder.matches(loginUserDTO.getPassword(), mockUser.getPassword())).thenReturn(true);
+
+        User result = userService.userLogin(loginUserDTO);
+
+        assertEquals(mockUser, result);
+    }
+
+    @Test
+    public void test_multiple_roles_login() throws UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        User mockUser = new User();
+        mockUser.setEmail("test@example.com");
+        mockUser.setPassword(passwordEncoder.encode("password"));
+        Role role1 = new Role();
+        role1.setRole("admin");
+        Role role2 = new Role();
+        role2.setRole("user");
+        mockUser.getRoles().add(role1);
+        mockUser.getRoles().add(role2);
+
+        when(userRepository.getByEmail(loginUserDTO.getEmail())).thenReturn(mockUser);
+        when(roleRepository.getByRole(loginUserDTO.getRole())).thenReturn(role1);
+        when(passwordEncoder.matches(loginUserDTO.getPassword(), mockUser.getPassword())).thenReturn(true);
+
+        User result = userService.userLogin(loginUserDTO);
+
+        assertEquals(mockUser, result);
+    }
+
+    @Test
+    public void test_empty_email_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
+
+    @Test
+    public void test_empty_password_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("");
+        loginUserDTO.setRole("admin");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
+
+    @Test
+    public void test_empty_role_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
 
 }
