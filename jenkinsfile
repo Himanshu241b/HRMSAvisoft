@@ -12,7 +12,7 @@ pipeline{
         stage('Maven Build'){
             steps{
                 checkout scmGit(branches: [[name: '*/dev-server']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Himanshu241b/HRMSAvisoft']])
-                sh 'mvn clean install -Dmaven.test.skip=true'
+                sh 'mvn clean install -DskipTests'
             }
         }
         stage('Build docker image'){

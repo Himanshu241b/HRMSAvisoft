@@ -71,7 +71,7 @@ public class UserService {
         newEmployee.setPosition(createUserDTO.getPosition());
         newEmployee.setSalary(createUserDTO.getSalary());
         newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
-        Employee savedEmployee =employeeRepository.save(newEmployee);
+        Employee savedEmployee = employeeRepository.save(newEmployee);
 
         newUser.setEmployee(savedEmployee);
         userRepository.save(newUser);

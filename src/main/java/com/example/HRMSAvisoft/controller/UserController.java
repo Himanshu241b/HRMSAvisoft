@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -56,18 +58,16 @@ public class UserController {
         createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
         String profileImageOfEmployee = (createdUserEmployee.getProfileImage() != null) ? createdUserEmployee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+createdUserEmployee.getFirstName()+" "+createdUserEmployee.getLastName();
         createUserResponseDTO.setProfileImage(profileImageOfEmployee);
-        String message = "{\"message\": \"User created successfully\"}";
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponseDTO> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
         User loggedInUser = userService.userLogin(loginUserDTO);
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
         if(loggedInUser!=null) {
-            userResponse.setMessage("Login Successful");
             userResponse.setUserId(loggedInUser.getUserId());
             userResponse.setEmail(loggedInUser.getEmail());
             userResponse.setRoles(loggedInUser.getRoles());
@@ -86,9 +86,15 @@ public class UserController {
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());
         }
-        userResponse.setToken(
-                JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
-        return ResponseEntity.ok(userResponse);
+
+        String token = JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles());
+
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("message", "Login Successful");
+        response.put("success", true);
+        response.put("token", token);
+        response.put("loginUser", userResponse);
+        return ResponseEntity.ok(response);
 
     }
 

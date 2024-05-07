@@ -30,37 +30,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 public class EmployeeControllerTests {
 
-//    HttpClient client;
-//    String port;
-//
-//    @Value("${offset.uploadImage.url}")
-//    private String uploadImageUrl;
-//
-//    @BeforeEach
-//    public void setUp() throws SQLException {
-//        client = HttpClient.newHttpClient();
-//        port = "5555";
-//    }
+    HttpClient client;
+    String port;
 
-//    @Test
-//    @DisplayName("test_image_upload_success")
-//    @Transactional
-//    void test_imageUploadSuccess() throws IOException, InterruptedException{
-//
-//        MultipartFile file = Mockito.mock(MultipartFile.class);
-//
-//        byte[] fileContent = "file content".getBytes();
-//        Mockito.when(file.getBytes()).thenReturn(fileContent);
-//
-//        HttpRequest postRequest = HttpRequest.newBuilder()
-//                .uri(URI.create("http://localhost:5555/api/v1/employee/1L/uploadImage"))
-//                .header("Content-Type", "multipart/form-data")
-//                .POST(HttpRequest.BodyPublishers.ofByteArray(file.getBytes()))
-//                .build();
-//
-//        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
-//        assertEquals(200, postResponse.statusCode());
-//    }
+    @Value("${offset.uploadImage.url}")
+    private String uploadImageUrl;
+
+    @BeforeEach
+    public void setUp() throws SQLException {
+        client = HttpClient.newHttpClient();
+        port = "5555";
+    }
+
+    @Test
+    @DisplayName("test_image_upload_success")
+    @Transactional
+    void test_imageUploadSuccess() throws IOException, InterruptedException{
+
+        MultipartFile file = Mockito.mock(MultipartFile.class);
+
+        byte[] fileContent = "file content".getBytes();
+        Mockito.when(file.getBytes()).thenReturn(fileContent);
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:5555/api/v1/employee/1L/uploadImage"))
+                .header("Content-Type", "multipart/form-data")
+                .POST(HttpRequest.BodyPublishers.ofByteArray(file.getBytes()))
+                .build();
+
+        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+        assertEquals(200, postResponse.statusCode());
+    }
 
 
 }
