@@ -12,7 +12,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -29,6 +28,7 @@ public class UserService {
     final private RoleRepository roleRepository;
 
     final private EmployeeRepository employeeRepository;
+
     UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,RoleRepository roleRepository,EmployeeRepository employeeRepository){
         this.userRepository=userRepository;
         this.passwordEncoder=passwordEncoder;

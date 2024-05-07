@@ -24,12 +24,12 @@ import java.io.IOException;
 @Transactional
 public class UserController {
 
-    final private UserService userService;
+    private UserService userService;
 
 
-    final private JWTService jwtService;
+    private JWTService jwtService;
 
-    final private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
     public UserController(UserService userService,JWTService jwtService,ModelMapper modelMapper)
     {
         this.userService=userService;

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,6 +32,18 @@ public class EmployeeService {
         Files.write(fileNameAndPath, file.getBytes());
         employee.setProfileImage(originalFilename);
         employeeRepository.save(employee);
+    }
+    public List<Employee> getAllEmployees(){
+        return employeeRepository.findAll();
+    }
+    public Employee getEmployeeById(Long id){
+        return employeeRepository.getByEmployeeId(id);
+    }
+    public void deleteEmployeeById(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
+    }
+    public Employee updateEmployee(Employee updatedEmployee) {
+        return employeeRepository.save(updatedEmployee);
     }
 
     public class EmployeeNotFoundException extends RuntimeException {
