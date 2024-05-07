@@ -26,8 +26,6 @@ import java.util.Map;
 @Transactional
 public class UserController {
 
-    @Value("${spring.mvc.cors.allowed-origins}")
-    String cors;
 
     private UserService userService;
 
@@ -44,7 +42,7 @@ public class UserController {
 
     @GetMapping("/hello")
     public String hello(){
-        return "Hello "+cors;
+        return "Hello ";
     }
 
 
