@@ -1,23 +1,25 @@
 package com.example.HRMSAvisoft.service;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
-import com.example.HRMSAvisoft.dto.RegisterUserResponseDTO;
-import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.RoleRepository;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -36,11 +38,17 @@ class UserServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
+
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
+
+    @BeforeEach
+    void setup() throws Exception {
+        Mockito.when(passwordEncoder.encode("password")).thenReturn(new BCryptPasswordEncoder().encode("password"));
+    }
 
 //    @Test
 //    @DisplayName("Test Save User :Success")
@@ -105,79 +113,7 @@ class UserServiceTest {
 //        verify(userRepository, times(1)).getByEmail("test@example.com");
 //        verify(userRepository, never()).save(any(User.class));
 //    }
-    @Test
-    @DisplayName("Test Super Admin Login:Success")
-    void testSuperAdminLogin_Success()
-    {
-        LoginUserDTO loginUserDTO=new LoginUserDTO();
-        loginUserDTO.setEmail("test@example.com");
-        loginUserDTO.setPassword("password");
 
-        User existingUser=new User();
-        existingUser.setEmail("test@example.com");
-        existingUser.setPassword("password");
-
-        Role role=new Role();
-        role.setRole("super_admin");
-
-        existingUser.getRoles().add(role);
-        when(userRepository.getByEmail("test@example.com")).thenReturn(existingUser);
-        when(roleRepository.getByRole("super_admin")).thenReturn(role);
-        when(passwordEncoder.matches(loginUserDTO.getPassword(),existingUser.getPassword())).thenReturn(true);
-
-        assertDoesNotThrow(() -> {
-            User result = userService.superAdminLogin(loginUserDTO);
-            assertNotNull(result);
-        });
-        // Verify repository calls
-        verify(userRepository, times(1)).getByEmail("test@example.com");
-        verify(roleRepository, times(1)).getByRole("super_admin");
-
-        // Verify interaction with password encoder
-        verify(passwordEncoder, times(1)).matches(loginUserDTO.getPassword(), existingUser.getPassword());
-
-
-    }
-    @Test
-    @DisplayName("Test Super Admin Login:throws Entity not found exception")
-    public void testSuperAdminLogin_throwsEntityNotFoundException(){
-        LoginUserDTO loginUserDTO=new LoginUserDTO();
-        loginUserDTO.setEmail("test@example.com");
-        loginUserDTO.setPassword("password");
-
-        when(userRepository.getByEmail("test@example.com")).thenReturn(null);
-        //act
-        assertThrows(EntityNotFoundException.class,()->userService.superAdminLogin(loginUserDTO));
-        //verify repository calls
-        verify(userRepository,times(1)).getByEmail("test@example.com");
-
-    }
-    @Test
-    @DisplayName("Test Super Admin Login:RoleDoesNotMatchException")
-    public void testSuperAdminLogin_throwsRoleDoesNotMatchException(){
-        LoginUserDTO loginUserDTO=new LoginUserDTO();
-        loginUserDTO.setEmail("test@example.com");
-        loginUserDTO.setPassword("password");
-
-        User existingUser=new User();
-        existingUser.setEmail("test@example.com");
-        existingUser.setPassword("password");
-
-        Role role=new Role();
-        role.setRole("anyrole");
-
-        existingUser.getRoles().add(role);
-
-        when(userRepository.getByEmail("test@example.com")).thenReturn(existingUser);
-        when(roleRepository.getByRole("super_admin")).thenReturn(new Role());
-
-        assertThrows(UserService.RoleDoesNotMatchException.class,()->userService.superAdminLogin(loginUserDTO));
-
-        verify(userRepository, times(1)).getByEmail("test@example.com");
-        verify(roleRepository, times(1)).getByRole("super_admin");
-
-
-    }
 
 //    @Test
 //    @DisplayName("Test Super Admin login:Wrong Password credentials exception")
@@ -198,5 +134,90 @@ class UserServiceTest {
 //        when(roleRepository.getByRole("super_admin")).thenReturn(new Role());
 //
 //    }
+
+    @Test
+    public void test_valid_login() throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        User mockUser = new User();
+        mockUser.setEmail("test@example.com");
+        mockUser.setPassword(passwordEncoder.encode("password"));
+        Role role1 = new Role();
+        role1.setRole("admin");
+        mockUser.getRoles().add(role1);
+
+        when(userRepository.getByEmail(loginUserDTO.getEmail())).thenReturn(mockUser);
+        when(roleRepository.getByRole(loginUserDTO.getRole())).thenReturn(role1);
+        when(passwordEncoder.matches(loginUserDTO.getPassword(), mockUser.getPassword())).thenReturn(true);
+
+        User result = userService.userLogin(loginUserDTO);
+
+        assertEquals(mockUser, result);
+    }
+
+    @Test
+    public void test_multiple_roles_login() throws UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        User mockUser = new User();
+        mockUser.setEmail("test@example.com");
+        mockUser.setPassword(passwordEncoder.encode("password"));
+        Role role1 = new Role();
+        role1.setRole("admin");
+        Role role2 = new Role();
+        role2.setRole("user");
+        mockUser.getRoles().add(role1);
+        mockUser.getRoles().add(role2);
+
+        when(userRepository.getByEmail(loginUserDTO.getEmail())).thenReturn(mockUser);
+        when(roleRepository.getByRole(loginUserDTO.getRole())).thenReturn(role1);
+        when(passwordEncoder.matches(loginUserDTO.getPassword(), mockUser.getPassword())).thenReturn(true);
+
+        User result = userService.userLogin(loginUserDTO);
+
+        assertEquals(mockUser, result);
+    }
+
+    @Test
+    public void test_empty_email_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("admin");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
+
+    @Test
+    public void test_empty_password_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("");
+        loginUserDTO.setRole("admin");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
+
+    @Test
+    public void test_empty_role_login() {
+        LoginUserDTO loginUserDTO = new LoginUserDTO();
+        loginUserDTO.setEmail("test@example.com");
+        loginUserDTO.setPassword("password");
+        loginUserDTO.setRole("");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.userLogin(loginUserDTO);
+        });
+    }
 
 }

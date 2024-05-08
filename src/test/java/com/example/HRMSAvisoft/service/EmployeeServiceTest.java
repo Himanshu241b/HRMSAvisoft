@@ -86,7 +86,7 @@ public class EmployeeServiceTest {
 
     @Test
     @DisplayName("Test Get Employee By ID")
-    void testGetEmployeeById() {
+    void testGetEmployeeById() throws Exception{
         // Given
         Long employeeId = 1L;
         Employee employee = new Employee();
@@ -105,7 +105,7 @@ public class EmployeeServiceTest {
     }
     @Test
     @DisplayName("Test Add Address to Employee")
-    void testAddAddressToEmployee() {
+    void testAddAddressToEmployee() throws Exception{
         // Given
         Long employeeId = 1L;
         Employee employee = new Employee();
@@ -131,7 +131,7 @@ public class EmployeeServiceTest {
 
     @Test
     @DisplayName("Test Remove Address From Employee")
-    void testRemoveAddressFromEmployee() {
+    void testRemoveAddressFromEmployee() throws Exception{
         // Given
         Long employeeId = 1L;
         Long addressId = 2L;

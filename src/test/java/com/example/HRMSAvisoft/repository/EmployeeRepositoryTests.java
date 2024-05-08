@@ -7,33 +7,44 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+<<<<<<< HEAD
+=======
+import org.springframework.test.context.ActiveProfiles;
+>>>>>>> 385fdbbd1d181497c9b6be1680017e06a690c740
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
+import java.util.List;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+@Transactional
 public class EmployeeRepositoryTests {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
+
+    Long empId = 9L;
+    String firstName = "test";
+    String lastName = "user";
+    String contact = "8539228375";
+    BigDecimal salary = new BigDecimal(20000);
+    Position position = Position.TESTER;
+    Gender gender = Gender.MALE;
+    String joinDate = "2022/12/12";
+    String dateOfBirth = "2004/12/22";
+
+    Employee savedEmployee;
+
+
     @Test
     @DisplayName("test_save_employee")
+    @Transactional
     void testSaveEmployee(){
-        Long empId = 1L;
-        String firstName = "test";
-        String lastName = "user";
-        String contact = "8539228375";
-        BigDecimal salary = new BigDecimal(20000);
-        Position position = Position.TESTER;
-        Gender gender = Gender.MALE;
-        String joinDate = "2022/12/12";
-        String dateOfBirth = "2004/12/22";
-
 
         Employee employee = new Employee();
         employee.setEmployeeId(empId);
@@ -46,7 +57,7 @@ public class EmployeeRepositoryTests {
         employee.setJoinDate(joinDate);
         employee.setDateOfBirth(dateOfBirth);
 
-        Employee savedEmployee = employeeRepository.save(employee);
+        savedEmployee = employeeRepository.save(employee);
 
         assertEquals(empId, savedEmployee.getEmployeeId());
         assertEquals(firstName, savedEmployee.getFirstName());
@@ -57,5 +68,115 @@ public class EmployeeRepositoryTests {
         assertEquals(gender, savedEmployee.getGender());
         assertEquals(joinDate, savedEmployee.getJoinDate());
         assertEquals(dateOfBirth, savedEmployee.getDateOfBirth());
+    }
+
+    @Test
+    @DisplayName("test_find_employee_by_id")
+    @Transactional
+    void testfindEmployeeById(){
+
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        Employee employeeFoundById = employeeRepository.findById(empId).orElse(null);
+        assertEquals(employeeFoundById.getEmployeeId(), savedEmployee.getEmployeeId());
+        assertEquals(employeeFoundById.getFirstName(), savedEmployee.getFirstName());
+        assertEquals(employeeFoundById.getLastName(), savedEmployee.getLastName());
+        assertEquals(employeeFoundById.getContact(), savedEmployee.getContact());
+        assertEquals(employeeFoundById.getSalary(), savedEmployee.getSalary());
+        assertEquals(employeeFoundById.getPosition(), savedEmployee.getPosition());
+        assertEquals(employeeFoundById.getGender(), savedEmployee.getGender());
+        assertEquals(employeeFoundById.getJoinDate(), savedEmployee.getJoinDate());
+        assertEquals(employeeFoundById.getDateOfBirth(), savedEmployee.getDateOfBirth());
+    }
+
+    @Test
+    @DisplayName("test_find_All_Employees")
+    @Transactional
+    void testfindAllEmployees(){
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        List<Employee> employees = employeeRepository.findAll();
+
+        assertEquals(1, employees.size());
+        assertEquals(empId, employees.get(0).getEmployeeId());
+        assertEquals(firstName, employees.get(0).getFirstName());
+    }
+
+    @Test
+    @DisplayName("test_delete_employee")
+    @Transactional
+    void testDeleteEmployee(){
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        employeeRepository.delete(savedEmployee);
+
+        Employee findEmployeeAfterDeletion = employeeRepository.findById(empId).orElse(null);
+
+        assertNull(findEmployeeAfterDeletion);
+
+    }
+
+    @Test
+    @DisplayName("test_update_employee")
+    @Transactional
+    void testUpdateEmployee(){
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        Employee employeefoundById = employeeRepository.findById(empId).orElse(null);
+
+        employeefoundById.setFirstName("John");
+        employeefoundById.setLastName("Cena");
+
+        Employee updatedEmployee = employeeRepository.save(employeefoundById);
+
+        assertNotNull(updatedEmployee);
+        assertEquals("John", updatedEmployee.getFirstName());
+        assertEquals("Cena", updatedEmployee.getLastName());
+
+
     }
 }

@@ -1,12 +1,11 @@
 package com.example.HRMSAvisoft.controller;
 
-import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.service.EmployeeService;
+
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,11 +30,12 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PostMapping("/{employeeId}/uploadImage")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException {
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         employeeService.uploadProfileImage(employeeId, file);
         String message = "{\"message\": \"Profile Uploaded Successfully\"}";
         return ResponseEntity.ok().body(message);
     }
+
     @GetMapping("/getAllEmployees")
     public ResponseEntity<Map<String,Object>>getAllEmployees() {
 
@@ -82,14 +82,48 @@ public class EmployeeController {
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",updatedEmployee ,"message", "New Address Added", "Status", true));
     }
     @DeleteMapping("/{employeeId}/removeAddress/{addressId}")
-    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) {
+    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) throws EmployeeService.EmployeeNotFoundException{
         Employee updatedEmployee = employeeService.removeAddressFromEmployee(employeeId, addressId);
         return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee,"message", "Address Removed from Employee", "Status", true));
     }
 
+
+
+//    @GetMapping("/getAllEmployees")
+//    public List<Employee> getAllEmployees() {
+//        return employeeService.getAllEmployees();
+//    }
+//    @GetMapping("{employeeId}")
+//    public ResponseEntity<Object> getEmployeeById(@PathVariable Long employeeId)
+//    {
+//       Employee employee= employeeService.getEmployeeById(employeeId);
+//       if(employee!=null){
+//           return MyResponseGenerator.generateResponse(HttpStatus.OK,true,"Employee Retrieved",employee);
+//       }else {
+//           return MyResponseGenerator.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR,false,"Something Went Wrong",employee);
+//       }
+//    }
+
+//    @PutMapping("/{employeeId}")
+//    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {
+//        try {
+//            Employee existingEmployee = employeeService.getEmployeeById(employeeId);
+//            if (existingEmployee == null) {
+//                return ResponseEntity.notFound().build();
+//            }
+//            updatedEmployee.setEmployeeId(employeeId);
+//            Employee savedEmployee = employeeService.updateEmployee(updatedEmployee);
+//
+//            return ResponseEntity.ok(savedEmployee);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
+
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
             IOException.class,
+            RuntimeException.class
 
     })
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
@@ -108,7 +142,10 @@ public class EmployeeController {
         else if (exception instanceof DataAccessException)
         {
             message = exception.getMessage();
-            status =  HttpStatus.INTERNAL_SERVER_ERROR;
+            status =  HttpStatus.INTERNAL_SERVER_ERROR;}
+        else if (exception instanceof RuntimeException) {
+            message = "Invalid image file";
+            status = HttpStatus.BAD_REQUEST;
         }
         else{
             message = "something went wrong";

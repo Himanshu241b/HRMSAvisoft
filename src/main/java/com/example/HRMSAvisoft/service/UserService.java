@@ -71,7 +71,7 @@ public class UserService {
         newEmployee.setPosition(createUserDTO.getPosition());
         newEmployee.setSalary(createUserDTO.getSalary());
         newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
-        Employee savedEmployee =employeeRepository.save(newEmployee);
+        Employee savedEmployee = employeeRepository.save(newEmployee);
 
         newUser.setEmployee(savedEmployee);
         userRepository.save(newUser);
@@ -80,10 +80,15 @@ public class UserService {
 
     }
 
-    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException{
+    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException, IllegalAccessRoleException{
         User loggedInUser = userRepository.getByEmail(loginUserDTO.getEmail());
         if(loggedInUser == null){
             throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");
+        }
+        Role roleUserWantToLoginWith = roleRepository.getByRole(loginUserDTO.getRole());
+
+        if(!loggedInUser.getRoles().contains(roleUserWantToLoginWith)){
+            throw new IllegalAccessRoleException(loginUserDTO.getEmail(), loginUserDTO.getRole());
         }
         else if(passwordEncoder.matches(loginUserDTO.getPassword(), loggedInUser.getPassword())){
             return loggedInUser;
@@ -92,28 +97,17 @@ public class UserService {
             throw new WrongPasswordCredentialsException(loggedInUser.getEmail());
         }
     }
-    public User superAdminLogin(LoginUserDTO loginUserDTO)throws EntityNotFoundException, WrongPasswordCredentialsException,RoleDoesNotMatchException{
-        User loggedInUser=userRepository.getByEmail(loginUserDTO.getEmail());
-        if(loggedInUser==null){
-            throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");
-        }else {
-            Role superAdmin = roleRepository.getByRole("super_admin");
 
-             if (!loggedInUser.getRoles().contains(superAdmin)) {
-                throw new RoleDoesNotMatchException("User does not have superAdmin as role ");
-            } else if (passwordEncoder.matches(loginUserDTO.getPassword(), loggedInUser.getPassword())) {
-                return loggedInUser;
-            } else {
-                throw new WrongPasswordCredentialsException(loggedInUser.getEmail());
-            }
+    public static class IllegalAccessRoleException extends IllegalAccessException{
+        public IllegalAccessRoleException(String email, String role){
+            super(email +" does not have the access to "+ role +" role.");
         }
-
-
     }
     public void deleteUser(Long userId) {
         User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
         userRepository.deleteById(userId);
     }
+
     public static class WrongPasswordCredentialsException extends IllegalAccessException{
         public WrongPasswordCredentialsException(String email){
             super("Wrong password for " + email);
@@ -125,14 +119,12 @@ public class UserService {
             super(email+ " already exists");
         }
     }
+
     public static class UserNotFoundException extends RuntimeException{
         public UserNotFoundException(Long id){
             super("User with ID:" +id+" not found!!");
         }
     }
-    public static class RoleDoesNotMatchException extends IllegalAccessException{
-        public RoleDoesNotMatchException(String message){super(message);}
 
-    }
 
 }

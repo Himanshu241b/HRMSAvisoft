@@ -128,37 +128,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.lastName").value("Doe"));
     }
 
-    @Test
-    @DisplayName("Test Super Admin Login")
-    void testSuperAdminLogin() throws Exception {
-        // Prepare test data
-        LoginUserDTO loginUserDTO = new LoginUserDTO();
-        loginUserDTO.setEmail("testuser");
-        loginUserDTO.setPassword("testpassword");
 
-        User mockUser = new User();
-        mockUser.setUserId(1L);
-        mockUser.setEmail("test@example.com");
-
-        Employee mockEmployee = new Employee();
-        mockEmployee.setFirstName("John");
-        mockEmployee.setLastName("Doe");
-        mockUser.setEmployee(mockEmployee);
-        // Configure UserService mock
-        when(userService.superAdminLogin(any(LoginUserDTO.class))).thenReturn(mockUser);
-
-
-        // Perform POST request and verify response
-        mockMvc.perform(post("/api/v1/user/loginAsSuperAdmin")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"testuser\", \"password\": \"testpassword\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Login Successful"))
-                .andExpect(jsonPath("$.userId").value(1L))
-                .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
-    }
 
 }
 

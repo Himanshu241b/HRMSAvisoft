@@ -7,6 +7,7 @@ import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,13 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1/user")
 @Transactional
 public class UserController {
+
 
     private UserService userService;
 
@@ -39,7 +42,7 @@ public class UserController {
 
     @GetMapping("/hello")
     public String hello(){
-        return "Hello";
+        return "Hello ";
     }
 
 
@@ -53,18 +56,16 @@ public class UserController {
         createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
         String profileImageOfEmployee = (createdUserEmployee.getProfileImage() != null) ? createdUserEmployee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+createdUserEmployee.getFirstName()+" "+createdUserEmployee.getLastName();
         createUserResponseDTO.setProfileImage(profileImageOfEmployee);
-        String message = "{\"message\": \"User created successfully\"}";
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponseDTO> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException {
+    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
         User loggedInUser = userService.userLogin(loginUserDTO);
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
         if(loggedInUser!=null) {
-            userResponse.setMessage("Login Successful");
             userResponse.setUserId(loggedInUser.getUserId());
             userResponse.setEmail(loggedInUser.getEmail());
             userResponse.setRoles(loggedInUser.getRoles());
@@ -83,40 +84,19 @@ public class UserController {
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());
         }
-        userResponse.setToken(
-                JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
-        return ResponseEntity.ok(userResponse);
+
+        String token = JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles());
+
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("message", "Login Successful");
+        response.put("success", true);
+        response.put("token", token);
+        response.put("loginUser", userResponse);
+        return ResponseEntity.ok(response);
 
     }
 
-    @PostMapping("/loginAsSuperAdmin")
-    public  ResponseEntity<LoginUserResponseDTO>superAdminLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException,UserService.WrongPasswordCredentialsException,UserService.RoleDoesNotMatchException
-    {
-        User loggedInUser = userService.superAdminLogin(loginUserDTO);
 
-        LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
-        userResponse.setMessage("Login Successful");
-        userResponse.setUserId(loggedInUser.getUserId());
-        userResponse.setEmail(loggedInUser.getEmail());
-        userResponse.setRoles(loggedInUser.getRoles());
-        Employee employee = loggedInUser.getEmployee();
-
-        userResponse.setFirstName(employee.getFirstName());
-        userResponse.setLastName(employee.getLastName());
-        userResponse.setContact(employee.getContact());
-        userResponse.setAddresses(employee.getAddresses());
-        userResponse.setPosition(employee.getPosition());
-        userResponse.setJoinDate(employee.getJoinDate());
-        userResponse.setGender(employee.getGender());
-        String profileImageOfEmployee = (employee.getProfileImage() != null) ? employee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+employee.getFirstName()+" "+employee.getLastName();
-        userResponse.setProfileImage(profileImageOfEmployee);
-        userResponse.setDateOfBirth(employee.getDateOfBirth());
-        userResponse.setAccount(employee.getAccount());
-        userResponse.setSalary(employee.getSalary());
-        userResponse.setToken(
-                JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
-        return ResponseEntity.ok(userResponse);
-    }
 
     @DeleteMapping("/deleteUser/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId)throws UserService.UserNotFoundException
@@ -124,13 +104,19 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.ok().body("User Deleted Successfully  ");
     }
-    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class, IOException.class})
+
+    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class})
+
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
         if(exception instanceof EntityNotFoundException){
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
+        }
+        else if(exception instanceof UserService.IllegalAccessRoleException){
+            message = exception.getMessage();
+            status = HttpStatus.UNAUTHORIZED;
         }
         else if(exception instanceof UserService.WrongPasswordCredentialsException) {
             message = exception.getMessage();
@@ -143,10 +129,6 @@ public class UserController {
         else if (exception instanceof UserService.EmailAlreadyExistsException){
             message = exception.getMessage();
             status = HttpStatus.BAD_REQUEST;
-        }
-        else if(exception instanceof  UserService.RoleDoesNotMatchException){
-            message=exception.getMessage();
-            status=HttpStatus.BAD_REQUEST;
         }
         else{
             message = "something went wrong";
