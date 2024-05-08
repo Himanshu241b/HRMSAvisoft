@@ -1,16 +1,14 @@
 package com.example.HRMSAvisoft.repository;
 
 import com.example.HRMSAvisoft.entity.*;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-<<<<<<< HEAD
-=======
 import org.springframework.test.context.ActiveProfiles;
->>>>>>> 385fdbbd1d181497c9b6be1680017e06a690c740
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.util.List;

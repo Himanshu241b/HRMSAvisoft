@@ -11,9 +11,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -23,9 +25,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,12 +54,19 @@ public class EmployeeControllerTest {
 
     @InjectMocks
     private EmployeeController employeeController;
+    HttpClient client;
+    String port;
+
+    @Value("${offset.uploadImage.url}")
+    private String uploadImageUrl;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService)).build();
 
+        client = HttpClient.newHttpClient();
+        port = "5555";
     }
     @Test
    @WithMockUser
@@ -234,4 +252,31 @@ public class EmployeeControllerTest {
         verify(employeeService, times(1)).removeAddressFromEmployee(employeeId, addressId);
     }
 
+
+//    @Test
+//    @DisplayName("test_image_upload_success")
+//    @Transactional
+//    void test_imageUploadSuccess() throws IOException, InterruptedException{
+//
+//        MultipartFile file = Mockito.mock(MultipartFile.class);
+//
+//        byte[] fileContent = "file content".getBytes();
+//        Mockito.when(file.getBytes()).thenReturn(fileContent);
+//
+//        HttpRequest postRequest = HttpRequest.newBuilder()
+//                .uri(URI.create(uploadImageUrl))
+//                .header("Content-Type", "multipart/form-data")
+//                .POST(HttpRequest.BodyPublishers.ofByteArray(file.getBytes()))
+//                .build();
+//
+//        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+//        assertEquals(200, postResponse.statusCode());
+//    }
+
+    @Test
+    @DisplayName("test_search_employee_success")
+    @Transactional
+    void test_search_employee_success(){
+
+    }
 }
