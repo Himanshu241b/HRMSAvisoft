@@ -117,6 +117,13 @@ public class UserController {
                 JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles()));
         return ResponseEntity.ok(userResponse);
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId)throws UserService.UserNotFoundException
+    {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok().body("User Deleted Successfully");
+    }
     @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class,UserService.RoleDoesNotMatchException.class, IOException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;

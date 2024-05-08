@@ -36,7 +36,7 @@ class UserControllerIntegrationTest {
     public void testSaveUser() {
         // Prepare request body
         CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setEmail("test@example.com");
+        createUserDTO.setEmail("test9@example.com");
         createUserDTO.setPassword("password");
         createUserDTO.setFirstName("John");
         createUserDTO.setLastName("Doe");
