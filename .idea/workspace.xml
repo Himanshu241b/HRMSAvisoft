@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/Utils/MyResponseGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/UserRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/UserRepositoryTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,10 +63,12 @@
     &quot;JUnit.EmployeeRepositoryTests.testDeleteEmployee.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeRepositoryTests.testSaveEmployee.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeRepositoryTests.testUpdateEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeServiceTests.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_returns_matching_employees.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndDifferentNameSameContentImageFile.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndEmptyImageFile.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndNullImageFile.executor&quot;: &quot;Run&quot;,
@@ -68,6 +84,8 @@
     &quot;JUnit.TestUserRepository.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.TestUserRepository.testSaveUser.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.UserControllerTest.testUserLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.testSaveUser.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.UserServiceTest.testSuperAdminLogin_Success.executor&quot;: &quot;Run&quot;,
@@ -102,54 +120,24 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="EmployeeControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.EmployeeRepositoryTests.test_searchEmployeesByName">
+    <configuration name="EmployeeRepositoryTests.test_searchEmployeesByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.EmployeeControllerTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmployeeServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.EmployeeServiceTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.EmployeeServiceTests" />
-      <option name="METHOD_NAME" value="test_invalidEmployeeIdAndValidImageFile" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmployeeRepositoryTests" />
+      <option name="METHOD_NAME" value="test_searchEmployeesByName" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmployeeServiceTests.test_validEmployeeIdAndValidImageFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EmployeeServiceTests.test_returns_matching_employees" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -159,23 +147,54 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
       <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.EmployeeServiceTests" />
-      <option name="METHOD_NAME" value="test_validEmployeeIdAndValidImageFile" />
+      <option name="METHOD_NAME" value="test_returns_matching_employees" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.testUserLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserRepositoryTests.testSaveUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.UserControllerTest" />
-      <option name="METHOD_NAME" value="testUserLogin" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.UserRepositoryTests" />
+      <option name="METHOD_NAME" value="testSaveUser" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.UserServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceTest.test_valid_login" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.UserServiceTest" />
+      <option name="METHOD_NAME" value="test_valid_login" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -183,11 +202,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EmployeeServiceTests" />
-        <item itemvalue="JUnit.EmployeeControllerTests" />
-        <item itemvalue="JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile" />
-        <item itemvalue="JUnit.EmployeeServiceTests.test_validEmployeeIdAndValidImageFile" />
-        <item itemvalue="JUnit.UserControllerTest.testUserLogin" />
+        <item itemvalue="JUnit.EmployeeRepositoryTests.test_searchEmployeesByName" />
+        <item itemvalue="JUnit.EmployeeServiceTests.test_returns_matching_employees" />
+        <item itemvalue="JUnit.UserServiceTest" />
+        <item itemvalue="JUnit.UserServiceTest.test_valid_login" />
+        <item itemvalue="JUnit.UserRepositoryTests.testSaveUser" />
       </list>
     </recent_temporary>
   </component>
@@ -229,13 +248,36 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/UserRepositoryTests.java</url>
-          <line>26</line>
+          <line>24</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/UserServiceTest.java</url>
-          <line>188</line>
+          <line>189</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/UserServiceTest.java</url>
+          <line>201</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/UserControllerTest.java</url>
+          <line>101</line>
+          <properties class="com.example.HRMSAvisoft.controller.UserControllerTest" method="testUserLogin">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java</url>
+          <line>181</line>
+          <properties class="com.example.HRMSAvisoft.repository.EmployeeRepositoryTests" method="test_searchEmployeesByName">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

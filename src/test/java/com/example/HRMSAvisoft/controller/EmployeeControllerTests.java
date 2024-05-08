@@ -53,13 +53,20 @@ public class EmployeeControllerTests {
         Mockito.when(file.getBytes()).thenReturn(fileContent);
 
         HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:5555/api/v1/employee/1L/uploadImage"))
+                .uri(URI.create(uploadImageUrl))
                 .header("Content-Type", "multipart/form-data")
                 .POST(HttpRequest.BodyPublishers.ofByteArray(file.getBytes()))
                 .build();
 
         HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, postResponse.statusCode());
+    }
+
+    @Test
+    @DisplayName("test_search_employee_success")
+    @Transactional
+    void test_search_employee_success(){
+
     }
 
 

@@ -61,7 +61,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, IllegalArgumentException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
         User loggedInUser = userService.userLogin(loginUserDTO);
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
@@ -97,13 +97,17 @@ public class UserController {
     }
 
 
-    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class})
+    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
         if(exception instanceof EntityNotFoundException){
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
+        }
+        else if(exception instanceof IllegalArgumentException){
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
         }
         else if(exception instanceof UserService.IllegalAccessRoleException){
             message = exception.getMessage();

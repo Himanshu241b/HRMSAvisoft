@@ -12,11 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,10 +25,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 public class UserRepositoryTests {
+
     @Autowired
     private UserRepository userRepository;
 
     User testuser1=new User() ;
+
     @BeforeEach
     public void setUp() {
         // Insert test data into the database
@@ -47,11 +47,13 @@ public class UserRepositoryTests {
         user2.setCreatedAt(LocalDateTime.now().toString());
         userRepository.save(user2);
     }
+
     @AfterEach
     public void tearDown() {
         // Clean up the database after each test
         userRepository.deleteAll();
     }
+
     @Test
 //   @Transactional
     public void testSaveUser() {
@@ -77,6 +79,7 @@ public class UserRepositoryTests {
         assertThat(savedUser.getEmail()).isEqualTo("john.doe@example.com");
         assertThat(savedUser.getPassword()).isEqualTo("password");
     }
+
     @Test
     @Transactional
     public void testGetByEmail() {

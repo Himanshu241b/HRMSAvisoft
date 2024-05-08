@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,6 +42,11 @@ public class EmployeeService {
         // Set the image URL to the employee object and save it
         employee.setProfileImage(imageUrl);
         employeeRepository.save(employee);
+    }
+
+    public List<Employee> searchEmployeesByName(String name){
+        List<Employee> searchedEmployees = employeeRepository.searchEmployeesByName(name );
+        return searchedEmployees;
     }
 
     public class EmployeeNotFoundException extends Exception {

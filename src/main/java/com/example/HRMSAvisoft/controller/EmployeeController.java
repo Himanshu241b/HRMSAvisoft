@@ -1,6 +1,5 @@
 package com.example.HRMSAvisoft.controller;
 
-import com.example.HRMSAvisoft.Utils.MyResponseGenerator;
 import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.service.EmployeeService;
@@ -31,6 +30,11 @@ public class EmployeeController {
         return ResponseEntity.ok().body(message);
     }
 
+    @GetMapping("/searchEmployee")
+    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam("name") String name){
+        List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
+        return ResponseEntity.ok(searchedEmployees);
+    }
 
 //    @GetMapping("/getAllEmployees")
 //    public List<Employee> getAllEmployees() {
@@ -62,6 +66,7 @@ public class EmployeeController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 //        }
 //    }
+
 
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,

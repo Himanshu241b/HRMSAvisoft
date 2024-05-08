@@ -27,8 +27,8 @@ public class EmployeeRepositoryTests {
 
 
     Long empId = 9L;
-    String firstName = "test";
-    String lastName = "user";
+    String firstName = "newUser";
+    String lastName = "testeruser";
     String contact = "8539228375";
     BigDecimal salary = new BigDecimal(20000);
     Position position = Position.TESTER;
@@ -174,7 +174,31 @@ public class EmployeeRepositoryTests {
         assertNotNull(updatedEmployee);
         assertEquals("John", updatedEmployee.getFirstName());
         assertEquals("Cena", updatedEmployee.getLastName());
-
-
     }
+
+    @Test
+    @DisplayName("test_searchEmployeesByName")
+    @Transactional
+    void test_searchEmployeesByName(){
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        List<Employee> employeeFoundBySearch = employeeRepository.searchEmployeesByName(firstName);
+        assertEquals(1, employeeFoundBySearch.size());
+        assertEquals(empId, employeeFoundBySearch.get(0).getEmployeeId());
+        assertEquals(firstName, employeeFoundBySearch.get(0).getFirstName());
+        assertEquals(dateOfBirth, employeeFoundBySearch.get(0).getDateOfBirth());
+    }
+
+
 }
