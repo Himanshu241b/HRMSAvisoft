@@ -6,6 +6,7 @@ import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/employee")
+@CrossOrigin
 public class EmployeeController {
 
     private EmployeeService employeeService;

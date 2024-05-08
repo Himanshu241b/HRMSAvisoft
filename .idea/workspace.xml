@@ -7,7 +7,7 @@
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,55 +40,55 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HrmsAvisoftApplication.executor": "Run",
-    "JUnit.EmployeeControllerTest.testAddAddressToEmployee.executor": "Run",
-    "JUnit.EmployeeControllerTest.testGetAllEmployees.executor": "Run",
-    "JUnit.EmployeeControllerTest.testGetEmployeeById.executor": "Run",
-    "JUnit.EmployeeControllerTest.testRemoveAddressFromEmployee.executor": "Run",
-    "JUnit.EmployeeControllerTest.testUpdatePersonalDetails.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testSaveEmployee.executor": "Run",
-    "JUnit.EmployeeServiceTest.executor": "Run",
-    "JUnit.EmployeeServiceTest.testAddAddressToEmployee.executor": "Run",
-    "JUnit.EmployeeServiceTest.testGetAllEmployees.executor": "Run",
-    "JUnit.EmployeeServiceTest.testGetEmployeeById.executor": "Run",
-    "JUnit.EmployeeServiceTest.testRemoveAddressFromEmployee.executor": "Run",
-    "JUnit.EmployeeServiceTest.testUpdateEmployee.executor": "Run",
-    "JUnit.EmployeeTests.executor": "Run",
-    "JUnit.EmployeeTests.testEmployeeConstructor.executor": "Run",
-    "JUnit.JWTServiceTests.executor": "Run",
-    "JUnit.JWTServiceTests.testCreateJWT.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveRoles.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveUserId.executor": "Run",
-    "JUnit.JWTServiceTests.testSetJwtKey.executor": "Run",
-    "JUnit.RoleTest.testRoleGetterSetter.executor": "Run",
-    "JUnit.TestUserRepository.executor": "Run",
-    "JUnit.TestUserRepository.testSaveUser.executor": "Run",
-    "JUnit.UserControllerIntegrationTest.testSaveUser.executor": "Run",
-    "JUnit.UserControllerIntegrationTest.testSuperAdminLogin.executor": "Run",
-    "JUnit.UserControllerIntegrationTest.testUserLogin.executor": "Run",
-    "JUnit.UserControllerTest.testSaveUser.executor": "Run",
-    "JUnit.UserControllerTest.testSuperAdminLogin.executor": "Run",
-    "JUnit.UserControllerTest.testUserLogin.executor": "Run",
-    "JUnit.UserServiceTest.executor": "Run",
-    "JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_Success.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsEntityNotFoundException.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsRoleDoesNotMatchException.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsWrongPasswordCredentialException.executor": "Run",
-    "JUnit.UserTests.executor": "Run",
-    "JUnit.UserTests.testSetters.executor": "Run",
-    "JUnit.UserTests.testUserConstructor.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "user-role-entites",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/himanshu/Desktop/Avisoft/HRMSAvisoft/src/main/java/com/example/HRMSAvisoft",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.testAddAddressToEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.testGetAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.testGetEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.testRemoveAddressFromEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.testUpdatePersonalDetails.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testSaveEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.testAddAddressToEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.testGetAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.testGetEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.testRemoveAddressFromEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.testUpdateEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.testEmployeeConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testCreateJWT.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveRoles.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testSetJwtKey.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RoleTest.testRoleGetterSetter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerIntegrationTest.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerIntegrationTest.testSuperAdminLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerIntegrationTest.testUserLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerTest.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerTest.testSuperAdminLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerTest.testUserLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsEntityNotFoundException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsRoleDoesNotMatchException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsWrongPasswordCredentialException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testSetters.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testUserConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;user-role-entites&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/himanshu/Desktop/Avisoft/HRMSAvisoft/src/main/java/com/example/HRMSAvisoft&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
@@ -195,6 +195,17 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -232,7 +243,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java</url>
-          <line>79</line>
+          <line>80</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
