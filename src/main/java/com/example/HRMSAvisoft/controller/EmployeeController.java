@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.controller;
 
+import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
