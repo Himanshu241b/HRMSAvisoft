@@ -111,6 +111,10 @@ public class UserService {
             super(email +" does not have the access to "+ role +" role.");
         }
     }
+    public void deleteUser(Long userId) {
+        User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
+        userRepository.deleteById(userId);
+    }
 
     public static class WrongPasswordCredentialsException extends IllegalAccessException{
         public WrongPasswordCredentialsException(String email){
@@ -123,5 +127,12 @@ public class UserService {
             super(email+ " already exists");
         }
     }
+
+    public static class UserNotFoundException extends RuntimeException{
+        public UserNotFoundException(Long id){
+            super("User with ID:" +id+" not found!!");
+        }
+    }
+
 
 }
