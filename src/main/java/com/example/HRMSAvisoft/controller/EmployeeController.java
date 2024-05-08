@@ -75,14 +75,14 @@ public class EmployeeController {
 
     }
     @PostMapping("/{employeeId}/addNewAddress")
-    public ResponseEntity<Map<String,Employee>> addAddressToEmployee(@PathVariable Long employeeId, @RequestBody Address address)throws EmployeeService.EmployeeNotFoundException {
+    public ResponseEntity<Map<String,Object>> addAddressToEmployee(@PathVariable Long employeeId, @RequestBody Address address)throws EmployeeService.EmployeeNotFoundException {
         Employee updatedEmployee = employeeService.addAddressToEmployee(employeeId, address);
-        return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee));
+        return ResponseEntity.ok().body(Map.of("UpdatedEmployee",updatedEmployee ,"message", "New Address Added", "Status", true));
     }
     @DeleteMapping("/{employeeId}/removeAddress/{addressId}")
-    public ResponseEntity<Map<String,Employee>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) {
+    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) {
         Employee updatedEmployee = employeeService.removeAddressFromEmployee(employeeId, addressId);
-        return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee));
+        return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee,"message", "Address Removed from Employee", "Status", true));
     }
 
     @ExceptionHandler({

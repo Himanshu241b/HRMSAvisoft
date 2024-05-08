@@ -141,8 +141,9 @@ public class EmployeeControllerTest {
 //    void testAddAddressToEmployee() throws Exception {
 //        // Given
 //        Long employeeId = 1L;
+//
 //        Address address = new Address();
-//        address.setAddressId(1L);
+//        address.setAddressId(2L);
 //        address.setPropertyNumber("123");
 //        address.setCountry("India");
 //
@@ -160,13 +161,77 @@ public class EmployeeControllerTest {
 //        // When/Then
 //        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee/{employeeId}/addNewAddress", employeeId)
 //                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{ \"addressId\": 1, \"propertyNumber\": \"123\", \"country\": \"USA\" }"))
+//                        .content("{ \"addressId\": 2, \"propertyNumber\": \"123\", \"country\": \"USA\" }"))
 //                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
 //                .andExpect(jsonPath("$.UpdatedEmployee.firstName").value("John"))
 //                .andExpect(jsonPath("$.UpdatedEmployee.addresses").isArray())
 //                .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].propertyNumber").value("123"))
-//                .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].country").value("India"));
+//                .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].country").value("India"))
+//                .andExpect(jsonPath("$.message").value("New Address Added"))
+//                .andExpect(jsonPath("$.Status").value(true));
+//        verify(employeeService, times(1)).addAddressToEmployee(employeeId, address);
+//
 //    }
+//@Test
+//void testAddAddressToEmployee() throws Exception {
+//    // Given
+//    Long employeeId = 2L;
+//    Address address = new Address();
+//    address.setAddressId(1L);
+//    address.setPropertyNumber("123");
+//    address.setCountry("India");
+//
+//    Employee employee = new Employee();
+//    employee.setEmployeeId(employeeId);
+//    employee.setFirstName("John");
+//
+//
+//    Employee updatedEmployee = new Employee();
+//    updatedEmployee.setEmployeeId(employeeId);
+//    updatedEmployee.setFirstName("John");
+//    updatedEmployee.getAddresses().add(address);
+//
+//    when(employeeService.addAddressToEmployee(employeeId, address)).thenReturn(updatedEmployee);
+//
+//    // When/Then
+//    mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee/{employeeId}/addNewAddress", employeeId)
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                    .content(objectMapper.writeValueAsString(address)))
+//            .andExpect(status().isOk())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
+//            .andExpect(jsonPath("$.UpdatedEmployee.firstName").value("John"))
+//            .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].country").value("India"))
+//            .andExpect(jsonPath("$.message").value("New Address Added"))
+//            .andExpect(jsonPath("$.Status").value(true));
+//
+//    // Verify that the service method was called with the correct arguments
+//    verify(employeeService, times(1)).addAddressToEmployee(employeeId, address);
+//}
+    @Test
+    void testRemoveAddressFromEmployee() throws Exception {
+        // Given
+        Long employeeId = 1L;
+        Long addressId = 2L;
+        Employee employee = new Employee();
+        employee.setEmployeeId(employeeId);
+        Address address = new Address();
+        address.setAddressId(addressId);
+
+        when(employeeService.removeAddressFromEmployee(employeeId, addressId)).thenReturn(employee);
+
+        // When/Then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/employee/{employeeId}/removeAddress/{addressId}", employeeId, addressId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
+                .andExpect(jsonPath("$.message").value("Address Removed from Employee"))
+                .andExpect(jsonPath("$.Status").value(true));
+
+        // Verify that the service method was called with the correct arguments
+        verify(employeeService, times(1)).removeAddressFromEmployee(employeeId, addressId);
+    }
 
 }
