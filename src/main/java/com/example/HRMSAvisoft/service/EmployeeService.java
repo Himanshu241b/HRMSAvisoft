@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -51,7 +52,13 @@ public class EmployeeService {
     }
 
 
-    public List<Employee> searchEmployeesByName(String name){
+    public List<Employee> searchEmployeesByName(String name)throws IllegalArgumentException{
+        if(name == ""){
+            throw new IllegalArgumentException("Search field empty");
+        }
+        if(!validateSearchTerm(name)){
+            throw new IllegalArgumentException("Only Alphabets allowed");
+        }
         List<Employee> searchedEmployees = employeeRepository.searchEmployeesByName(name);
         return searchedEmployees;
     }
@@ -103,6 +110,12 @@ public class EmployeeService {
         }
 
         return employeeRepository.save(employee);
+    }
+
+    private boolean validateSearchTerm(String term) {
+        // Regular expression pattern to allow only alphabets and spaces
+        String pattern = "^[a-zA-Z\\s]+$";
+        return Pattern.matches(pattern, term);
     }
 
     public static class EmployeeNotFoundException extends Exception {

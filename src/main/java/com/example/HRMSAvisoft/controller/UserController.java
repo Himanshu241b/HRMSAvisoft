@@ -54,8 +54,7 @@ public class UserController {
         CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
         createUserResponseDTO.setMessage("User Created Successfully");
         createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
-        String profileImageOfEmployee = (createdUserEmployee.getProfileImage() != null) ? createdUserEmployee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+createdUserEmployee.getFirstName()+" "+createdUserEmployee.getLastName();
-        createUserResponseDTO.setProfileImage(profileImageOfEmployee);
+        createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
 
@@ -78,8 +77,7 @@ public class UserController {
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());
             userResponse.setGender(employee.getGender());
-            String profileImageOfEmployee = (employee.getProfileImage() != null) ? employee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+employee.getFirstName()+" "+employee.getLastName();
-            userResponse.setProfileImage(profileImageOfEmployee);
+            userResponse.setProfileImage(employee.getProfileImage());
             userResponse.setDateOfBirth(employee.getDateOfBirth());
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());

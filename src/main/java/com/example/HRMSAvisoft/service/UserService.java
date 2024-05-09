@@ -71,6 +71,7 @@ public class UserService {
         newEmployee.setPosition(createUserDTO.getPosition());
         newEmployee.setSalary(createUserDTO.getSalary());
         newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
+        newEmployee.setProfileImage("https://api.dicebear.com/5.x/initials/svg?seed="+createUserDTO.getFirstName()+" "+createUserDTO.getLastName());
         Employee savedEmployee = employeeRepository.save(newEmployee);
 
         newUser.setEmployee(savedEmployee);

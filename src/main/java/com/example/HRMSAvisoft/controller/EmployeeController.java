@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/searchEmployee")
-    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam("name") String name){
+    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
         return ResponseEntity.ok(searchedEmployees);
     }
@@ -111,7 +111,8 @@ public class EmployeeController {
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
             IOException.class,
-            RuntimeException.class
+            RuntimeException.class,
+            IllegalArgumentException.class
 
     })
 
@@ -128,6 +129,10 @@ public class EmployeeController {
         }else if(exception instanceof NullPointerException) {
             message = exception.getMessage();
             status =  HttpStatus.BAD_REQUEST;
+        }
+        else if(exception instanceof IllegalArgumentException) {
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
         }
         else if (exception instanceof RuntimeException) {
             message = "Invalid image file";
