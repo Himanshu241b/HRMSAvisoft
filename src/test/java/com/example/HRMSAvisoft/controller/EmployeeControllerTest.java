@@ -1,9 +1,12 @@
 package com.example.HRMSAvisoft.controller;
 
+import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Gender;
+import com.example.HRMSAvisoft.entity.Position;
+import com.example.HRMSAvisoft.service.AddressService;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
+import java.util.Date;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -38,6 +42,8 @@ public class EmployeeControllerTest {
 
     @MockBean
     private EmployeeService employeeService;
+    @MockBean
+    private AddressService addressService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -46,12 +52,11 @@ public class EmployeeControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService)).build();
+         mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService)).build();
 
     }
     @Test
-   @WithMockUser
+    @WithMockUser
     @DisplayName("Test Get All Employees")
     public void testGetAllEmployees() throws Exception {
         // Given
@@ -137,101 +142,49 @@ public class EmployeeControllerTest {
         verify(employeeService, times(1)).getEmployeeById(employeeId);
         verify(employeeService, times(1)).updateEmployee(existingEmployee);
     }
-//    @Test
-//    void testAddAddressToEmployee() throws Exception {
-//        // Given
-//        Long employeeId = 1L;
-//
-//        Address address = new Address();
-//        address.setAddressId(2L);
-//        address.setPropertyNumber("123");
-//        address.setCountry("India");
-//
-//        Employee employee = new Employee();
-//        employee.setEmployeeId(employeeId);
-//        employee.setFirstName("John");
-//        Employee updatedEmployee = new Employee();
-//        updatedEmployee.setEmployeeId(employeeId);
-//        updatedEmployee.setFirstName("John");
-//        updatedEmployee.getAddresses().add(address);
-//
-//        when(employeeService.addAddressToEmployee(employeeId, address)).thenReturn(updatedEmployee);
-//
-//
-//        // When/Then
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee/{employeeId}/addNewAddress", employeeId)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{ \"addressId\": 2, \"propertyNumber\": \"123\", \"country\": \"USA\" }"))
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
-//                .andExpect(jsonPath("$.UpdatedEmployee.firstName").value("John"))
-//                .andExpect(jsonPath("$.UpdatedEmployee.addresses").isArray())
-//                .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].propertyNumber").value("123"))
-//                .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].country").value("India"))
-//                .andExpect(jsonPath("$.message").value("New Address Added"))
-//                .andExpect(jsonPath("$.Status").value(true));
-//        verify(employeeService, times(1)).addAddressToEmployee(employeeId, address);
-//
-//    }
-//@Test
-//void testAddAddressToEmployee() throws Exception {
-//    // Given
-//    Long employeeId = 2L;
-//    Address address = new Address();
-//    address.setAddressId(1L);
-//    address.setPropertyNumber("123");
-//    address.setCountry("India");
-//
-//    Employee employee = new Employee();
-//    employee.setEmployeeId(employeeId);
-//    employee.setFirstName("John");
-//
-//
-//    Employee updatedEmployee = new Employee();
-//    updatedEmployee.setEmployeeId(employeeId);
-//    updatedEmployee.setFirstName("John");
-//    updatedEmployee.getAddresses().add(address);
-//
-//    when(employeeService.addAddressToEmployee(employeeId, address)).thenReturn(updatedEmployee);
-//
-//    // When/Then
-//    mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee/{employeeId}/addNewAddress", employeeId)
-//                    .contentType(MediaType.APPLICATION_JSON)
-//                    .content(objectMapper.writeValueAsString(address)))
-//            .andExpect(status().isOk())
-//            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//            .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
-//            .andExpect(jsonPath("$.UpdatedEmployee.firstName").value("John"))
-//            .andExpect(jsonPath("$.UpdatedEmployee.addresses[0].country").value("India"))
-//            .andExpect(jsonPath("$.message").value("New Address Added"))
-//            .andExpect(jsonPath("$.Status").value(true));
-//
-//    // Verify that the service method was called with the correct arguments
-//    verify(employeeService, times(1)).addAddressToEmployee(employeeId, address);
-//}
     @Test
-    void testRemoveAddressFromEmployee() throws Exception {
-        // Given
+    public void testUpdateEmployeeDetails() throws Exception {
+        // Prepare test data
         Long employeeId = 1L;
-        Long addressId = 2L;
-        Employee employee = new Employee();
-        employee.setEmployeeId(employeeId);
-        Address address = new Address();
-        address.setAddressId(addressId);
+        UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO = new UpdateEmployeeDetailsDTO();
+        updateEmployeeDetailsDTO.setFirstName("John");
+        updateEmployeeDetailsDTO.setLastName("Doe");
+        updateEmployeeDetailsDTO.setContact("1234567890");
+        updateEmployeeDetailsDTO.setGender(Gender.MALE);
+        updateEmployeeDetailsDTO.setDateOfBirth("25/02/2001");
+        updateEmployeeDetailsDTO.setJoinDate("24/01/2024");
+        updateEmployeeDetailsDTO.setPosition(Position.DEVELOPER);
+        updateEmployeeDetailsDTO.setSalary(50000);
 
-        when(employeeService.removeAddressFromEmployee(employeeId, addressId)).thenReturn(employee);
+        Employee existingEmployee = new Employee();
+        existingEmployee.setEmployeeId(employeeId);
+        // Mock behavior of EmployeeService
+        when(employeeService.getEmployeeById(employeeId)).thenReturn(existingEmployee);
+        when(employeeService.updateEmployee(any(Employee.class))).thenReturn(existingEmployee);
 
-        // When/Then
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/employee/{employeeId}/removeAddress/{addressId}", employeeId, addressId))
+
+
+        // Perform PUT request
+        mockMvc.perform(put("/api/v1/employee/updateEmployeeDetails/{employeeId}", employeeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(updateEmployeeDetailsDTO)))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
-                .andExpect(jsonPath("$.message").value("Address Removed from Employee"))
+                .andExpect(jsonPath("$.message").value("Personal Details Updated"))
                 .andExpect(jsonPath("$.Status").value(true));
 
-        // Verify that the service method was called with the correct arguments
-        verify(employeeService, times(1)).removeAddressFromEmployee(employeeId, addressId);
+        // Verify that the EmployeeService methods were called
+        verify(employeeService, times(1)).getEmployeeById(employeeId);
+        verify(employeeService, times(1)).updateEmployee(any(Employee.class));
+        verifyNoMoreInteractions(employeeService);
     }
+    private String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

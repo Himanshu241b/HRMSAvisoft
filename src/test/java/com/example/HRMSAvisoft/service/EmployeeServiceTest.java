@@ -1,6 +1,5 @@
 package com.example.HRMSAvisoft.service;
 
-import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
@@ -102,58 +101,6 @@ public class EmployeeServiceTest {
         Assertions.assertEquals(employeeId, retrievedEmployee.getEmployeeId());
         Assertions.assertEquals("John Doe", retrievedEmployee.getFirstName());
         Mockito.verify(employeeRepository, Mockito.times(1)).getByEmployeeId(employeeId);
-    }
-    @Test
-    @DisplayName("Test Add Address to Employee")
-    void testAddAddressToEmployee() throws Exception{
-        // Given
-        Long employeeId = 1L;
-        Employee employee = new Employee();
-        employee.setEmployeeId(employeeId);
-        Address address = new Address();
-        address.setPropertyNumber("123");
-        address.setCountry("USA");
-        employee.getAddresses().add(address);
-        // Mock repository behavior
-        when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
-        when(addressRepository.save(address)).thenReturn(address);
-        when(employeeRepository.save(employee)).thenReturn(employee);
-        // When
-        Employee updatedEmployee = employeeService.addAddressToEmployee(employeeId, address);
-
-        // Then
-        assertNotNull(updatedEmployee);
-        assertTrue(updatedEmployee.getAddresses().contains(address));
-        verify(employeeRepository, times(1)).findById(employeeId);
-        verify(addressRepository, times(1)).save(address);
-        verify(employeeRepository, times(1)).save(employee);
-    }
-
-    @Test
-    @DisplayName("Test Remove Address From Employee")
-    void testRemoveAddressFromEmployee() throws Exception{
-        // Given
-        Long employeeId = 1L;
-        Long addressId = 2L;
-        Employee employee = new Employee();
-        employee.setEmployeeId(employeeId);
-        Address address = new Address();
-        address.setAddressId(addressId);
-        employee.getAddresses().add(address);
-
-        // Mock repository behavior
-        when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
-        when(addressRepository.findById(addressId)).thenReturn(Optional.of(address));
-        when(employeeRepository.save(employee)).thenReturn(employee);
-        // When
-        Employee updatedEmployee = employeeService.removeAddressFromEmployee(employeeId, addressId);
-
-        // Then
-        assertNotNull(updatedEmployee);
-        assertFalse(updatedEmployee.getAddresses().contains(address));
-        verify(employeeRepository, times(1)).findById(employeeId);
-        verify(addressRepository, times(1)).findById(addressId);
-        verify(employeeRepository, times(1)).save(employee);
     }
 
 

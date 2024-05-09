@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.config.CloudinaryConfiguration;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,8 @@ public class EmployeeServiceTests {
 
         @Value("${cloudinary.api_secret}")
         private String apiSecret = "iv4cQJz8xzihy7W-kiX69Fix0RY";
+        @Mock
+        private    AddressRepository addressRepository;
 
 
 
@@ -80,7 +83,7 @@ public class EmployeeServiceTests {
             );
 
 
-            EmployeeService employeeService = new EmployeeService(employeeRepository, cloudinaryConfiguration.cloudinary());
+            EmployeeService employeeService = new EmployeeService(employeeRepository, addressRepository,cloudinaryConfiguration.cloudinary());
 
             employeeService.uploadProfileImage(1L, file);
 
@@ -99,7 +102,8 @@ public class EmployeeServiceTests {
 
             MultipartFile file = Mockito.mock(MultipartFile.class);
 
-            EmployeeService employeeService = new EmployeeService(employeeRepository, cloudinary);
+
+            EmployeeService employeeService = new EmployeeService(employeeRepository,addressRepository, cloudinary);
 
             assertThrows(EmployeeService.EmployeeNotFoundException.class, () -> {
                 employeeService.uploadProfileImage(2L, file);
@@ -118,7 +122,7 @@ public class EmployeeServiceTests {
 
             Mockito.when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
 
-            EmployeeService employeeService = new EmployeeService(employeeRepository, cloudinary);
+            EmployeeService employeeService = new EmployeeService(employeeRepository, addressRepository,cloudinary);
 
             assertThrows(NullPointerException.class, () -> {
                 employeeService.uploadProfileImage(1L, null);
@@ -142,7 +146,7 @@ public class EmployeeServiceTests {
             byte[] fileContent = new byte[0];
             Mockito.when(file.getBytes()).thenReturn(fileContent);
 
-            EmployeeService employeeService = new EmployeeService(employeeRepository, cloudinary);
+            EmployeeService employeeService = new EmployeeService(employeeRepository, addressRepository,cloudinary);
 
             assertThrows(NullPointerException.class, () -> {
                 employeeService.uploadProfileImage(1L, file);

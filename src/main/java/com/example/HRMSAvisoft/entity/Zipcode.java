@@ -12,7 +12,6 @@ import lombok.Setter;
 @Table(name = "Address_Zipcode")
 public class Zipcode {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long zipCode;
 
     @Column(name = "city")

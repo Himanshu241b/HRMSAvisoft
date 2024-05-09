@@ -67,36 +67,7 @@ public class EmployeeService {
     public Employee updateEmployee(Employee updatedEmployee) {
         return employeeRepository.save(updatedEmployee);
     }
-    public Employee addAddressToEmployee(Long employeeId, Address address) throws EmployeeNotFoundException {
 
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
-
-        Address newAddress =addressRepository.save(address);
-        employee.getAddresses().add(newAddress);
-
-        return employeeRepository.save(employee);
-    }
-    public Employee removeAddressFromEmployee(Long employeeId, Long addressId) throws EmployeeNotFoundException {
-        // Retrieve the employee entity by its ID
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
-
-        Address addressToRemove=addressRepository.findById(addressId)
-                .orElseThrow(()->new AddressNotFoundException(addressId));
-
-        if (addressToRemove != null) {
-            if (employee.getAddresses().contains(addressToRemove)) {
-                employee.getAddresses().remove(addressToRemove);
-            } else {
-               throw new AddressNotFoundException(employeeId,addressId);
-            }
-        } else {
-            throw new AddressNotFoundException(addressId);
-        }
-
-        return employeeRepository.save(employee);
-    }
     public static class EmployeeNotFoundException extends Exception {
         public EmployeeNotFoundException(Long employeeId) {
             super("Employee not found with ID: " + employeeId);
