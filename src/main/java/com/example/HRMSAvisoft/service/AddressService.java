@@ -4,7 +4,6 @@ import com.example.HRMSAvisoft.dto.AddressDTO;
 import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Zipcode;
-import com.example.HRMSAvisoft.entity.ZipcodeRepository;
 import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.ZipCodeRepository;
