@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -88,27 +87,10 @@ public class EmployeeController {
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",updatedEmployee ,"message", "New Address Added", "Status", true));
     }
     @DeleteMapping("/{employeeId}/removeAddress/{addressId}")
-    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) throws EmployeeService.EmployeeNotFoundException{
+    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) throws EmployeeService.EmployeeNotFoundException {
         Employee updatedEmployee = employeeService.removeAddressFromEmployee(employeeId, addressId);
-        return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee,"message", "Address Removed from Employee", "Status", true));
+        return ResponseEntity.ok(Map.of("UpdatedEmployee", updatedEmployee, "message", "Address Removed from Employee", "Status", true));
     }
-
-
-
-//    @GetMapping("/getAllEmployees")
-//    public List<Employee> getAllEmployees() {
-//        return employeeService.getAllEmployees();
-//    }
-//    @GetMapping("{employeeId}")
-//    public ResponseEntity<Object> getEmployeeById(@PathVariable Long employeeId)
-//    {
-//       Employee employee= employeeService.getEmployeeById(employeeId);
-//       if(employee!=null){
-//           return MyResponseGenerator.generateResponse(HttpStatus.OK,true,"Employee Retrieved",employee);
-//       }else {
-//           return MyResponseGenerator.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR,false,"Something Went Wrong",employee);
-//       }
-//    }
 
 //    @PutMapping("/{employeeId}")
 //    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {

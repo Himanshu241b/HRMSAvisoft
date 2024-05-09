@@ -8,12 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmployeeControllerTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +43,7 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Application.HrmsAvisoftApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.EmployeeControllerTest.test_search_employee_success.executor": "Run",
     "JUnit.EmployeeControllerTests.executor": "Run",
     "JUnit.EmployeeControllerTests.testUploadProfileImage_Success.executor": "Run",
     "JUnit.EmployeeControllerTests.test_imageUploadSuccess.executor": "Run",
@@ -60,6 +57,7 @@
     "JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor": "Run",
     "JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor": "Run",
     "JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor": "Run",
+    "JUnit.EmployeeServiceTest.test_returns_matching_employees.executor": "Run",
     "JUnit.EmployeeServiceTests.executor": "Run",
     "JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor": "Run",
     "JUnit.EmployeeServiceTests.test_returns_matching_employees.executor": "Run",
@@ -114,7 +112,23 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.EmployeeServiceTest.test_returns_matching_employees">
+  <component name="RunManager">
+    <configuration name="EmployeeControllerTest.test_search_employee_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.EmployeeControllerTest" />
+      <option name="METHOD_NAME" value="test_search_employee_success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="EmployeeRepositoryTests.test_searchEmployeesByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
@@ -163,21 +177,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.UserServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="UserServiceTest.test_valid_login" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
@@ -196,11 +195,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EmployeeControllerTest.test_search_employee_success" />
+        <item itemvalue="JUnit.EmployeeRepositoryTests.test_searchEmployeesByName" />
         <item itemvalue="JUnit.EmployeeServiceTest.test_returns_matching_employees" />
         <item itemvalue="JUnit.UserServiceTest.test_valid_login" />
-        <item itemvalue="JUnit.EmployeeRepositoryTests.test_searchEmployeesByName" />
         <item itemvalue="JUnit.EmployeeServiceTests.test_returns_matching_employees" />
-        <item itemvalue="JUnit.UserServiceTest" />
       </list>
     </recent_temporary>
   </component>

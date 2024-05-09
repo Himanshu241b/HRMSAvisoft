@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -34,19 +35,23 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EmployeeController.class)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 public class EmployeeControllerTest {
-
+    @Autowired
     private MockMvc mockMvc;
-
+    ;
     @MockBean
     private EmployeeService employeeService;
     @Autowired
@@ -58,7 +63,10 @@ public class EmployeeControllerTest {
     String port;
 
     @Value("${offset.uploadImage.url}")
-    private String uploadImageUrl;
+    String uploadImageUrl;
+
+    @Value("${searchEmployee.url}")
+    String searchEmployeeUrl;
 
     @BeforeEach
     public void setUp() {
@@ -275,8 +283,28 @@ public class EmployeeControllerTest {
 
     @Test
     @DisplayName("test_search_employee_success")
-    @Transactional
-    void test_search_employee_success(){
+    void test_search_employee_success() throws Exception {
 
+        Employee employee1 = new Employee();
+        Employee employee2 = new Employee();
+        employee1.setFirstName("test");
+        employee1.setLastName("user");
+        employee2.setFirstName("test2");
+        employee2.setLastName("user2");
+        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
+
+        // Mock the service method
+        when(employeeService.searchEmployeesByName("test")).thenReturn(mockEmployees);
+
+        // Perform the MVC request and verify the results
+        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:5555/api/v1/employee/searchEmployee")
+                        .param("name", "test")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].firstName").value("test"))
+                .andExpect(jsonPath("$[1].firstName").value("test2"))
+                .andExpect(jsonPath("$[0].lastName").value("user"))
+                .andExpect(jsonPath("$[1].lastName").value("user2"));
     }
 }
