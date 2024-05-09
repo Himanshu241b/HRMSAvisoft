@@ -26,6 +26,9 @@ public class Employee {
     private String lastName;
 
     private String contact;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EmergencyContact> emergencyContacts = new ArrayList<EmergencyContact>();
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<Address>();

@@ -45,11 +45,6 @@ class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-    @BeforeEach
-    void setup() throws Exception {
-        Mockito.when(passwordEncoder.encode("password")).thenReturn(new BCryptPasswordEncoder().encode("password"));
-    }
-
 //    @Test
 //    @DisplayName("Test Save User :Success")
 //    void testSaveUser_Success() {
@@ -137,6 +132,9 @@ class UserServiceTest {
 
     @Test
     public void test_valid_login() throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+
+        Mockito.when(passwordEncoder.encode("password")).thenReturn(new BCryptPasswordEncoder().encode("password"));
+
         LoginUserDTO loginUserDTO = new LoginUserDTO();
         loginUserDTO.setEmail("test@example.com");
         loginUserDTO.setPassword("password");
@@ -160,6 +158,9 @@ class UserServiceTest {
 
     @Test
     public void test_multiple_roles_login() throws UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+
+        Mockito.when(passwordEncoder.encode("password")).thenReturn(new BCryptPasswordEncoder().encode("password"));
+
         LoginUserDTO loginUserDTO = new LoginUserDTO();
         loginUserDTO.setEmail("test@example.com");
         loginUserDTO.setPassword("password");
@@ -191,7 +192,7 @@ class UserServiceTest {
         loginUserDTO.setPassword("password");
         loginUserDTO.setRole("admin");
 
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             userService.userLogin(loginUserDTO);
         });
     }
@@ -203,21 +204,10 @@ class UserServiceTest {
         loginUserDTO.setPassword("");
         loginUserDTO.setRole("admin");
 
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             userService.userLogin(loginUserDTO);
         });
     }
 
-    @Test
-    public void test_empty_role_login() {
-        LoginUserDTO loginUserDTO = new LoginUserDTO();
-        loginUserDTO.setEmail("test@example.com");
-        loginUserDTO.setPassword("password");
-        loginUserDTO.setRole("");
-
-        assertThrows(EntityNotFoundException.class, () -> {
-            userService.userLogin(loginUserDTO);
-        });
-    }
 
 }

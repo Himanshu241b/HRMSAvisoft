@@ -54,14 +54,13 @@ public class UserController {
         CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
         createUserResponseDTO.setMessage("User Created Successfully");
         createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
-        String profileImageOfEmployee = (createdUserEmployee.getProfileImage() != null) ? createdUserEmployee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+createdUserEmployee.getFirstName()+" "+createdUserEmployee.getLastName();
-        createUserResponseDTO.setProfileImage(profileImageOfEmployee);
+        createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
+    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, IllegalArgumentException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
         User loggedInUser = userService.userLogin(loginUserDTO);
 
         LoginUserResponseDTO userResponse = new LoginUserResponseDTO();
@@ -78,8 +77,7 @@ public class UserController {
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());
             userResponse.setGender(employee.getGender());
-            String profileImageOfEmployee = (employee.getProfileImage() != null) ? employee.getProfileImage() : "https://api.dicebear.com/5.x/initials/svg?seed="+employee.getFirstName()+" "+employee.getLastName();
-            userResponse.setProfileImage(profileImageOfEmployee);
+            userResponse.setProfileImage(employee.getProfileImage());
             userResponse.setDateOfBirth(employee.getDateOfBirth());
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());
@@ -97,22 +95,17 @@ public class UserController {
     }
 
 
-
-    @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId)throws UserService.UserNotFoundException
-    {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok().body("User Deleted Successfully  ");
-    }
-
-    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class})
-
+    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
         if(exception instanceof EntityNotFoundException){
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
+        }
+        else if(exception instanceof IllegalArgumentException){
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
         }
         else if(exception instanceof UserService.IllegalAccessRoleException){
             message = exception.getMessage();

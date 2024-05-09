@@ -2,7 +2,6 @@ package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
-import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Gender;
 import com.example.HRMSAvisoft.entity.Position;
@@ -14,9 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,20 +25,33 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EmployeeController.class)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 public class EmployeeControllerTest {
-
+    @Autowired
     private MockMvc mockMvc;
-
+    ;
     @MockBean
     private EmployeeService employeeService;
     @MockBean
@@ -49,11 +61,21 @@ public class EmployeeControllerTest {
 
     @InjectMocks
     private EmployeeController employeeController;
+    HttpClient client;
+    String port;
+
+    @Value("${offset.uploadImage.url}")
+    String uploadImageUrl;
+
+    @Value("${searchEmployee.url}")
+    String searchEmployeeUrl;
 
     @BeforeEach
     public void setUp() {
          mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService)).build();
 
+        client = HttpClient.newHttpClient();
+        port = "5555";
     }
     @Test
     @WithMockUser
@@ -187,4 +209,51 @@ public class EmployeeControllerTest {
     }
 
 
+
+//    @Test
+//    @DisplayName("test_image_upload_success")
+//    @Transactional
+//    void test_imageUploadSuccess() throws IOException, InterruptedException{
+//
+//        MultipartFile file = Mockito.mock(MultipartFile.class);
+//
+//        byte[] fileContent = "file content".getBytes();
+//        Mockito.when(file.getBytes()).thenReturn(fileContent);
+//
+//        HttpRequest postRequest = HttpRequest.newBuilder()
+//                .uri(URI.create(uploadImageUrl))
+//                .header("Content-Type", "multipart/form-data")
+//                .POST(HttpRequest.BodyPublishers.ofByteArray(file.getBytes()))
+//                .build();
+//
+//        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+//        assertEquals(200, postResponse.statusCode());
+//    }
+
+    @Test
+    @DisplayName("test_search_employee_success")
+    void test_search_employee_success() throws Exception {
+
+        Employee employee1 = new Employee();
+        Employee employee2 = new Employee();
+        employee1.setFirstName("test");
+        employee1.setLastName("user");
+        employee2.setFirstName("test2");
+        employee2.setLastName("user2");
+        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
+
+        // Mock the service method
+        when(employeeService.searchEmployeesByName("test")).thenReturn(mockEmployees);
+
+        // Perform the MVC request and verify the results
+        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:5555/api/v1/employee/searchEmployee")
+                        .param("name", "test")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].firstName").value("test"))
+                .andExpect(jsonPath("$[1].firstName").value("test2"))
+                .andExpect(jsonPath("$[0].lastName").value("user"))
+                .andExpect(jsonPath("$[1].lastName").value("user2"));
+    }
 }

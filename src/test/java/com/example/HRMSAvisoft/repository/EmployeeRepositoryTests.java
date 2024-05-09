@@ -1,13 +1,17 @@
 package com.example.HRMSAvisoft.repository;
 
 import com.example.HRMSAvisoft.entity.*;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+<<<<<<< HEAD
 
+=======
+>>>>>>> c788712962bafbf84390880e6a41861fcc9302a2
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +33,8 @@ public class EmployeeRepositoryTests {
 
 
     Long empId = 9L;
-    String firstName = "test";
-    String lastName = "user";
+    String firstName = "newUser";
+    String lastName = "testeruser";
     String contact = "8539228375";
     BigDecimal salary = new BigDecimal(20000);
     Position position = Position.TESTER;
@@ -176,7 +180,31 @@ public class EmployeeRepositoryTests {
         assertNotNull(updatedEmployee);
         assertEquals("John", updatedEmployee.getFirstName());
         assertEquals("Cena", updatedEmployee.getLastName());
-
-
     }
+
+    @Test
+    @DisplayName("test_searchEmployeesByName")
+    @Transactional
+    void test_searchEmployeesByName(){
+        Employee employee = new Employee();
+        employee.setEmployeeId(empId);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setContact(contact);
+        employee.setSalary(salary);
+        employee.setPosition(position);
+        employee.setGender(gender);
+        employee.setJoinDate(joinDate);
+        employee.setDateOfBirth(dateOfBirth);
+
+        savedEmployee = employeeRepository.save(employee);
+
+        List<Employee> employeeFoundBySearch = employeeRepository.searchEmployeesByName(firstName);
+        assertEquals(1, employeeFoundBySearch.size());
+        assertEquals(empId, employeeFoundBySearch.get(0).getEmployeeId());
+        assertEquals(firstName, employeeFoundBySearch.get(0).getFirstName());
+        assertEquals(dateOfBirth, employeeFoundBySearch.get(0).getDateOfBirth());
+    }
+
+
 }

@@ -9,6 +9,7 @@ import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.RoleRepository;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,6 @@ public class UserService {
     }
     public User getUserById(Long id){
         User user=userRepository.getByUserId(id);
-
         return user;
     }
     public Employee saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
@@ -71,6 +71,7 @@ public class UserService {
         newEmployee.setPosition(createUserDTO.getPosition());
         newEmployee.setSalary(createUserDTO.getSalary());
         newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
+        newEmployee.setProfileImage("https://api.dicebear.com/5.x/initials/svg?seed="+createUserDTO.getFirstName()+" "+createUserDTO.getLastName());
         Employee savedEmployee = employeeRepository.save(newEmployee);
 
         newUser.setEmployee(savedEmployee);
@@ -80,7 +81,15 @@ public class UserService {
 
     }
 
-    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException, IllegalAccessRoleException{
+    public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException, IllegalAccessRoleException, IllegalArgumentException{
+
+        if (loginUserDTO.getEmail() == null || loginUserDTO.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+        if (loginUserDTO.getPassword() == null || loginUserDTO.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+
         User loggedInUser = userRepository.getByEmail(loginUserDTO.getEmail());
         if(loggedInUser == null){
             throw new EntityNotFoundException("User with email " + loginUserDTO.getEmail()+" not found");

@@ -36,14 +36,16 @@ pipeline{
             steps {
 
                     script {
-                    def sshCommand = "ssh -i ${SSH_CREDENTIALS_ID} ${SSH_USER}@${SSH_HOST}"
-                    sshCommand += " 'docker stop \$(docker ps -q) &&  docker system prune -a --force && docker pull himanshu241b/app && docker run -p 80:5555 -d himanshu241b/app'"
+                        // SSH into EC2 instance and run commands
+                        def sshCommand = "ssh -i ${SSH_CREDENTIALS_ID} ${SSH_USER}@${SSH_HOST}"
+                        sshCommand += " 'docker stop \$(docker ps -q) &&  docker system prune -a --force && docker pull himanshu241b/app && docker run -p 80:5555 -d himanshu241b/app'"
 
-                    sh(script: sshCommand, returnStatus: true)
-
+                        // Execute SSH command
+                        sh(script: sshCommand, returnStatus: true)
                     }
-
             }
         }
     }
 }
+
+

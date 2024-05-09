@@ -1,11 +1,8 @@
 package com.example.HRMSAvisoft.service;
 
-import com.example.HRMSAvisoft.entity.Address;
-
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.entity.Employee;
-import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,23 +12,24 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
 public class EmployeeService {
 
 
+    private  Cloudinary cloudinary;
 
-    private EmployeeRepository employeeRepository;
-    private AddressRepository addressRepository;
-    private Cloudinary cloudinary;
+    private  EmployeeRepository employeeRepository;
 
-    EmployeeService(EmployeeRepository employeeRepository,AddressRepository addressRepository,Cloudinary cloudinary){
-    this.employeeRepository = employeeRepository;
-    this.addressRepository = addressRepository;
-    this.cloudinary = cloudinary;
+
+    @Autowired
+    EmployeeService(EmployeeRepository employeeRepository, Cloudinary cloudinary){
+
+        this.employeeRepository = employeeRepository;
+        this.cloudinary = cloudinary;
     }
-
     public void uploadProfileImage(Long employeeId, MultipartFile file)throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
 
@@ -49,17 +47,30 @@ public class EmployeeService {
         employee.setProfileImage(imageUrl);
         employeeRepository.save(employee);
     }
+
+
+    public List<Employee> searchEmployeesByName(String name)throws IllegalArgumentException{
+        if(name == ""){
+            throw new IllegalArgumentException("Search field empty");
+        }
+        if(!validateSearchTerm(name)){
+            throw new IllegalArgumentException("Only Alphabets allowed");
+        }
+        List<Employee> searchedEmployees = employeeRepository.searchEmployeesByName(name);
+        return searchedEmployees;
+    }
+
     public List<Employee> getAllEmployees()throws DataAccessException
     {
         return employeeRepository.findAll();
     }
     public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException,NullPointerException
     {
-      Employee employee= employeeRepository.getByEmployeeId(employeeId);
-      if(employee!=null)return employee;
-      else {
-          throw new EmployeeNotFoundException(employeeId);
-      }
+        Employee employee= employeeRepository.getByEmployeeId(employeeId);
+        if(employee!=null)return employee;
+        else {
+            throw new EmployeeNotFoundException(employeeId);
+        }
     }
     public void deleteEmployeeById(Long employeeId) {
         employeeRepository.deleteById(employeeId);
@@ -68,13 +79,26 @@ public class EmployeeService {
         return employeeRepository.save(updatedEmployee);
     }
 
+
+
+
+    private boolean validateSearchTerm(String term) {
+        // Regular expression pattern to allow only alphabets and spaces
+        String pattern = "^[a-zA-Z\\s]+$";
+        return Pattern.matches(pattern, term);
+    }
+
     public static class EmployeeNotFoundException extends Exception {
         public EmployeeNotFoundException(Long employeeId) {
             super("Employee not found with ID: " + employeeId);
         }
     }
+
+
     public static class AddressNotFoundException extends RuntimeException{
         public AddressNotFoundException(Long addressId){super("Address not found with ID: " + addressId);}
         public AddressNotFoundException(Long employeeId,Long addressId){super("Employee with ID :"+employeeId+" does not contain address with ID : "+addressId);}
     }
+
+
 }
