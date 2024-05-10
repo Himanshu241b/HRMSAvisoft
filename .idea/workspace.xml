@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmergencyContactController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/EmergencyContact.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmergencyContactRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmergencyContactService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/CreateEmergencyContactDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmergencyContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmergencyContactController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmergencyContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmergencyContactService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,73 +39,73 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Application.HrmsAvisoftApplication.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.EmployeeControllerTest.test_search_employee_success.executor": "Run",
-    "JUnit.EmployeeControllerTests.executor": "Run",
-    "JUnit.EmployeeControllerTests.testUploadProfileImage_Success.executor": "Run",
-    "JUnit.EmployeeControllerTests.test_imageUploadSuccess.executor": "Run",
-    "JUnit.EmployeeControllerTests.test_null_employeeId_parameter.executor": "Run",
-    "JUnit.EmployeeControllerTests.test_null_file_parameter.executor": "Run",
-    "JUnit.EmployeeControllerTests.test_success_no_exceptions.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testDeleteEmployee.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testSaveEmployee.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testUpdateEmployee.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor": "Run",
-    "JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor": "Run",
-    "JUnit.EmployeeServiceTest.test_returns_matching_employees.executor": "Run",
-    "JUnit.EmployeeServiceTests.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_returns_matching_employees.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_validEmployeeIdAndDifferentNameSameContentImageFile.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_validEmployeeIdAndEmptyImageFile.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_validEmployeeIdAndNullImageFile.executor": "Run",
-    "JUnit.EmployeeServiceTests.test_validEmployeeIdAndValidImageFile.executor": "Run",
-    "JUnit.EmployeeTests.executor": "Run",
-    "JUnit.EmployeeTests.testEmployeeConstructor.executor": "Run",
-    "JUnit.JWTServiceTests.executor": "Run",
-    "JUnit.JWTServiceTests.testCreateJWT.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveRoles.executor": "Run",
-    "JUnit.JWTServiceTests.testRetrieveUserId.executor": "Run",
-    "JUnit.JWTServiceTests.testSetJwtKey.executor": "Run",
-    "JUnit.RoleTest.testRoleGetterSetter.executor": "Run",
-    "JUnit.TestUserRepository.executor": "Run",
-    "JUnit.TestUserRepository.testSaveUser.executor": "Run",
-    "JUnit.UserControllerTest.testUserLogin.executor": "Run",
-    "JUnit.UserRepositoryTests.executor": "Run",
-    "JUnit.UserRepositoryTests.testSaveUser.executor": "Run",
-    "JUnit.UserServiceTest.executor": "Run",
-    "JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_Success.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsEntityNotFoundException.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsRoleDoesNotMatchException.executor": "Run",
-    "JUnit.UserServiceTest.testSuperAdminLogin_throwsWrongPasswordCredentialException.executor": "Run",
-    "JUnit.UserServiceTest.test_empty_email_login.executor": "Run",
-    "JUnit.UserServiceTest.test_empty_password_login.executor": "Run",
-    "JUnit.UserServiceTest.test_empty_role_login.executor": "Run",
-    "JUnit.UserServiceTest.test_multiple_roles_login.executor": "Run",
-    "JUnit.UserServiceTest.test_valid_login.executor": "Run",
-    "JUnit.UserTests.executor": "Run",
-    "JUnit.UserTests.testSetters.executor": "Run",
-    "JUnit.UserTests.testUserConstructor.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "user-and-employee-registration",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/himanshu/.m2/repository",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.EmployeeControllerTest.test_search_employee_success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.testUploadProfileImage_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_imageUploadSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_null_employeeId_parameter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_null_file_parameter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_success_no_exceptions.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testDeleteEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testSaveEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testUpdateEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.test_returns_matching_employees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_returns_matching_employees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndDifferentNameSameContentImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndEmptyImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndNullImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndValidImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.testEmployeeConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testCreateJWT.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveRoles.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testSetJwtKey.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RoleTest.testRoleGetterSetter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerTest.testUserLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsEntityNotFoundException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsRoleDoesNotMatchException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsWrongPasswordCredentialException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_email_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_password_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_role_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_multiple_roles_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_valid_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testSetters.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testUserConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev-server&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/himanshu/.m2/repository&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
