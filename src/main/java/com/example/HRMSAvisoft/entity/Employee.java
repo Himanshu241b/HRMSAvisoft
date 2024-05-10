@@ -21,6 +21,9 @@ public class Employee {
     @Column(nullable = false)
     private Long employeeId;
 
+    @Column(unique = true)
+    private String employeeCode;
+
     private String firstName;
 
     private String lastName;
@@ -41,6 +44,12 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    private String adhaarNumber;
+
+    private String panNumber;
+
+    private String eanNumber;
+
     private String profileImage;
 
     private String dateOfBirth;
@@ -50,6 +59,8 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
+
+
 
 }
 

@@ -37,10 +37,12 @@ public class UserService {
         this.roleRepository=roleRepository;
         this.employeeRepository=employeeRepository;
     }
+
     public User getUserById(Long id){
         User user=userRepository.getByUserId(id);
         return user;
     }
+
     public Employee saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
 
         User alreadyRegisteredUser = userRepository.getByEmail(createUserDTO.getEmail());
@@ -135,6 +137,7 @@ public class UserService {
             super(email +" does not have the access to "+ role +" role.");
         }
     }
+
     public void deleteUser(Long userId) {
         User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
         userRepository.deleteById(userId);
