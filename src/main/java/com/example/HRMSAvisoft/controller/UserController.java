@@ -65,7 +65,6 @@ public class UserController {
         NewUserResponseDTO newUser=new NewUserResponseDTO();
         newUser.setUserId(createdUser.getUserId());
         newUser.setEmail(createdUser.getEmail());
-        newUser.setCreatedBy(createdUser.getCreatedBy());
         newUser.setCreatedAt(createdUser.getCreatedAt());
         newUser.setEmployeeId(createdUser.getEmployee().getEmployeeId());
 

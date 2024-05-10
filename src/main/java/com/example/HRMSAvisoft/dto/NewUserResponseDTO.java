@@ -12,7 +12,5 @@ public class NewUserResponseDTO {
     private Long userId;
     private String email;
     private String createdAt;
-
-    private User createdBy;
     private Long employeeId;
 }

@@ -30,10 +30,10 @@ public class Employee {
 
     private String contact;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<EmergencyContact> emergencyContacts = new ArrayList<EmergencyContact>();
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> addresses = new ArrayList<Address>();
 
     @Enumerated(EnumType.STRING)
