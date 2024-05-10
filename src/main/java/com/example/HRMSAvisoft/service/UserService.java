@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.service;
 
+import com.example.HRMSAvisoft.dto.AddNewUserDTO;
 import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
@@ -79,6 +80,28 @@ public class UserService {
 
         return savedEmployee;
 
+    }
+    public User addNewUser(AddNewUserDTO addNewUserDTO, User loggedInUser)throws IOException,EmailAlreadyExistsException{
+        User alreadyRegisteredUser = userRepository.getByEmail(addNewUserDTO.getEmail());
+        if(alreadyRegisteredUser!=null){
+            throw new EmailAlreadyExistsException(addNewUserDTO.getEmail());
+        }
+        User newUser=new User();
+        newUser.setEmail(addNewUserDTO.getEmail());
+        newUser.setPassword(passwordEncoder.encode(addNewUserDTO.getPassword()));
+
+        newUser.setCreatedBy(loggedInUser);
+        LocalDateTime createdAt = LocalDateTime.now();
+        DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        newUser.setCreatedAt(createdAt.format(createdAtFormatter));
+
+        Role roleToAdd = roleRepository.getByRole(addNewUserDTO.getRole());
+        newUser.getRoles().add(roleToAdd);
+        Employee employee=new Employee();
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        newUser.setEmployee(savedEmployee);
+        return userRepository.save(newUser);
     }
 
     public User userLogin(LoginUserDTO loginUserDTO) throws EntityNotFoundException, WrongPasswordCredentialsException, IllegalAccessRoleException, IllegalArgumentException{

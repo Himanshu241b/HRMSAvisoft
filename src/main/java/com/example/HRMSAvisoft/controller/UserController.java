@@ -57,7 +57,25 @@ public class UserController {
         createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
+    @PostMapping("/addNewUser")
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
+                                                         @RequestBody AddNewUserDTO addNewUserDTO)throws IOException,UserService.EmailAlreadyExistsException{
+        User createdUser=userService.addNewUser(addNewUserDTO,loggedInUser);
+        NewUserResponseDTO newUser=new NewUserResponseDTO();
+        newUser.setUserId(createdUser.getUserId());
+        newUser.setEmail(createdUser.getEmail());
+        newUser.setCreatedBy(createdUser.getCreatedBy());
+        newUser.setCreatedAt(createdUser.getCreatedAt());
+        newUser.setEmployeeId(createdUser.getEmployee().getEmployeeId());
 
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("message", "New User Created!!");
+        response.put("success", true);
+        response.put("newUser", newUser);
+        return ResponseEntity.ok(response);
+
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginUserDTO loginUserDTO)throws EntityNotFoundException, IllegalArgumentException, UserService.WrongPasswordCredentialsException, UserService.IllegalAccessRoleException {
@@ -95,7 +113,10 @@ public class UserController {
     }
 
 
-    @ExceptionHandler({UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class,UserService.EmailAlreadyExistsException.class, IOException.class, UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
+    @ExceptionHandler(
+            {UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class
+                    ,UserService.EmailAlreadyExistsException.class, IOException.class,
+                    UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
