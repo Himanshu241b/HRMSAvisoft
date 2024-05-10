@@ -1,8 +1,8 @@
 package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
+import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
-import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,10 @@ import java.util.Map;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
-    EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService){
+
         this.employeeService = employeeService;
     }
 
@@ -67,7 +69,8 @@ public class EmployeeController {
     }
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PutMapping("/updatePersonalDetails/{employeeId}")
-    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeService.EmployeeNotFoundException{
+    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+        {
 
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
         existingEmployee.setFirstName(updatePersonalDetails.getFirstName());
@@ -78,35 +81,25 @@ public class EmployeeController {
         Employee savedEmployee = employeeService.updateEmployee(existingEmployee);
 
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",savedEmployee , "message", "Personal Details Updated", "Status", true));
-
+    }
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PutMapping("/updateEmployeeDetails/{employeeId}")
+    public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+    {
+        Employee existingEmployee = employeeService.getEmployeeById(employeeId);
+        if(updateEmployeeDetailsDTO.getFirstName()!=null) existingEmployee.setFirstName(updateEmployeeDetailsDTO.getFirstName());
+        if(updateEmployeeDetailsDTO.getLastName()!=null) existingEmployee.setLastName(updateEmployeeDetailsDTO.getLastName());
+        if(updateEmployeeDetailsDTO.getContact()!=null)existingEmployee.setContact(updateEmployeeDetailsDTO.getContact());
+        if(updateEmployeeDetailsDTO.getGender()!=null)existingEmployee.setGender(updateEmployeeDetailsDTO.getGender());
+        if(updateEmployeeDetailsDTO.getDateOfBirth()!=null)existingEmployee.setDateOfBirth(updateEmployeeDetailsDTO.getDateOfBirth());
+        if(updateEmployeeDetailsDTO.getJoinDate()!=null)existingEmployee.setJoinDate(updateEmployeeDetailsDTO.getJoinDate());
+        if(updateEmployeeDetailsDTO.getPosition()!=null)existingEmployee.setPosition(updateEmployeeDetailsDTO.getPosition());
+        if(updateEmployeeDetailsDTO.getSalary()!=0)existingEmployee.setSalary(  BigDecimal.valueOf(updateEmployeeDetailsDTO.getSalary()));
+        Employee savedEmployee = employeeService.updateEmployee(existingEmployee);
+        return ResponseEntity.ok().body(Map.of("UpdatedEmployee",savedEmployee , "message", "Personal Details Updated", "Status", true));
 
     }
-    @PostMapping("/{employeeId}/addNewAddress")
-    public ResponseEntity<Map<String,Object>> addAddressToEmployee(@PathVariable Long employeeId, @RequestBody Address address)throws EmployeeService.EmployeeNotFoundException {
-        Employee updatedEmployee = employeeService.addAddressToEmployee(employeeId, address);
-        return ResponseEntity.ok().body(Map.of("UpdatedEmployee",updatedEmployee ,"message", "New Address Added", "Status", true));
-    }
-    @DeleteMapping("/{employeeId}/removeAddress/{addressId}")
-    public ResponseEntity<Map<String,Object>> removeAddressFromEmployee(@PathVariable Long employeeId, @PathVariable Long addressId) throws EmployeeService.EmployeeNotFoundException {
-        Employee updatedEmployee = employeeService.removeAddressFromEmployee(employeeId, addressId);
-        return ResponseEntity.ok(Map.of("UpdatedEmployee", updatedEmployee, "message", "Address Removed from Employee", "Status", true));
-    }
 
-//    @PutMapping("/{employeeId}")
-//    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {
-//        try {
-//            Employee existingEmployee = employeeService.getEmployeeById(employeeId);
-//            if (existingEmployee == null) {
-//                return ResponseEntity.notFound().build();
-//            }
-//            updatedEmployee.setEmployeeId(employeeId);
-//            Employee savedEmployee = employeeService.updateEmployee(updatedEmployee);
-//
-//            return ResponseEntity.ok(savedEmployee);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
 
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
