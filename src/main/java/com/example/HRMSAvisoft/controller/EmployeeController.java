@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.controller;
 
+import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
@@ -28,7 +29,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}/uploadImage")
     public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         employeeService.uploadProfileImage(employeeId, file);
@@ -40,6 +41,13 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
         return ResponseEntity.ok(searchedEmployees);
+    }
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+    @PostMapping("/{employeeId}")
+    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody CreateEmployeeDTO createEmployee) throws EmployeeService.EmployeeNotFoundException {
+        Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
+        return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
 
 

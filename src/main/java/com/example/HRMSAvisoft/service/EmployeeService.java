@@ -2,6 +2,7 @@ package com.example.HRMSAvisoft.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,23 @@ public class EmployeeService {
         }
         List<Employee> searchedEmployees = employeeRepository.searchEmployeesByName(name);
         return searchedEmployees;
+    }
+
+    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException{
+        Employee employeeToAddInfo = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException(employeeId));
+        employeeToAddInfo.setFirstName(createEmployeeDTO.getFirstName());
+        employeeToAddInfo.setLastName(createEmployeeDTO.getLastName());
+        employeeToAddInfo.setContact(createEmployeeDTO.getContact());
+        employeeToAddInfo.setGender(createEmployeeDTO.getGender());
+        employeeToAddInfo.setSalary(createEmployeeDTO.getSalary());
+        employeeToAddInfo.setPosition(createEmployeeDTO.getPosition());
+        employeeToAddInfo.setJoinDate(createEmployeeDTO.getJoinDate());
+        employeeToAddInfo.setAdhaarNumber(createEmployeeDTO.getAdhaarNumber());
+        employeeToAddInfo.setPanNumber(createEmployeeDTO.getPanNumber());
+        employeeToAddInfo.setEanNumber(createEmployeeDTO.getEanNumber());
+        employeeToAddInfo.setDateOfBirth(createEmployeeDTO.getDateOfBirth());
+
+        return employeeRepository.save(employeeToAddInfo);
     }
 
     public List<Employee> getAllEmployees()throws DataAccessException

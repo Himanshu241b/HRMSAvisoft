@@ -47,7 +47,7 @@ public class UserController {
 
 
     @PostMapping("/saveUser")
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<CreateUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser,
                                         @RequestBody CreateUserDTO createUserDTO) throws IOException {
         Employee createdUserEmployee = userService.saveUser(createUserDTO, loggedInUser);
@@ -94,7 +94,8 @@ public class UserController {
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());
             userResponse.setGender(employee.getGender());
-            userResponse.setProfileImage(employee.getProfileImage());
+            String userProfileImage = userResponse.getProfileImage() == null ? "https://api.dicebear.com/5.x/initials/svg?seed="+userResponse.getFirstName()+" "+userResponse.getLastName() : userResponse.getProfileImage();
+            userResponse.setProfileImage(userProfileImage);
             userResponse.setDateOfBirth(employee.getDateOfBirth());
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());
