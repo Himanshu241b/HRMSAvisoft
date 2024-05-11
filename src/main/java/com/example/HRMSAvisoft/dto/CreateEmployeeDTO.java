@@ -22,6 +22,10 @@ public class CreateEmployeeDTO {
 
     private String lastName;
 
+    private Long departmentId;
+
+    private String employeeCode;
+
     private String contact;
 
     private Position position;
@@ -34,7 +38,7 @@ public class CreateEmployeeDTO {
 
     private String panNumber;
 
-    private String eanNumber;
+    private String uanNumber;
 
     private String dateOfBirth;
 

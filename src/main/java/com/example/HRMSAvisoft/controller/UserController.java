@@ -57,6 +57,8 @@ public class UserController {
         createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
+
+
     @PostMapping("/addNewUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
@@ -85,11 +87,17 @@ public class UserController {
             userResponse.setUserId(loggedInUser.getUserId());
             userResponse.setEmail(loggedInUser.getEmail());
             userResponse.setRoles(loggedInUser.getRoles());
+            userResponse.setCreatedAt(loggedInUser.getCreatedAt());
             Employee employee = loggedInUser.getEmployee();
 
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
+            userResponse.setDepartment(employee.getDepartment());
+            userResponse.setEmployeeCode(employee.getEmployeeCode());
+            userResponse.setAdhaarNumber(employee.getAdhaarNumber());
+            userResponse.setPanNumber(employee.getPanNumber());
+            userResponse.setUanNumber(employee.getUanNumber());
             userResponse.setAddresses(employee.getAddresses());
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());

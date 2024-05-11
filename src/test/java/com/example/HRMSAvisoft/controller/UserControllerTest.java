@@ -1,7 +1,6 @@
 package com.example.HRMSAvisoft.controller;
 
 
-import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;

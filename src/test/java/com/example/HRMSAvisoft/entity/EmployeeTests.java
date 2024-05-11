@@ -21,17 +21,23 @@ public class EmployeeTests {
         String firstName = "test";
         String lastName = "user";
         String contact = "8539228375";
+        List<EmergencyContact> emergencyContacts = new ArrayList<EmergencyContact>();
         BigDecimal salary = new BigDecimal(20000);
         Position position = Position.TESTER;
+        String adhaarNumber = "9274270520809";
+        String panNumber = "2492090ur902";
+        String uanNumber = "30ur039ur0";
+        String employeeCode = "AS01";
         Gender gender = Gender.MALE;
         String joinDate = "2022/12/12";
+        Department department = new Department();
         Account account = new Account();
         String dateOfBirth = "2004/12/22";
         String profileImage = "";
         List<Address> addresses = new ArrayList<Address>();
 
 
-        Employee employeeByConstructor = new Employee(empId, firstName, lastName, contact,addresses, position, joinDate, gender, profileImage, dateOfBirth, salary, account);
+        Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, account);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
         assertEquals(firstName, employeeByConstructor.getFirstName());

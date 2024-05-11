@@ -1,11 +1,14 @@
 package com.example.HRMSAvisoft.controller;
 
-import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
-import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
-import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
-import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
+import com.example.HRMSAvisoft.dto.*;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.entity.User;
+import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.EmployeeService;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +20,20 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
+    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
     private EmployeeService employeeService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public EmployeeController(EmployeeService employeeService){
 
@@ -38,9 +49,19 @@ public class EmployeeController {
     }
 
     @GetMapping("/searchEmployee")
-    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
+    public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
-        return ResponseEntity.ok(searchedEmployees);
+        List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
+            LoginUserResponseDTO loginUserResponseDTO = modelMapper.map(employee, LoginUserResponseDTO.class);
+            User userEmployee = userRepository.findByEmployee(employee);
+            loginUserResponseDTO.setUserId(userEmployee.getUserId());
+            loginUserResponseDTO.setEmail(userEmployee.getEmail());
+            loginUserResponseDTO.setRoles(userEmployee.getRoles());
+            loginUserResponseDTO.setCreatedAt(userEmployee.getCreatedAt());
+            return loginUserResponseDTO;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(loginUserResponseDTOs);
     }
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
@@ -49,7 +70,6 @@ public class EmployeeController {
         Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
-
 
     @GetMapping("/getAllEmployees")
     public ResponseEntity<Map<String,Object>>getAllEmployees() {

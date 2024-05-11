@@ -16,4 +16,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e WHERE CONCAT(e.firstName, ' ', e.lastName) LIKE %:name%")
     List<Employee> searchEmployeesByName(@Param("name") String name);
 
+    Employee findTopByOrderByEmployeeCodeDesc();
+
 }

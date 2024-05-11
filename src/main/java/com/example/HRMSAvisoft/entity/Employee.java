@@ -48,7 +48,7 @@ public class Employee {
 
     private String panNumber;
 
-    private String eanNumber;
+    private String uanNumber;
 
     private String profileImage;
 
@@ -56,12 +56,12 @@ public class Employee {
 
     private BigDecimal salary;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    private Department department;
+
+    @OneToOne()
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
-
-
-
 }
 
 
