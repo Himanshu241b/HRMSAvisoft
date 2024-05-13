@@ -47,7 +47,7 @@ public class UserController {
 
 
     @PostMapping("/saveUser")
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<CreateUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser,
                                         @RequestBody CreateUserDTO createUserDTO) throws IOException {
         Employee createdUserEmployee = userService.saveUser(createUserDTO, loggedInUser);
@@ -57,6 +57,8 @@ public class UserController {
         createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
         return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
     }
+
+
     @PostMapping("/addNewUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
@@ -84,16 +86,23 @@ public class UserController {
             userResponse.setUserId(loggedInUser.getUserId());
             userResponse.setEmail(loggedInUser.getEmail());
             userResponse.setRoles(loggedInUser.getRoles());
+            userResponse.setCreatedAt(loggedInUser.getCreatedAt());
             Employee employee = loggedInUser.getEmployee();
 
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
+            userResponse.setDepartment(employee.getDepartment());
+            userResponse.setEmployeeCode(employee.getEmployeeCode());
+            userResponse.setAdhaarNumber(employee.getAdhaarNumber());
+            userResponse.setPanNumber(employee.getPanNumber());
+            userResponse.setUanNumber(employee.getUanNumber());
             userResponse.setAddresses(employee.getAddresses());
             userResponse.setPosition(employee.getPosition());
             userResponse.setJoinDate(employee.getJoinDate());
             userResponse.setGender(employee.getGender());
-            userResponse.setProfileImage(employee.getProfileImage());
+            String userProfileImage = userResponse.getProfileImage() == null ? "https://api.dicebear.com/5.x/initials/svg?seed="+userResponse.getFirstName()+" "+userResponse.getLastName() : userResponse.getProfileImage();
+            userResponse.setProfileImage(userProfileImage);
             userResponse.setDateOfBirth(employee.getDateOfBirth());
             userResponse.setAccount(employee.getAccount());
             userResponse.setSalary(employee.getSalary());

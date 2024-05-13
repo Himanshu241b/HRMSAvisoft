@@ -2,7 +2,10 @@ package com.example.HRMSAvisoft.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
+import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,8 +26,10 @@ public class EmployeeService {
 
     private  EmployeeRepository employeeRepository;
 
-
     @Autowired
+    private DepartmentRepository departmentRepository;
+
+
     EmployeeService(EmployeeRepository employeeRepository, Cloudinary cloudinary){
 
         this.employeeRepository = employeeRepository;
@@ -58,6 +63,31 @@ public class EmployeeService {
         }
         List<Employee> searchedEmployees = employeeRepository.searchEmployeesByName(name);
         return searchedEmployees;
+    }
+
+    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException{
+        Department departmentOfEmployee =departmentRepository.findById(createEmployeeDTO.getDepartmentId()).orElse(null);
+
+        Employee employeeToAddInfo = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException(employeeId));
+
+        employeeToAddInfo.setFirstName(createEmployeeDTO.getFirstName());
+        employeeToAddInfo.setLastName(createEmployeeDTO.getLastName());
+        employeeToAddInfo.setContact(createEmployeeDTO.getContact());
+        employeeToAddInfo.setGender(createEmployeeDTO.getGender());
+        employeeToAddInfo.setSalary(createEmployeeDTO.getSalary());
+        employeeToAddInfo.setEmployeeCode(createEmployeeDTO.getEmployeeCode());
+        employeeToAddInfo.setDepartment(departmentOfEmployee);
+        employeeToAddInfo.setAdhaarNumber(createEmployeeDTO.getAdhaarNumber());
+        employeeToAddInfo.setPanNumber(createEmployeeDTO.getPanNumber());
+        employeeToAddInfo.setUanNumber(createEmployeeDTO.getUanNumber());
+        employeeToAddInfo.setPosition(createEmployeeDTO.getPosition());
+        employeeToAddInfo.setJoinDate(createEmployeeDTO.getJoinDate());
+        employeeToAddInfo.setAdhaarNumber(createEmployeeDTO.getAdhaarNumber());
+        employeeToAddInfo.setPanNumber(createEmployeeDTO.getPanNumber());
+        employeeToAddInfo.setUanNumber(createEmployeeDTO.getUanNumber());
+        employeeToAddInfo.setDateOfBirth(createEmployeeDTO.getDateOfBirth());
+
+        return employeeRepository.save(employeeToAddInfo);
     }
 
     public List<Employee> getAllEmployees()throws DataAccessException

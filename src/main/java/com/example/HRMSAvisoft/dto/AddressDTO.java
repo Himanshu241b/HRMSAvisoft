@@ -16,7 +16,6 @@ public class AddressDTO {
     private Long zipCode;
     private String city;
     private String state;
-
     private String country;
 
 }
