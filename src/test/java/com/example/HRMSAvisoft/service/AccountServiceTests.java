@@ -5,7 +5,9 @@ import com.example.HRMSAvisoft.entity.Account;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.repository.AccountRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperties;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,6 +29,7 @@ public class AccountServiceTests {
     private AccountService accountService;
 
     @Test
+    @DisplayName("AddAccountToEmployee_Success")
     void addAccountToEmployee_Success() throws EmployeeService.EmployeeNotFoundException {
         Long employeeId = 1L;
         AddAccountDTO accountDTO = new AddAccountDTO("1234567890", "IFSC1234", "BankName", "Branch");
@@ -52,6 +55,7 @@ public class AccountServiceTests {
     }
 
     @Test
+    @DisplayName("addAccountToEmployee_EmployeeNotFound")
     void addAccountToEmployee_EmployeeNotFound() {
         // Mock data
         Long employeeId = 1L;
@@ -70,6 +74,7 @@ public class AccountServiceTests {
 
 
     @Test
+    @DisplayName("removeAccountFromEmployee_success")
 void removeAccountFromEmployee_Success() {
     Long employeeId = 1L;
     Employee employee = new Employee();
@@ -85,6 +90,7 @@ void removeAccountFromEmployee_Success() {
 }
 
     @Test
+    @DisplayName("removeAccountFromEmployee_accountDoesNotExist")
     void removeAccountFromEmployee_AccountNotExists() {
         // Mock data
         Long employeeId = 1L;
