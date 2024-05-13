@@ -22,7 +22,7 @@ public class UpdateEmployeeDetailsDTO {
     private Position position;
     private String adhaarNumber;
     private String panNumber;
-    private String eanNumber;
+    private String uanNumber;
     private String joinDate;
     private Gender gender;
     private String dateOfBirth;
