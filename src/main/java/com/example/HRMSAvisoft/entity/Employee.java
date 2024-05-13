@@ -56,7 +56,7 @@ public class Employee {
 
     private BigDecimal salary;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
 

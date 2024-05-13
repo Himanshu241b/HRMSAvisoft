@@ -88,6 +88,7 @@ public class EmployeeService {
         return Pattern.matches(pattern, term);
     }
 
+
     public static class EmployeeNotFoundException extends Exception {
         public EmployeeNotFoundException(Long employeeId) {
             super("Employee not found with ID: " + employeeId);
@@ -95,10 +96,7 @@ public class EmployeeService {
     }
 
 
-    public static class AddressNotFoundException extends RuntimeException{
-        public AddressNotFoundException(Long addressId){super("Address not found with ID: " + addressId);}
-        public AddressNotFoundException(Long employeeId,Long addressId){super("Employee with ID :"+employeeId+" does not contain address with ID : "+addressId);}
-    }
+
 
 
 }

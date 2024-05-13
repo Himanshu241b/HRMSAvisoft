@@ -5,9 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/AddAccountDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/AccountControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/AccountServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/NewUserResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/NewUserResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AddressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AddressController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/UpdateEmployeeDetailsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/UpdateEmployeeDetailsDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/AddressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/AddressService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/AddressServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/AddressServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +32,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -44,6 +60,26 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Application.HrmsAvisoftApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.AccountControllerTest.addAccount.executor": "Run",
+    "JUnit.AccountControllerTest.executor": "Run",
+    "JUnit.AccountControllerTest.removeAccountFromEmployee_Success.executor": "Run",
+    "JUnit.AccountServiceTests.addAccountToEmployee_EmployeeNotFound.executor": "Run",
+    "JUnit.AccountServiceTests.addAccountToEmployee_Success.executor": "Run",
+    "JUnit.AccountServiceTests.executor": "Coverage",
+    "JUnit.AccountServiceTests.removeAccountFromEmployee_AccountNotExists.executor": "Run",
+    "JUnit.AccountServiceTests.removeAccountFromEmployee_Success.executor": "Run",
+    "JUnit.AddressServiceTest.addAddressToEmployee_AddressAlreadyPresent.executor": "Run",
+    "JUnit.AddressServiceTest.addAddressToEmployee_EmployeeNotFound.executor": "Run",
+    "JUnit.AddressServiceTest.addAddressToEmployee_Success.executor": "Run",
+    "JUnit.AddressServiceTest.editAddress_AddressNotFound.executor": "Run",
+    "JUnit.AddressServiceTest.editAddress_EmployeeNotFound.executor": "Run",
+    "JUnit.AddressServiceTest.editAddress_Success.executor": "Run",
+    "JUnit.AddressServiceTest.executor": "Coverage",
+    "JUnit.AddressServiceTest.removeAddressFromEmployee_AddressNotFound.executor": "Run",
+    "JUnit.AddressServiceTest.removeAddressFromEmployee_EmployeeNotFound.executor": "Run",
+    "JUnit.AddressServiceTest.removeAddressFromEmployee_Success.executor": "Coverage",
+    "JUnit.EmployeeControllerTest.executor": "Coverage",
+    "JUnit.EmployeeControllerTest.testUpdateEmployeeDetails.executor": "Coverage",
     "JUnit.EmployeeControllerTest.test_search_employee_success.executor": "Run",
     "JUnit.EmployeeControllerTests.executor": "Run",
     "JUnit.EmployeeControllerTests.testUploadProfileImage_Success.executor": "Run",
@@ -58,6 +94,9 @@
     "JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor": "Run",
     "JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor": "Run",
     "JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor": "Run",
+    "JUnit.EmployeeServiceTest.executor": "Coverage",
+    "JUnit.EmployeeServiceTest.testGetAllEmployees.executor": "Coverage",
+    "JUnit.EmployeeServiceTest.testUpdateEmployee.executor": "Run",
     "JUnit.EmployeeServiceTest.test_returns_matching_employees.executor": "Run",
     "JUnit.EmployeeServiceTests.executor": "Run",
     "JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor": "Run",
@@ -76,7 +115,7 @@
     "JUnit.RoleTest.testRoleGetterSetter.executor": "Run",
     "JUnit.TestUserRepository.executor": "Run",
     "JUnit.TestUserRepository.testSaveUser.executor": "Run",
-    "JUnit.UserControllerTest.testUserLogin.executor": "Run",
+    "JUnit.UserControllerTest.testUserLogin.executor": "Coverage",
     "JUnit.UserRepositoryTests.executor": "Run",
     "JUnit.UserRepositoryTests.testSaveUser.executor": "Run",
     "JUnit.UserServiceTest.executor": "Run",
@@ -90,12 +129,13 @@
     "JUnit.UserServiceTest.test_empty_role_login.executor": "Run",
     "JUnit.UserServiceTest.test_multiple_roles_login.executor": "Run",
     "JUnit.UserServiceTest.test_valid_login.executor": "Run",
-    "JUnit.UserTests.executor": "Run",
+    "JUnit.UserTests.executor": "Coverage",
     "JUnit.UserTests.testSetters.executor": "Run",
     "JUnit.UserTests.testUserConstructor.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "sakshi",
     "kotlin-language-version-configured": "true",
@@ -113,8 +153,21 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="EmployeeControllerTest.test_search_employee_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AddressServiceTest">
+    <configuration name="HrmsAvisoftApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.HrmsAvisoftApplication" />
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AccountControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -123,46 +176,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.EmployeeControllerTest" />
-      <option name="METHOD_NAME" value="test_search_employee_success" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmployeeRepositoryTests.test_searchEmployeesByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AccountControllerTest.addAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmployeeRepositoryTests" />
-      <option name="METHOD_NAME" value="test_searchEmployeesByName" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
+      <option name="METHOD_NAME" value="addAccount" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmployeeServiceTest.test_returns_matching_employees" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.EmployeeServiceTest" />
-      <option name="METHOD_NAME" value="test_returns_matching_employees" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmployeeServiceTests.test_returns_matching_employees" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AccountServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -171,14 +207,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.EmployeeServiceTests" />
-      <option name="METHOD_NAME" value="test_returns_matching_employees" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.AccountServiceTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceTest.test_valid_login" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AddressServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -187,20 +222,19 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.UserServiceTest" />
-      <option name="METHOD_NAME" value="test_valid_login" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.service.AddressServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EmployeeControllerTest.test_search_employee_success" />
-        <item itemvalue="JUnit.EmployeeRepositoryTests.test_searchEmployeesByName" />
-        <item itemvalue="JUnit.EmployeeServiceTest.test_returns_matching_employees" />
-        <item itemvalue="JUnit.UserServiceTest.test_valid_login" />
-        <item itemvalue="JUnit.EmployeeServiceTests.test_returns_matching_employees" />
+        <item itemvalue="JUnit.AddressServiceTest" />
+        <item itemvalue="JUnit.AccountServiceTests" />
+        <item itemvalue="JUnit.AccountControllerTest" />
+        <item itemvalue="Application.HrmsAvisoftApplication" />
+        <item itemvalue="JUnit.AccountControllerTest.addAccount" />
       </list>
     </recent_temporary>
   </component>
@@ -257,8 +291,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java</url>
-          <line>87</line>
+          <line>112</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/AddNewUserDTO.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/UserControllerTest.java</url>
@@ -271,14 +310,55 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java</url>
-          <line>179</line>
+          <line>169</line>
           <properties class="com.example.HRMSAvisoft.repository.EmployeeRepositoryTests">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmployeeServiceTest.java</url>
+          <line>72</line>
+          <properties class="com.example.HRMSAvisoft.service.EmployeeServiceTests" method="testGetAllEmployees">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$EmployeeControllerTest_testUpdateEmployeeDetails.ic" NAME="EmployeeControllerTest.testUpdateEmployeeDetails Coverage Results" MODIFIED="1715339774806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$UserControllerTest_testUserLogin.ic" NAME="UserControllerTest.testUserLogin Coverage Results" MODIFIED="1715339215332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$UserTests.ic" NAME="UserTests Coverage Results" MODIFIED="1715327272714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.entity.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$AccountServiceTests.ic" NAME="AccountServiceTests Coverage Results" MODIFIED="1715543266072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$EmployeeServiceTest_testGetAllEmployees.ic" NAME="EmployeeServiceTest.testGetAllEmployees Coverage Results" MODIFIED="1715326629175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$AddressServiceTest_addAddressToEmployee_Success.ic" NAME="AddressServiceTest.addAddressToEmployee_Success Coverage Results" MODIFIED="1715537235044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$AddressServiceTest_removeAddressFromEmployee_Success.ic" NAME="AddressServiceTest.removeAddressFromEmployee_Success Coverage Results" MODIFIED="1715537814769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$AddressServiceTest.ic" NAME="AddressServiceTest Coverage Results" MODIFIED="1715542664128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$EmployeeControllerTest.ic" NAME="EmployeeControllerTest Coverage Results" MODIFIED="1715339910306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/HRMSAvisoft$EmployeeServiceTest.ic" NAME="EmployeeServiceTest Coverage Results" MODIFIED="1715326817554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.HRMSAvisoft.service.*</FILTER>
+    </SUITE>
   </component>
 </project>

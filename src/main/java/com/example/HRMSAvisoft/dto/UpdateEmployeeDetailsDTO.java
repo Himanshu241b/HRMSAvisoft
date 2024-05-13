@@ -20,6 +20,9 @@ public class UpdateEmployeeDetailsDTO {
     private String lastName;
     private String contact;
     private Position position;
+    private String adhaarNumber;
+    private String panNumber;
+    private String eanNumber;
     private String joinDate;
     private Gender gender;
     private String dateOfBirth;
