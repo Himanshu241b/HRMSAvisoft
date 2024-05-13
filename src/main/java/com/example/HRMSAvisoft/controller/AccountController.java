@@ -6,6 +6,7 @@ import com.example.HRMSAvisoft.service.AccountService;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class AccountController {
     public AccountController(AccountService accountService){
         this.accountService=accountService;
     }
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PostMapping("/{employeeId}/AddBankAccount")
     public ResponseEntity<Map<String,Object>>addAccount(@RequestBody AddAccountDTO accountDTO, @PathVariable Long employeeId)throws EmployeeService.EmployeeNotFoundException{
         Employee updatedEmployee=accountService.addAccountToEmployee(employeeId,accountDTO);
@@ -27,6 +29,7 @@ public class AccountController {
         response.put("updatedUser", updatedEmployee);
         return ResponseEntity.ok(response);
     }
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @DeleteMapping("/{employeeId}/removeAccount")
     public ResponseEntity<Map<String,Object>> removeAccountFromEmployee(@PathVariable Long employeeId) {
         Map<String, Object> response = new HashMap<String, Object>();

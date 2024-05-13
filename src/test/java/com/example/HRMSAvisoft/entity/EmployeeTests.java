@@ -37,7 +37,7 @@ public class EmployeeTests {
         List<Address> addresses = new ArrayList<Address>();
 
 
-<<<<<<< HEAD
+
 //        Employee employeeByConstructor = new Employee(empId, firstName, lastName, contact,addresses, position, joinDate, gender, profileImage, dateOfBirth, salary, account);
 //
 //        assertEquals(empId, employeeByConstructor.getEmployeeId());
@@ -51,8 +51,8 @@ public class EmployeeTests {
 //        assertEquals(salary, employeeByConstructor.getSalary());
 //        assertEquals(account, employeeByConstructor.getAccount());
 //        assertEquals(profileImage, employeeByConstructor.getProfileImage());
-   }
-=======
+   //}
+
         Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, account);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
@@ -67,7 +67,6 @@ public class EmployeeTests {
         assertEquals(account, employeeByConstructor.getAccount());
         assertEquals(profileImage, employeeByConstructor.getProfileImage());
     }
->>>>>>> 2ef4cbd8aa90ad88ea5142cf648ca0555db20e46
 
 
     @Test
@@ -111,3 +110,4 @@ public class EmployeeTests {
         assertEquals(dateOfBirth, employee.getDateOfBirth());
     }
 }
+

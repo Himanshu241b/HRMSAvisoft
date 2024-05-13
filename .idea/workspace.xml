@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev-server" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
@@ -44,6 +50,8 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Application.HrmsAvisoftApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.AccountControllerTest.addAccount.executor": "Run",
+    "JUnit.AccountControllerTest.executor": "Run",
     "JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId.executor": "Run",
     "JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById.executor": "Run",
     "JUnit.EmergencyContactServiceTests.test_addEmergencyContact_success.executor": "Run",
@@ -120,7 +128,7 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HrmsAvisoftApplication">
+  <component name="RunManager" selected="JUnit.AccountControllerTest">
     <configuration name="HrmsAvisoftApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.HrmsAvisoftApplication" />
       <module name="HRMSAvisoft" />
@@ -134,33 +142,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AccountControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmergencyContactRepositoryTests" />
-      <option name="METHOD_NAME" value="testGetEmergencyContactsByEmployeeId" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmergencyContactRepositoryTests.testGetEmergencyContactsById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AccountControllerTest.addAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmergencyContactRepositoryTests" />
-      <option name="METHOD_NAME" value="testGetEmergencyContactsById" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
+      <option name="METHOD_NAME" value="addAccount" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -200,9 +207,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AccountControllerTest" />
         <item itemvalue="Application.HrmsAvisoftApplication" />
-        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById" />
-        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" />
+        <item itemvalue="JUnit.AccountControllerTest.addAccount" />
         <item itemvalue="JUnit.UserRepositoryTests.testSaveUser" />
         <item itemvalue="JUnit.EmergencyContactTests.test_EmergencyContactGetterSetters" />
       </list>
