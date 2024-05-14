@@ -18,4 +18,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Employee findTopByOrderByEmployeeCodeDesc();
 
+    boolean existsByEmployeeCode(String employeeCode);
+
 }

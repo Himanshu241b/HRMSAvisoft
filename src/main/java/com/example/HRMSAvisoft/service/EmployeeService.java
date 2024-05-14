@@ -30,6 +30,7 @@ public class EmployeeService {
     private DepartmentRepository departmentRepository;
 
 
+
     EmployeeService(EmployeeRepository employeeRepository, Cloudinary cloudinary){
 
         this.employeeRepository = employeeRepository;
@@ -65,7 +66,11 @@ public class EmployeeService {
         return searchedEmployees;
     }
 
-    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException{
+    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException, EmployeeCodeAlreadyExistsException{
+
+        if (employeeRepository.existsByEmployeeCode(createEmployeeDTO.getEmployeeCode())) {
+            throw new EmployeeCodeAlreadyExistsException("Employee code already exists: " + createEmployeeDTO.getEmployeeCode());
+        }
         Department departmentOfEmployee =departmentRepository.findById(createEmployeeDTO.getDepartmentId()).orElse(null);
 
         Employee employeeToAddInfo = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException(employeeId));
@@ -128,6 +133,12 @@ public class EmployeeService {
     public static class AddressNotFoundException extends RuntimeException{
         public AddressNotFoundException(Long addressId){super("Address not found with ID: " + addressId);}
         public AddressNotFoundException(Long employeeId,Long addressId){super("Employee with ID :"+employeeId+" does not contain address with ID : "+addressId);}
+    }
+
+    public static class EmployeeCodeAlreadyExistsException extends RuntimeException{
+        public EmployeeCodeAlreadyExistsException(String message) {
+            super(message);
+        }
     }
 
 

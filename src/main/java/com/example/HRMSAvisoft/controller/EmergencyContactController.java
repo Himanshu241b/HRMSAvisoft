@@ -8,12 +8,15 @@ import com.example.HRMSAvisoft.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/emergencyContact")
+@Transactional
 public class EmergencyContactController {
 
     private final EmergencyContactService emergencyContactService;
@@ -23,6 +26,7 @@ public class EmergencyContactController {
     }
 
     @GetMapping("/employee/{employeeId}")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> getEmergencyContactsOfEmployee(@PathVariable("employeeId") Long employeeId) throws EmployeeService.EmployeeNotFoundException {
         List<EmergencyContact> emergencyContactsOfEmployee = emergencyContactService.getEmergencyContactsOfEmployee(employeeId);
         if (emergencyContactsOfEmployee.isEmpty()){
@@ -34,18 +38,21 @@ public class EmergencyContactController {
     }
 
     @PostMapping("/employee/{employeeId}")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> addEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, @PathVariable("employeeId") Long employeeId)throws EmployeeService.EmployeeNotFoundException {
         EmergencyContact newEmergencyContact = emergencyContactService.addEmergencyContact(createEmergencyContactDTO, employeeId);
         return ResponseEntity.ok(Map.of("success", true, "message", "Emergency contact added", "emergencyContact", newEmergencyContact));
     }
 
     @PatchMapping("/{emergencyContactId}")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> updateEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, @PathVariable("emergencyContactId") Long emergencyContactId)throws EntityNotFoundException {
         EmergencyContact updatedEmergencyContact = emergencyContactService.updateEmergencyContact(createEmergencyContactDTO, emergencyContactId);
         return ResponseEntity.ok(Map.of("success", true, "message", "Emergency contact updated", "emergencyContact", updatedEmergencyContact));
     }
 
     @DeleteMapping("/{emergencyContactId}/{employeeId}")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> deleteEmergencyContact(@PathVariable("emergencyContactId") Long emergencyContactId, @PathVariable("employeeId") Long employeeId)throws EntityNotFoundException {
         emergencyContactService.deleteEmergencyContact(emergencyContactId, employeeId);
         return ResponseEntity.ok(Map.of("success", true, "message","Emergency contact deleted"));
@@ -54,7 +61,7 @@ public class EmergencyContactController {
 
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
-            EntityNotFoundException.class
+            EmergencyContactService.ValidationException.class
     })
 
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
@@ -64,9 +71,9 @@ public class EmergencyContactController {
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
         }
-        else if(exception instanceof EntityNotFoundException) {
+        else if(exception instanceof EmergencyContactService.ValidationException) {
             message = exception.getMessage();
-            status = HttpStatus.NOT_FOUND;
+            status = HttpStatus.BAD_REQUEST;
         }
         else{
             message = "something went wrong";

@@ -17,8 +17,10 @@ public class EmergencyContact {
     @Column(nullable = false)
     private Long emergencyContactId;
 
+    @Column(nullable = false)
     String contact;
 
+    @Column(nullable = false)
     String relationship;
 
 }

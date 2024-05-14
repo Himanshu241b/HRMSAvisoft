@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -36,7 +37,6 @@ public class EmployeeController {
     private ModelMapper modelMapper;
 
     public EmployeeController(EmployeeService employeeService){
-
         this.employeeService = employeeService;
     }
 
@@ -49,6 +49,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/searchEmployee")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
         List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
@@ -66,12 +67,13 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}")
-    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody CreateEmployeeDTO createEmployee) throws EmployeeService.EmployeeNotFoundException {
+    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId,@RequestBody CreateEmployeeDTO createEmployee) throws EmployeeService.EmployeeNotFoundException, EmployeeService.EmployeeCodeAlreadyExistsException {
         Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
 
     @GetMapping("/getAllEmployees")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String,Object>>getAllEmployees() {
 
         Map<String, Object> responseData = new HashMap<>();
@@ -88,6 +90,7 @@ public class EmployeeController {
         return ResponseEntity.ok().body(responseData);
     }
     @GetMapping("{employeeId}")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeService.EmployeeNotFoundException, DataAccessException
     {
         Employee employee= employeeService.getEmployeeById(employeeId);
@@ -133,7 +136,8 @@ public class EmployeeController {
             EmployeeService.EmployeeNotFoundException.class,
             IOException.class,
             RuntimeException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            EmployeeService.EmployeeCodeAlreadyExistsException.class
 
     })
 
@@ -150,6 +154,10 @@ public class EmployeeController {
         }else if(exception instanceof NullPointerException) {
             message = exception.getMessage();
             status =  HttpStatus.BAD_REQUEST;
+        }
+        else if(exception instanceof EmployeeService.EmployeeCodeAlreadyExistsException){
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
         }
         else if(exception instanceof IllegalArgumentException) {
             message = exception.getMessage();

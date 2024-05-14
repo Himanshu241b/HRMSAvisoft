@@ -59,7 +59,7 @@ public class Employee {
     @ManyToOne
     private Department department;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
 }

@@ -12,10 +12,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -25,24 +23,62 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EmergencyContactRepositoryTests {
 
     @Autowired
-    EmergencyContactRepository emergencyContactRepository;
+    private EmergencyContactRepository emergencyContactRepository;
 
-    @BeforeEach
-    void setup(){
-        Long emergencyContactId = 1L;
-        String contact = "9820640927";
-        String relationship = "father";
+    String contact = "9820640927";
+    String relationship = "father";
 
-        EmergencyContact emergencyContact = new EmergencyContact(emergencyContactId, contact, relationship);
-        emergencyContactRepository.save(emergencyContact);
+    @Test
+    @DisplayName("test_saveEmergencyContact")
+    void testSaveEmergencyContact() throws Exception {
+        EmergencyContact emergencyContact = new EmergencyContact();
+        emergencyContact.setRelationship(relationship);
+        emergencyContact.setContact(contact);
+
+        EmergencyContact savedEmergencyContact = emergencyContactRepository.save(emergencyContact);
+
+        assertEquals(savedEmergencyContact.getContact(), emergencyContact.getContact());
+        assertEquals(savedEmergencyContact.getRelationship(), emergencyContact.getRelationship());
     }
+
     @Test
     @DisplayName("test_getEmergencyContactsById")
     void testGetEmergencyContactsById() {
-        EmergencyContact emergencyContact = emergencyContactRepository.findById(1L).orElse(null);
 
-        assertEquals(1L, emergencyContact.getEmergencyContactId());
-        assertEquals("9820640927", emergencyContact.getContact());
-        assertEquals("father", emergencyContact.getRelationship());
+        EmergencyContact emergencyContact = new EmergencyContact();
+        emergencyContact.setRelationship(relationship);
+        emergencyContact.setContact(contact);
+
+        EmergencyContact savedEmergencyContact = emergencyContactRepository.save(emergencyContact);
+
+        EmergencyContact emergencyContactFound = emergencyContactRepository.findById(savedEmergencyContact.getEmergencyContactId()).get();
+
+        assertEquals(savedEmergencyContact.getEmergencyContactId(), emergencyContactFound.getEmergencyContactId());
+        assertEquals("9820640927", emergencyContactFound.getContact());
+        assertEquals("father", emergencyContactFound.getRelationship());
     }
+
+    @Test
+    @DisplayName("test_updateEmergencyContact")
+    void testUpdateEmergencyContact(){
+        EmergencyContact emergencyContact = new EmergencyContact();
+        emergencyContact.setRelationship(relationship);
+        emergencyContact.setContact(contact);
+
+        EmergencyContact savedEmergencyContact = emergencyContactRepository.save(emergencyContact);
+
+        EmergencyContact emergencyContactFound = emergencyContactRepository.findById(savedEmergencyContact.getEmergencyContactId()).get();
+
+        String relationToUpdate = "brother";
+        String contactToUpdate = "9850833536";
+
+        emergencyContactFound.setRelationship(relationToUpdate);
+        emergencyContactFound.setContact(contactToUpdate);
+        EmergencyContact updatedEmergencyContact = emergencyContactRepository.save(emergencyContactFound);
+
+        assertNotNull(updatedEmergencyContact);
+        assertEquals(relationToUpdate, updatedEmergencyContact.getRelationship());
+        assertEquals(contactToUpdate, updatedEmergencyContact.getContact());
+    }
+
 }

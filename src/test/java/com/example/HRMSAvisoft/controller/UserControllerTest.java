@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.controller;
 
 
+import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
@@ -121,10 +122,10 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(loginUserDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Login Successful"))
-                .andExpect(jsonPath("$.userId").value(1L))
-                .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
+                .andExpect(jsonPath("$.loginUser.userId").value(1L))
+                .andExpect(jsonPath("$.loginUser.email").value("test@example.com"))
+                .andExpect(jsonPath("$.loginUser.firstName").value("John"))
+                .andExpect(jsonPath("$.loginUser.lastName").value("Doe"));
     }
 
 
