@@ -22,7 +22,7 @@ public class AddressController {
         this.addressService=addressService;
     }
     @PostMapping("/{employeeId}/addNewAddress")
-    public ResponseEntity<Map<String,Object>> addAddressToEmployee(@PathVariable Long employeeId, @RequestBody AddressDTO address)throws EmployeeService.EmployeeNotFoundException , AddressService.AddressAlreadyPresentException {
+    public ResponseEntity<Map<String,Object>> addAddressToEmployee(@PathVariable Long employeeId, @RequestBody AddressDTO address)throws EmployeeService.EmployeeNotFoundException  {
         Employee updatedEmployee = addressService.addAddressToEmployee(employeeId, address);
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",updatedEmployee ,"message", "New Address Added", "Status", true));
     }
@@ -31,26 +31,38 @@ public class AddressController {
         Employee updatedEmployee = addressService.removeAddressFromEmployee(employeeId, addressId);
         return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee,"message", "Address Removed from Employee", "Status", true));
     }
+    @PutMapping("/{employeeId}/editAddress/{addressId}")
+    public ResponseEntity<Map<String,Object>>editAddress(@PathVariable Long employeeId,@PathVariable Long addressId,@RequestBody AddressDTO addressDTO)throws EmployeeService.EmployeeNotFoundException,AddressService.AddressNotFoundException
+    {
+        Employee updatedEmployee = addressService.editAddress(employeeId, addressId,addressDTO);
+        return ResponseEntity.ok(Map.of("UpdatedEmployee",updatedEmployee,"message", "Address edited", "Status", true));
+
+    }
 
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
-            NullPointerException.class
+            NullPointerException.class,
+            AddressService.AddressNotFoundException.class
 
     })
     public ResponseEntity<Map<String,Object>> handleErrors(Exception exception){
         Map<String ,Object> responseData = new HashMap<>();
+        HttpStatus status;
         if(exception instanceof EmployeeService.EmployeeNotFoundException) {
             responseData.put("message", exception.getMessage());
-            responseData.put("status",HttpStatus.NOT_FOUND);
+            status=HttpStatus.NOT_FOUND;
+            responseData.put("Success",false);
         } else if(exception instanceof NullPointerException) {
             responseData.put("message", exception.getMessage());
-            responseData.put("status",HttpStatus.BAD_REQUEST);
+            status=HttpStatus.BAD_REQUEST;
+            responseData.put("Success",false);
         }
         else{
             responseData.put("message","Something went wrong");
-            responseData.put("status",HttpStatus.INTERNAL_SERVER_ERROR);
+            status=HttpStatus.INTERNAL_SERVER_ERROR;
+            responseData.put("Success",false);
         }
 
-        return ResponseEntity.ok().body(responseData);
+        return ResponseEntity.status(status).body(responseData);
     }
 }

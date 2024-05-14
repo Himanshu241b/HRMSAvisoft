@@ -69,7 +69,6 @@ public class UserController {
         newUser.setEmail(createdUser.getEmail());
         newUser.setCreatedAt(createdUser.getCreatedAt());
         newUser.setEmployeeId(createdUser.getEmployee().getEmployeeId());
-
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("message", "New User Created!!");
         response.put("success", true);

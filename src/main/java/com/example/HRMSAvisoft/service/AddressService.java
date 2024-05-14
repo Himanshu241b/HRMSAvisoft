@@ -22,11 +22,14 @@ public class AddressService {
         this.employeeRepository=employeeRepository;
         this.zipcodeRepository=zipcodeRepository;
     }
-    public Employee addAddressToEmployee(Long employeeId, AddressDTO address) throws EmployeeService.EmployeeNotFoundException,AddressAlreadyPresentException {
+    public Employee addAddressToEmployee(Long employeeId, AddressDTO address) throws EmployeeService.EmployeeNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
 
         Address addAddress=new Address();
         addAddress.setPropertyNumber(address.getPropertyNumber());
         addAddress.setCountry(address.getCountry());
+
         Zipcode zipcode =new Zipcode();
         zipcode.setCity(address.getCity());
         zipcode.setState(address.getState());
@@ -34,12 +37,6 @@ public class AddressService {
         zipcode= zipcodeRepository.save(zipcode);
         addAddress.setZipCode(zipcode);
         addAddress.setAddressType(address.getAddressType());
-
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
-        if (employee.getAddresses().contains(addAddress)) {
-            throw new AddressAlreadyPresentException();
-        }
 
         Address newAddress =addressRepository.save(addAddress);
         employee.getAddresses().add(newAddress);
@@ -52,24 +49,48 @@ public class AddressService {
                 .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
 
         Address addressToRemove=addressRepository.findById(addressId)
-                .orElseThrow(()->new EmployeeService.AddressNotFoundException(addressId));
+                .orElseThrow(()->new AddressService.AddressNotFoundException(addressId));
 
         if (addressToRemove != null) {
             if (employee.getAddresses().contains(addressToRemove)) {
                 employee.getAddresses().remove(addressToRemove);
             } else {
-                throw new EmployeeService.AddressNotFoundException(employeeId,addressId);
+                throw new AddressService.AddressNotFoundException(employeeId,addressId);
             }
         } else {
-            throw new EmployeeService.AddressNotFoundException(addressId);
+            throw new AddressService.AddressNotFoundException(addressId);
         }
 
         return employeeRepository.save(employee);
     }
 
-    public static class AddressAlreadyPresentException extends Exception {
-        public AddressAlreadyPresentException() {
-            super("Address is already associated with the employee." );
+    public Employee editAddress(Long employeeId,Long addressId,AddressDTO addressDTO)throws EmployeeService.EmployeeNotFoundException,AddressNotFoundException{
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
+        Address addressToEdit = addressRepository.findById(addressId)
+                .orElseThrow(() -> new AddressNotFoundException(addressId));
+        if (!employee.getAddresses().contains(addressToEdit)) {
+            throw new AddressNotFoundException(employeeId, addressId);
         }
+        addressToEdit.setPropertyNumber(addressDTO.getPropertyNumber());
+        addressToEdit.setAddressType(addressDTO.getAddressType());
+
+        Zipcode editedZipcode =new Zipcode();
+        editedZipcode.setCity(addressDTO.getCity());
+        editedZipcode.setState(addressDTO.getState());
+        editedZipcode.setZipCode(addressDTO.getZipCode());
+        editedZipcode= zipcodeRepository.save(editedZipcode);
+
+        addressToEdit.setZipCode(editedZipcode);
+        addressToEdit.setCountry(addressDTO.getCountry());
+
+        addressRepository.save(addressToEdit);
+
+        return employee;
+    }
+
+    public static class AddressNotFoundException extends RuntimeException{
+        public AddressNotFoundException(Long addressId){super("Address not found with ID: " + addressId);}
+        public AddressNotFoundException(Long employeeId,Long addressId){super("Employee with ID :"+employeeId+" does not contain address with ID : "+addressId);}
     }
 }
