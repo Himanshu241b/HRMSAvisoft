@@ -6,11 +6,16 @@ import com.example.HRMSAvisoft.entity.EmergencyContact;
 import com.example.HRMSAvisoft.service.EmergencyContactService;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,10 +63,9 @@ public class EmergencyContactController {
         return ResponseEntity.ok(Map.of("success", true, "message","Emergency contact deleted"));
     }
 
-
     @ExceptionHandler({
             EmployeeService.EmployeeNotFoundException.class,
-            EmergencyContactService.ValidationException.class
+            EmergencyContactService.ValidationException.class,
     })
 
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){

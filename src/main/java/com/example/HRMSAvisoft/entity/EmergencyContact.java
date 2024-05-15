@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,10 @@ public class EmergencyContact {
     @Column(nullable = false)
     private Long emergencyContactId;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Contact field cannot be empty")
     String contact;
 
+    @NotBlank(message = "Relationship field cannot be empty")
     @Column(nullable = false)
     String relationship;
 

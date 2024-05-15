@@ -6,12 +6,10 @@ import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.repository.EmergencyContactRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ValidationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
