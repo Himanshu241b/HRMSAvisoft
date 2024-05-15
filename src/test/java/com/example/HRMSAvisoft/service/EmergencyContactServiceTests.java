@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreateEmergencyContactDTO;
 import com.example.HRMSAvisoft.entity.EmergencyContact;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.EmergencyContactRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,7 @@ public class EmergencyContactServiceTests {
 
     @Test
     @DisplayName("test_getEmergencyContactsForValidEmployeeId")
-    public void test_returns_emergency_contacts_for_valid_employee_id() throws EmployeeService.EmployeeNotFoundException {
+    public void test_returns_emergency_contacts_for_valid_employee_id() throws EmployeeNotFoundException {
         Long employeeId = 1L;
         Employee employee = new Employee();
         List<EmergencyContact> emergencyContacts = new ArrayList<>();
@@ -50,7 +51,7 @@ public class EmergencyContactServiceTests {
 
     @Test
     @DisplayName("test_addEmergencyContactSuccess")
-    public void test_addEmergencyContact_success()throws EmployeeService.EmployeeNotFoundException {
+    public void test_addEmergencyContact_success()throws EmployeeNotFoundException {
         Long employeeId = 1L;
         CreateEmergencyContactDTO createEmergencyContactDTO = new CreateEmergencyContactDTO();
         createEmergencyContactDTO.setContact("kirandeep");
@@ -72,7 +73,7 @@ public class EmergencyContactServiceTests {
 
     @Test
     @DisplayName("test_updateEmergencyContactSuccess")
-    public void test_updateEmergencyContact_ReturnsUpdatedEmergencyContact() {
+    public void test_updateEmergencyContact_ReturnsUpdatedEmergencyContact() throws Exception{
         Long emergencyContactId = 1L;
         CreateEmergencyContactDTO createEmergencyContactDTO = new CreateEmergencyContactDTO();
         createEmergencyContactDTO.setContact("John Doe");

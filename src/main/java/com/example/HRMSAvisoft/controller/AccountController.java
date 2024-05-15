@@ -2,10 +2,13 @@ package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.AddAccountDTO;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.service.AccountService;
 import com.example.HRMSAvisoft.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,8 +21,9 @@ public class AccountController {
     public AccountController(AccountService accountService){
         this.accountService=accountService;
     }
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PostMapping("/{employeeId}/AddBankAccount")
-    public ResponseEntity<Map<String,Object>>addAccount(@RequestBody AddAccountDTO accountDTO, @PathVariable Long employeeId)throws EmployeeService.EmployeeNotFoundException{
+    public ResponseEntity<Map<String,Object>>addAccount(@RequestBody @Valid AddAccountDTO accountDTO, @PathVariable Long employeeId)throws EmployeeNotFoundException {
         Employee updatedEmployee=accountService.addAccountToEmployee(employeeId,accountDTO);
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("message", "Account Added");
@@ -27,8 +31,9 @@ public class AccountController {
         response.put("updatedUser", updatedEmployee);
         return ResponseEntity.ok(response);
     }
+    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @DeleteMapping("/{employeeId}/removeAccount")
-    public ResponseEntity<Map<String,Object>> removeAccountFromEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<Map<String,Object>> removeAccountFromEmployee(@PathVariable Long employeeId)throws EmployeeNotFoundException {
         Map<String, Object> response = new HashMap<String, Object>();
         boolean removed = accountService.removeAccountFromEmployee(employeeId);
         if (removed) {
@@ -40,32 +45,6 @@ public class AccountController {
             response.put("success", false);
             return ResponseEntity.ok(response);
         }
-    }
-
-    @ExceptionHandler({
-            EmployeeService.EmployeeNotFoundException.class,
-            NullPointerException.class
-
-    })
-    public ResponseEntity<Map<String,Object>> handleErrors(Exception exception){
-        Map<String ,Object> responseData = new HashMap<>();
-        HttpStatus status;
-        if(exception instanceof EmployeeService.EmployeeNotFoundException) {
-            responseData.put("message", exception.getMessage());
-            status=HttpStatus.NOT_FOUND;
-            responseData.put("Success",false);
-        } else if(exception instanceof NullPointerException) {
-            responseData.put("message", exception.getMessage());
-            status=HttpStatus.BAD_REQUEST;
-            responseData.put("Success",false);
-        }
-        else{
-            responseData.put("message","Something went wrong");
-            status=HttpStatus.INTERNAL_SERVER_ERROR;
-            responseData.put("Success",false);
-        }
-
-        return ResponseEntity.status(status).body(responseData);
     }
 }
 

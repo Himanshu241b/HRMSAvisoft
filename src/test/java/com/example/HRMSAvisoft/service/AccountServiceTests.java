@@ -3,9 +3,12 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.AddAccountDTO;
 import com.example.HRMSAvisoft.entity.Account;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.AccountRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperties;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,7 +30,8 @@ public class AccountServiceTests {
     private AccountService accountService;
 
     @Test
-    void addAccountToEmployee_Success() throws EmployeeService.EmployeeNotFoundException {
+    @DisplayName("AddAccountToEmployee_Success")
+    void addAccountToEmployee_Success() throws EmployeeNotFoundException {
         Long employeeId = 1L;
         AddAccountDTO accountDTO = new AddAccountDTO("1234567890", "IFSC1234", "BankName", "Branch");
         Employee employee = new Employee();
@@ -52,6 +56,7 @@ public class AccountServiceTests {
     }
 
     @Test
+    @DisplayName("addAccountToEmployee_EmployeeNotFound")
     void addAccountToEmployee_EmployeeNotFound() {
         // Mock data
         Long employeeId = 1L;
@@ -61,7 +66,7 @@ public class AccountServiceTests {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         // Call the method under test and assert exception
-        assertThrows(EmployeeService.EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> accountService.addAccountToEmployee(employeeId, accountDTO));
         verify(employeeRepository, times(1)).findById(employeeId);
         verify(accountRepository, never()).save(any());
@@ -70,7 +75,8 @@ public class AccountServiceTests {
 
 
     @Test
-void removeAccountFromEmployee_Success() {
+    @DisplayName("removeAccountFromEmployee_success")
+void removeAccountFromEmployee_Success() throws EmployeeNotFoundException{
     Long employeeId = 1L;
     Employee employee = new Employee();
     employee.setEmployeeId(employeeId);
@@ -85,7 +91,8 @@ void removeAccountFromEmployee_Success() {
 }
 
     @Test
-    void removeAccountFromEmployee_AccountNotExists() {
+    @DisplayName("removeAccountFromEmployee_accountDoesNotExist")
+    void removeAccountFromEmployee_AccountNotExists() throws EmployeeNotFoundException{
         // Mock data
         Long employeeId = 1L;
         Employee employee = new Employee();

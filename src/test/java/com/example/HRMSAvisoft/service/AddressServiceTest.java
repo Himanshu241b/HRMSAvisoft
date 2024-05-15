@@ -5,6 +5,7 @@ import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.AddressType;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Zipcode;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.ZipCodeRepository;
@@ -33,7 +34,7 @@ public class AddressServiceTest {
 
 
     @Test
-    void addAddressToEmployee_Success() throws EmployeeService.EmployeeNotFoundException {
+    void addAddressToEmployee_Success() throws EmployeeNotFoundException {
         // Mock data
         Long employeeId = 1L;
         AddressDTO addressDTO = new AddressDTO("123", AddressType.PERMANENT, 123456L, "City", "State", "Country");
@@ -87,7 +88,7 @@ public class AddressServiceTest {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         // Test method and assertions
-        assertThrows(EmployeeService.EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> addressService.addAddressToEmployee(employeeId, addressDTO));
         verify(employeeRepository, times(1)).findById(employeeId);
         verify(zipCodeRepository, never()).save(any());
@@ -96,7 +97,7 @@ public class AddressServiceTest {
 
     }
     @Test
-    void editAddress_Success()throws EmployeeService.EmployeeNotFoundException {
+    void editAddress_Success()throws EmployeeNotFoundException {
         // Mock data
         Long employeeId = 1L;
         Long addressId = 1L;
@@ -148,7 +149,7 @@ public class AddressServiceTest {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         // Call the method under test and assert exception
-        assertThrows(EmployeeService.EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> addressService.editAddress(employeeId, addressId, new AddressDTO()));
         verify(employeeRepository).findById(employeeId);
         verify(addressRepository, never()).findById(any());
@@ -184,14 +185,14 @@ public class AddressServiceTest {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         // Test method and assertions
-        assertThrows(EmployeeService.EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> addressService.removeAddressFromEmployee(employeeId, addressId));
         verify(employeeRepository, times(1)).findById(employeeId);
         verify(addressRepository, never()).findById(any());
         verify(employeeRepository, never()).save(any());
     }
     @Test
-    void removeAddressFromEmployee_Success() throws EmployeeService.EmployeeNotFoundException, AddressService.AddressNotFoundException {
+    void removeAddressFromEmployee_Success() throws EmployeeNotFoundException, AddressService.AddressNotFoundException {
         // Mock data
         Long employeeId = 1L;
         Long addressId = 1L;

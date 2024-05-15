@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.AddAccountDTO;
 import com.example.HRMSAvisoft.entity.Account;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.AccountRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class AccountService {
         this.accountRepository=accountRepository;
         this.employeeRepository=employeeRepository;
     }
-    public Employee addAccountToEmployee(Long employeeId, AddAccountDTO accountDTO) throws EmployeeService.EmployeeNotFoundException {
+    public Employee addAccountToEmployee(Long employeeId, AddAccountDTO accountDTO) throws EmployeeNotFoundException {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
+                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
         Account existingAccount = employee.getAccount();
         if (existingAccount != null) {
             accountRepository.deleteById(existingAccount.getAccountId());
@@ -32,9 +33,10 @@ public class AccountService {
         return employeeRepository.save(employee);
 
     }
-    public boolean removeAccountFromEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
-        if (employee != null && employee.getAccount() != null) {
+    public boolean removeAccountFromEmployee(Long employeeId)throws EmployeeNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
+        if (employee.getAccount() != null) {
             employee.setAccount(null);
             employeeRepository.save(employee);
             return true;

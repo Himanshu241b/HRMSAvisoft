@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.AddAccountDTO;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,14 +29,14 @@ public class AccountControllerTest {
     @Test
     @Transactional
     @DisplayName("AddAccount")
-    public void addAccount() throws  IOException, InterruptedException {
+    public void addAccount() throws  IOException, InterruptedException,EmployeeNotFoundException {
         Long employeeId = 1L;
         String url = "http://localhost:5555/api/v1/account/2/AddBankAccount";
 
         // Account DTO
         AddAccountDTO accountDTO = new AddAccountDTO();
         accountDTO.setAccountNumber("1234567890");
-        accountDTO.setIfsc("IFSC1234");
+        accountDTO.setIfsc("IFSC0123456");
         accountDTO.setBankName("Bank");
         accountDTO.setBranch("Branch");
 
@@ -63,7 +64,7 @@ public class AccountControllerTest {
     @Test
     @Transactional
     @DisplayName("RemoveAccountFromEmployee")
-    public void removeAccountFromEmployee_Success() throws IOException, InterruptedException {
+    public void removeAccountFromEmployee_Success() throws IOException, InterruptedException , EmployeeNotFoundException {
         Long employeeId = 2L;
         String url = "http://localhost:5555/api/v1/account/" + employeeId + "/removeAccount";
 
