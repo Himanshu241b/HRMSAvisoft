@@ -5,6 +5,7 @@ import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Gender;
 import com.example.HRMSAvisoft.entity.Position;
+import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.AddressService;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,8 +57,10 @@ public class EmployeeControllerTest {
     private EmployeeService employeeService;
     @MockBean
     private AddressService addressService;
-    @Autowired
-    private ObjectMapper objectMapper;
+    @MockBean
+    private UserRepository userRepository;
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
     @InjectMocks
     private EmployeeController employeeController;

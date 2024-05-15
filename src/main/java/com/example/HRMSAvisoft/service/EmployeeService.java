@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,16 +118,6 @@ public class EmployeeService {
         String pattern = "^[a-zA-Z\\s]+$";
         return Pattern.matches(pattern, term);
     }
-
-
-    public static class EmployeeNotFoundException extends Exception {
-        public EmployeeNotFoundException(Long employeeId) {
-            super("Employee not found with ID: " + employeeId);
-        }
-    }
-
-
-
 
 
 }

@@ -4,6 +4,7 @@ import com.example.HRMSAvisoft.dto.AddressDTO;
 import com.example.HRMSAvisoft.entity.Address;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Zipcode;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.AddressRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.ZipCodeRepository;
@@ -22,9 +23,9 @@ public class AddressService {
         this.employeeRepository=employeeRepository;
         this.zipcodeRepository=zipcodeRepository;
     }
-    public Employee addAddressToEmployee(Long employeeId, AddressDTO address) throws EmployeeService.EmployeeNotFoundException {
+    public Employee addAddressToEmployee(Long employeeId, AddressDTO address) throws EmployeeNotFoundException {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
+                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
 
         Address addAddress=new Address();
         addAddress.setPropertyNumber(address.getPropertyNumber());
@@ -43,10 +44,10 @@ public class AddressService {
 
         return employeeRepository.save(employee);
     }
-    public Employee removeAddressFromEmployee(Long employeeId, Long addressId) throws EmployeeService.EmployeeNotFoundException {
+    public Employee removeAddressFromEmployee(Long employeeId, Long addressId) throws EmployeeNotFoundException {
         // Retrieve the employee entity by its ID
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
+                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
 
         Address addressToRemove=addressRepository.findById(addressId)
                 .orElseThrow(()->new AddressService.AddressNotFoundException(addressId));
@@ -64,9 +65,9 @@ public class AddressService {
         return employeeRepository.save(employee);
     }
 
-    public Employee editAddress(Long employeeId,Long addressId,AddressDTO addressDTO)throws EmployeeService.EmployeeNotFoundException,AddressNotFoundException{
+    public Employee editAddress(Long employeeId,Long addressId,AddressDTO addressDTO)throws EmployeeNotFoundException,AddressNotFoundException{
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeService.EmployeeNotFoundException( employeeId));
+                .orElseThrow(() -> new EmployeeNotFoundException( employeeId));
         Address addressToEdit = addressRepository.findById(addressId)
                 .orElseThrow(() -> new AddressNotFoundException(addressId));
         if (!employee.getAddresses().contains(addressToEdit)) {

@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.AddAccountDTO;
 import com.example.HRMSAvisoft.entity.Account;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.AccountRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +31,7 @@ public class AccountServiceTests {
 
     @Test
     @DisplayName("AddAccountToEmployee_Success")
-    void addAccountToEmployee_Success() throws EmployeeService.EmployeeNotFoundException {
+    void addAccountToEmployee_Success() throws EmployeeNotFoundException {
         Long employeeId = 1L;
         AddAccountDTO accountDTO = new AddAccountDTO("1234567890", "IFSC1234", "BankName", "Branch");
         Employee employee = new Employee();
@@ -65,7 +66,7 @@ public class AccountServiceTests {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         // Call the method under test and assert exception
-        assertThrows(EmployeeService.EmployeeNotFoundException.class,
+        assertThrows(EmployeeNotFoundException.class,
                 () -> accountService.addAccountToEmployee(employeeId, accountDTO));
         verify(employeeRepository, times(1)).findById(employeeId);
         verify(accountRepository, never()).save(any());
@@ -75,7 +76,7 @@ public class AccountServiceTests {
 
     @Test
     @DisplayName("removeAccountFromEmployee_success")
-void removeAccountFromEmployee_Success() {
+void removeAccountFromEmployee_Success() throws EmployeeNotFoundException{
     Long employeeId = 1L;
     Employee employee = new Employee();
     employee.setEmployeeId(employeeId);
@@ -91,7 +92,7 @@ void removeAccountFromEmployee_Success() {
 
     @Test
     @DisplayName("removeAccountFromEmployee_accountDoesNotExist")
-    void removeAccountFromEmployee_AccountNotExists() {
+    void removeAccountFromEmployee_AccountNotExists() throws EmployeeNotFoundException{
         // Mock data
         Long employeeId = 1L;
         Employee employee = new Employee();

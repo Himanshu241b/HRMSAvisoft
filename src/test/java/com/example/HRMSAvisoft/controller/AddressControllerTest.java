@@ -26,6 +26,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -45,7 +46,7 @@ public class AddressControllerTest {
     @DisplayName("AddAddressToEmployee")
     @Transactional
     public void addAddressToEmployee() throws IOException, InterruptedException {
-        Long employeeId = 1L;
+        Long employeeId = 3L;
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/addNewAddress";
 
         AddressDTO addressDTO = new AddressDTO();
@@ -69,13 +70,15 @@ public class AddressControllerTest {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         assertEquals(200, response.statusCode());
+
+
     }
     @Test
     @Transactional
     @DisplayName("Remove Address from Employee")
     public void removeAddressFromEmployee() throws IOException, InterruptedException {
         Long employeeId = 3L;
-        Long addressId = 6L; // Assuming addressId
+        Long addressId = 21L; // Assuming addressId
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/removeAddress/" + addressId;
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -92,8 +95,8 @@ public class AddressControllerTest {
     @DisplayName("Edit Address")
     @Transactional
     public void editAddress() throws IOException, InterruptedException {
-        Long employeeId = 3L;
-        Long addressId = 6L; //
+        Long employeeId = 4L;
+        Long addressId = 9L; //
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/editAddress/" + addressId;
 
         AddressDTO addressDTO = new AddressDTO();

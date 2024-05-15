@@ -3,6 +3,8 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreateEmergencyContactDTO;
 import com.example.HRMSAvisoft.entity.EmergencyContact;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmergencyContactNotFoundException;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.EmergencyContactRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,20 +25,20 @@ public class EmergencyContactService {
         this.emergencyContactRepository = emergencyContactRepository;
     }
 
-    public List<EmergencyContact> getEmergencyContactsOfEmployee(Long employeeId) throws EmployeeService.EmployeeNotFoundException {
+    public List<EmergencyContact> getEmergencyContactsOfEmployee(Long employeeId) throws EmployeeNotFoundException {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
         if(employee == null){
-            throw new EmployeeService.EmployeeNotFoundException(employeeId);
+            throw new EmployeeNotFoundException(employeeId);
         }
         return employee.getEmergencyContacts();
     }
 
-    public EmergencyContact addEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeService.EmployeeNotFoundException {
+    public EmergencyContact addEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeNotFoundException {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
         if(employee == null){
-            throw new EmployeeService.EmployeeNotFoundException(employeeId);
+            throw new EmployeeNotFoundException(employeeId);
         }
 
         EmergencyContact emergencyContact = new EmergencyContact();
@@ -50,8 +52,8 @@ public class EmergencyContactService {
         return newEmergencyContact;
     }
 
-    public EmergencyContact updateEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EntityNotFoundException{
-        EmergencyContact emergencyContactToUpdate = emergencyContactRepository.findById(emergencyContactId).orElseThrow(()-> new EntityNotFoundException("No emergency contact found"));
+    public EmergencyContact updateEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EmergencyContactNotFoundException {
+        EmergencyContact emergencyContactToUpdate = emergencyContactRepository.findById(emergencyContactId).orElseThrow(()-> new EmergencyContactNotFoundException(emergencyContactId));
         if(createEmergencyContactDTO.getContact() != null){
             emergencyContactToUpdate.setContact(createEmergencyContactDTO.getContact());
         }
@@ -61,9 +63,9 @@ public class EmergencyContactService {
         return emergencyContactRepository.save(emergencyContactToUpdate);
     }
 
-    public void deleteEmergencyContact(Long emergencyContactId, Long employeeId)throws  EntityNotFoundException{
+    public void deleteEmergencyContact(Long emergencyContactId, Long employeeId)throws  EmergencyContactNotFoundException{
 
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()-> new EntityNotFoundException("Employee not found."));
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()-> new EmergencyContactNotFoundException(emergencyContactId,employeeId));
 
         EmergencyContact emergencyContactToDelete = emergencyContactRepository.findById(emergencyContactId).orElseThrow(()-> new EntityNotFoundException("Emergency contact not found"));
 

@@ -6,8 +6,8 @@ import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping("/addNewUser")
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
-                                                         @RequestBody AddNewUserDTO addNewUserDTO)throws IOException,UserService.EmailAlreadyExistsException{
+                                                         @RequestBody @Valid AddNewUserDTO addNewUserDTO)throws IOException,UserService.EmailAlreadyExistsException{
         User createdUser=userService.addNewUser(addNewUserDTO,loggedInUser);
         NewUserResponseDTO newUser=new NewUserResponseDTO();
         newUser.setUserId(createdUser.getUserId());
@@ -88,7 +88,6 @@ public class UserController {
             userResponse.setRoles(loggedInUser.getRoles());
             userResponse.setCreatedAt(loggedInUser.getCreatedAt());
             Employee employee = loggedInUser.getEmployee();
-
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
@@ -121,17 +120,13 @@ public class UserController {
 
 
     @ExceptionHandler(
-            {UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class
+            {UserService.WrongPasswordCredentialsException.class
                     ,UserService.EmailAlreadyExistsException.class, IOException.class,
                     UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if(exception instanceof EntityNotFoundException){
-            message = exception.getMessage();
-            status = HttpStatus.NOT_FOUND;
-        }
-        else if(exception instanceof IllegalArgumentException){
+         if(exception instanceof IllegalArgumentException){
             message = exception.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
