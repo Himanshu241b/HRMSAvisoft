@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.controller;
 import com.example.HRMSAvisoft.dto.*;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -27,8 +28,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
-    private EmployeeService employeeService;
+
+    private final EmployeeService employeeService;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +43,7 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}/uploadImage")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         employeeService.uploadProfileImage(employeeId, file);
         String message = "{\"message\": \"Profile Uploaded Successfully\"}";
         return ResponseEntity.ok().body(message);
@@ -67,7 +68,7 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}")
-    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId,@RequestBody CreateEmployeeDTO createEmployee) throws EmployeeService.EmployeeNotFoundException, EmployeeService.EmployeeCodeAlreadyExistsException {
+    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId,@RequestBody CreateEmployeeDTO createEmployee) throws EmployeeNotFoundException, EmployeeService.EmployeeCodeAlreadyExistsException {
         Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
@@ -91,7 +92,7 @@ public class EmployeeController {
     }
     @GetMapping("{employeeId}")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-    public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeService.EmployeeNotFoundException, DataAccessException
+    public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException, EmployeeNotFoundException, DataAccessException
     {
         Employee employee= employeeService.getEmployeeById(employeeId);
         Map<String, Object> responseData = new HashMap<>();
@@ -100,7 +101,7 @@ public class EmployeeController {
     }
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PutMapping("/updatePersonalDetails/{employeeId}")
-    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException, EmployeeNotFoundException
         {
 
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
@@ -115,7 +116,7 @@ public class EmployeeController {
     }
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PutMapping("/updateEmployeeDetails/{employeeId}")
-    public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+    public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException, EmployeeNotFoundException
     {
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
         if(updateEmployeeDetailsDTO.getFirstName()!=null) existingEmployee.setFirstName(updateEmployeeDetailsDTO.getFirstName());
@@ -136,19 +137,18 @@ public class EmployeeController {
 
 
     @ExceptionHandler({
-            EmployeeService.EmployeeNotFoundException.class,
+            EmployeeNotFoundException.class,
             IOException.class,
             RuntimeException.class,
             IllegalArgumentException.class,
             EmployeeService.EmployeeCodeAlreadyExistsException.class
-
     })
 
 
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if(exception instanceof EmployeeService.EmployeeNotFoundException) {
+        if(exception instanceof EmployeeNotFoundException) {
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
         } else if (exception instanceof IOException) {

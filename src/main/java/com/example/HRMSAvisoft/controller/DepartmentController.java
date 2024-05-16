@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.controller;
 import com.example.HRMSAvisoft.dto.CreateDepartmentDTO;
 import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.entity.Department;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.service.DepartmentService;
 import com.example.HRMSAvisoft.service.EmergencyContactService;
 import com.example.HRMSAvisoft.service.EmployeeService;
@@ -36,14 +37,14 @@ public class DepartmentController {
 
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-    public ResponseEntity<Map<String,Object>> addDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO) throws EmployeeService.EmployeeNotFoundException, EmergencyContactService.ValidationException {
+    public ResponseEntity<Map<String,Object>> addDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO) throws EmployeeNotFoundException, EmergencyContactService.ValidationException {
         Department createdDepartment = departmentService.addDepartment(createDepartmentDTO);
         return ResponseEntity.ok(Map.of("success", true, "message", "Department created successfully", "Department", createdDepartment));
     }
 
     @PatchMapping("/{departmentId}")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-    public ResponseEntity<Map<String,Object>> updateDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO, @PathVariable("departmentId") Long departmentId) throws EmployeeService.EmployeeNotFoundException, DepartmentService.DepartmentNotFoundException {
+    public ResponseEntity<Map<String,Object>> updateDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO, @PathVariable("departmentId") Long departmentId) throws EmployeeNotFoundException, DepartmentService.DepartmentNotFoundException {
         Department updatedDepartment = departmentService.updateDepartment(createDepartmentDTO, departmentId);
         return ResponseEntity.ok(Map.of("success", true, "message", "Department updated successfully", "Department", updatedDepartment));
     }
@@ -56,14 +57,14 @@ public class DepartmentController {
     }
 
     @ExceptionHandler({
-            EmployeeService.EmployeeNotFoundException.class,
+            EmployeeNotFoundException.class,
             DepartmentService.DepartmentNotFoundException.class
     })
 
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if(exception instanceof EmployeeService.EmployeeNotFoundException) {
+        if(exception instanceof EmployeeNotFoundException) {
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
         }

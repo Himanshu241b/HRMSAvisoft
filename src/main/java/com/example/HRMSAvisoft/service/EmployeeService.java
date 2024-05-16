@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class EmployeeService {
     {
         return employeeRepository.findAll();
     }
-    public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException,NullPointerException
+    public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException, NullPointerException
     {
         Employee employee= employeeRepository.getByEmployeeId(employeeId);
         if(employee!=null)return employee;
@@ -118,17 +119,10 @@ public class EmployeeService {
 
 
     private boolean validateSearchTerm(String term) {
-        // Regular expression pattern to allow only alphabets and spaces
         String pattern = "^[a-zA-Z\\s]+$";
         return Pattern.matches(pattern, term);
     }
 
-
-    public static class EmployeeNotFoundException extends Exception {
-        public EmployeeNotFoundException(Long employeeId) {
-            super("Employee not found with ID: " + employeeId);
-        }
-    }
 
     public static class EmployeeCodeAlreadyExistsException extends RuntimeException{
         public EmployeeCodeAlreadyExistsException(String message) {

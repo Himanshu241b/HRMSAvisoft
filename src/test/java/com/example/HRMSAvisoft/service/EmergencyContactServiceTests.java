@@ -18,9 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.ExpectedCount.times;
 
 @ExtendWith(MockitoExtension.class)
 public class EmergencyContactServiceTests {
@@ -36,7 +34,7 @@ public class EmergencyContactServiceTests {
 
     @Test
     @DisplayName("test_getEmergencyContactsForValidEmployeeId")
-    public void test_returns_emergency_contacts_for_valid_employee_id() throws EmployeeNotFoundException {
+    public void test_returns_emergency_contacts_for_valid_employee_id()throws EmployeeNotFoundException{
         Long employeeId = 1L;
         Employee employee = new Employee();
         List<EmergencyContact> emergencyContacts = new ArrayList<>();

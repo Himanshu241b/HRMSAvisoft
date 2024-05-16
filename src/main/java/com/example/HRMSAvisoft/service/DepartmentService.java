@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreateDepartmentDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Department addDepartment(CreateDepartmentDTO createDepartmentDTO) throws EmployeeService.EmployeeNotFoundException {
-        Employee manager = employeeRepository.findById(createDepartmentDTO.getManagerId()).orElseThrow(()-> new EmployeeService.EmployeeNotFoundException(createDepartmentDTO.getManagerId()));
+    public Department addDepartment(CreateDepartmentDTO createDepartmentDTO) throws EmployeeNotFoundException {
+        Employee manager = employeeRepository.findById(createDepartmentDTO.getManagerId()).orElseThrow(()-> new EmployeeNotFoundException(createDepartmentDTO.getManagerId()));
         Department newDepartment = new Department();
         newDepartment.setDepartment(createDepartmentDTO.getDepartment());
         newDepartment.setDescription(createDepartmentDTO.getDescription());
@@ -37,7 +38,7 @@ public class DepartmentService {
         return departmentRepository.save(newDepartment);
     }
 
-    public Department updateDepartment(CreateDepartmentDTO createDepartmentDTO, Long departmentId)throws  DepartmentNotFoundException, EmployeeService.EmployeeNotFoundException {
+    public Department updateDepartment(CreateDepartmentDTO createDepartmentDTO, Long departmentId)throws  DepartmentNotFoundException, EmployeeNotFoundException {
         Department departmentFoundById = departmentRepository.findById(departmentId).orElseThrow(()-> new DepartmentNotFoundException(departmentId));
 
         if(createDepartmentDTO.getDepartment() != null){
@@ -47,7 +48,7 @@ public class DepartmentService {
             departmentFoundById.setDescription(createDepartmentDTO.getDescription());
         }
         if(createDepartmentDTO.getManagerId() != null){
-            Employee manager = employeeRepository.findById(createDepartmentDTO.getManagerId()).orElseThrow(()-> new EmployeeService.EmployeeNotFoundException(createDepartmentDTO.getManagerId()));
+            Employee manager = employeeRepository.findById(createDepartmentDTO.getManagerId()).orElseThrow(()-> new EmployeeNotFoundException(createDepartmentDTO.getManagerId()));
             departmentFoundById.setManager(manager);
         }
         return departmentRepository.save(departmentFoundById);
@@ -55,7 +56,14 @@ public class DepartmentService {
 
     public void deleteDepartment(Long departmentId)throws DepartmentNotFoundException{
         Department departmentToDelete = departmentRepository.findById(departmentId).orElseThrow(()-> new DepartmentNotFoundException(departmentId));
+
+        List<Employee> employees = employeeRepository.findByDepartment(departmentToDelete);
+        for (Employee employee : employees) {
+            employee.setDepartment(null);
+            employeeRepository.save(employee);
+        }
         departmentRepository.delete(departmentToDelete);
+
     }
 
     public static class DepartmentNotFoundException extends RuntimeException {

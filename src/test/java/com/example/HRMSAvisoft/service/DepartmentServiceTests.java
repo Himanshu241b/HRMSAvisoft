@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreateDepartmentDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +49,7 @@ public class DepartmentServiceTests {
 
     @Test
     @DisplayName("test_addDepartment_validInput")
-    public void test_addDepartment_validInput() throws EmployeeService.EmployeeNotFoundException {
+    public void test_addDepartment_validInput() throws EmployeeNotFoundException {
 
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
         DepartmentRepository departmentRepository = Mockito.mock(DepartmentRepository.class);
@@ -72,7 +73,7 @@ public class DepartmentServiceTests {
     }
 
     @Test
-    public void test_update_department_name_and_description() throws EmployeeService.EmployeeNotFoundException {
+    public void test_update_department_name_and_description() throws EmployeeNotFoundException {
         // Create mock objects
         DepartmentRepository departmentRepository = Mockito.mock(DepartmentRepository.class);
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
