@@ -13,6 +13,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,8 +22,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AccountControllerTest {
     HttpClient client;
     String port;
+    AddAccountDTO accountDTO;
+    JsonReader jsonReader =new JsonReader();
+    Map<String,Object>dataMap=jsonReader.readFile("account");
+    String accountNumber=(String) dataMap.get("accountNumber");
+    String ifsc=(String) dataMap.get("ifsc");
+    String bankName=(String) dataMap.get("bankName");
+    String branch=(String)dataMap.get("branch");
+
+    public AccountControllerTest() throws IOException {
+    }
+
     @BeforeEach
     public void setUp(){
+        accountDTO=new AddAccountDTO();
+        accountDTO.setAccountNumber(accountNumber);
+        accountDTO.setIfsc(ifsc);
+        accountDTO.setBankName(bankName);
+        accountDTO.setBranch(branch);
         client =HttpClient.newHttpClient();
         port="5555";
 
@@ -33,12 +51,7 @@ public class AccountControllerTest {
         Long employeeId = 1L;
         String url = "http://localhost:5555/api/v1/account/2/AddBankAccount";
 
-        // Account DTO
-        AddAccountDTO accountDTO = new AddAccountDTO();
-        accountDTO.setAccountNumber("1234567890");
-        accountDTO.setIfsc("IFSC0123456");
-        accountDTO.setBankName("Bank");
-        accountDTO.setBranch("Branch");
+
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(accountDTO);
