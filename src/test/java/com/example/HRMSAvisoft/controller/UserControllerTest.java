@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
@@ -99,7 +100,6 @@ class UserControllerTest {
     @Test
     @DisplayName("Test User Login")
     void testUserLogin() throws Exception {
-        // Prepare test data
         LoginUserDTO loginUserDTO = new LoginUserDTO();
         loginUserDTO.setEmail("testuser");
         loginUserDTO.setPassword("testpassword");
@@ -120,12 +120,12 @@ class UserControllerTest {
         mockMvc.perform(post("/api/v1/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginUserDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.message").value("Login Successful"))
-                .andExpect(jsonPath("$.userId").value(1L))
-                .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
+                .andExpect(jsonPath("$.loginUser.userId").value(1L))
+                .andExpect(jsonPath("$.loginUser.email").value("test@example.com"))
+                .andExpect(jsonPath("$.loginUser.firstName").value("John"))
+                .andExpect(jsonPath("$.loginUser.lastName").value("Doe"));
     }
 
 

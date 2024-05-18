@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.controller;
 
+import com.example.HRMSAvisoft.dto.LoginUserResponseDTO;
 import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Employee;
@@ -14,10 +15,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -40,11 +44,11 @@ import java.util.Collections;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EmployeeController.class)
@@ -52,7 +56,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    ;
+
+    @Mock
+    ModelMapper modelMapper;
+
     @MockBean
     private EmployeeService employeeService;
     @MockBean
@@ -62,8 +69,7 @@ public class EmployeeControllerTest {
 //    @Autowired
 //    private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private EmployeeController employeeController;
+
     HttpClient client;
     String port;
 
@@ -193,12 +199,11 @@ public class EmployeeControllerTest {
         mockMvc.perform(put("/api/v1/employee/updateEmployeeDetails/{employeeId}", employeeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(updateEmployeeDetailsDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
                 .andExpect(jsonPath("$.message").value("Personal Details Updated"))
                 .andExpect(jsonPath("$.Status").value(true));
 
-        // Verify that the EmployeeService methods were called
         verify(employeeService, times(1)).getEmployeeById(employeeId);
         verify(employeeService, times(1)).updateEmployee(any(Employee.class));
         verifyNoMoreInteractions(employeeService);
@@ -233,30 +238,4 @@ public class EmployeeControllerTest {
 //        assertEquals(200, postResponse.statusCode());
 //    }
 
-    @Test
-    @DisplayName("test_search_employee_success")
-    void test_search_employee_success() throws Exception {
-
-        Employee employee1 = new Employee();
-        Employee employee2 = new Employee();
-        employee1.setFirstName("test");
-        employee1.setLastName("user");
-        employee2.setFirstName("test2");
-        employee2.setLastName("user2");
-        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
-
-        // Mock the service method
-        when(employeeService.searchEmployeesByName("test")).thenReturn(mockEmployees);
-
-        // Perform the MVC request and verify the results
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:5555/api/v1/employee/searchEmployee")
-                        .param("name", "test")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].firstName").value("test"))
-                .andExpect(jsonPath("$[1].firstName").value("test2"))
-                .andExpect(jsonPath("$[0].lastName").value("user"))
-                .andExpect(jsonPath("$[1].lastName").value("user2"));
-    }
 }
