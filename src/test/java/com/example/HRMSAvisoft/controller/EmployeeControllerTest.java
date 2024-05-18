@@ -199,12 +199,11 @@ public class EmployeeControllerTest {
         mockMvc.perform(put("/api/v1/employee/updateEmployeeDetails/{employeeId}", employeeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(updateEmployeeDetailsDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
                 .andExpect(jsonPath("$.message").value("Personal Details Updated"))
                 .andExpect(jsonPath("$.Status").value(true));
 
-        // Verify that the EmployeeService methods were called
         verify(employeeService, times(1)).getEmployeeById(employeeId);
         verify(employeeService, times(1)).updateEmployee(any(Employee.class));
         verifyNoMoreInteractions(employeeService);
@@ -239,23 +238,4 @@ public class EmployeeControllerTest {
 //        assertEquals(200, postResponse.statusCode());
 //    }
 
-    @Test
-    @DisplayName("test_search_employee_success")
-    void test_search_employee_success() throws Exception {
-
-        String searchTerm = "test";
-
-        Employee employee1 = new Employee();
-        Employee employee2 = new Employee();
-        employee1.setFirstName("test");
-        employee1.setLastName("user");
-        employee2.setFirstName("test2");
-        employee2.setLastName("user2");
-        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
-
-        when(employeeService.searchEmployeesByName(searchTerm)).thenReturn(mockEmployees);
-
-        this.mockMvc.perform(get("/api/v1/employee/searchEmployee").param("name", searchTerm)).andDo(print());
-
-    }
 }

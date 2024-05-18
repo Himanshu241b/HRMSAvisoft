@@ -8,8 +8,6 @@ import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-     private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     private UserRepository userRepository;
@@ -96,6 +94,7 @@ public class EmployeeController {
         return ResponseEntity.ok().body(Map.of("Employee", employee, "message", "Employee retrieved Successfully", "Status", true));
 
     }
+
     @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
     @PutMapping("/updatePersonalDetails/{employeeId}")
     public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody @Valid UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeNotFoundException

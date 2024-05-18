@@ -37,6 +37,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
         this.cloudinary = cloudinary;
     }
+
     public void uploadProfileImage(Long employeeId, MultipartFile file)throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
 

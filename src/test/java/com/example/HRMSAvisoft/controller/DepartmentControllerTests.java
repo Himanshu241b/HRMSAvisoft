@@ -2,14 +2,18 @@ package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.service.DepartmentService;
+import com.example.HRMSAvisoft.service.EmployeeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,6 +34,15 @@ public class DepartmentControllerTests {
     @InjectMocks
     DepartmentService departmentService;
 
+    @MockBean
+    EmployeeController employeeController;
+
+    @MockBean
+    EmployeeService employeeService;
+
+    @Mock
+    DepartmentRepository departmentRepository;
+
     @Test
     @DisplayName("test_getAllDepartments")
     void testGetAllDepartments() throws Exception {
@@ -38,7 +51,7 @@ public class DepartmentControllerTests {
         departmentsList.add(new Department(2L, "Java", "Java department", new Employee()));
 
         when(departmentService.getAllDepartments()).thenReturn(departmentsList);
-        this.mockMvc.perform(get("/api/v1/department/employee/2L")).andDo(print());
+        this.mockMvc.perform(get("/api/v1/department")).andDo(print());
 
     }
 }
