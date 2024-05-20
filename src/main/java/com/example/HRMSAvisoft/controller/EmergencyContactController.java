@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/emergencyContact")
-@Transactional
 public class EmergencyContactController {
 
     private final EmergencyContactService emergencyContactService;
@@ -47,21 +46,21 @@ public class EmergencyContactController {
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> addEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, @PathVariable("employeeId") Long employeeId)throws EmployeeNotFoundException {
         EmergencyContact newEmergencyContact = emergencyContactService.addEmergencyContact(createEmergencyContactDTO, employeeId);
-        return ResponseEntity.ok(Map.of("success", true, "message", "Emergency contact added", "emergencyContact", newEmergencyContact));
+        return ResponseEntity.status(201).body(Map.of("success", true, "message", "Emergency contact added", "emergencyContact", newEmergencyContact));
     }
 
     @PatchMapping("/{emergencyContactId}")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> updateEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, @PathVariable("emergencyContactId") Long emergencyContactId)throws EntityNotFoundException {
         EmergencyContact updatedEmergencyContact = emergencyContactService.updateEmergencyContact(createEmergencyContactDTO, emergencyContactId);
-        return ResponseEntity.ok(Map.of("success", true, "message", "Emergency contact updated", "emergencyContact", updatedEmergencyContact));
+        return ResponseEntity.status(204).body(Map.of("success", true, "message", "Emergency contact updated", "emergencyContact", updatedEmergencyContact));
     }
 
     @DeleteMapping("/{emergencyContactId}/{employeeId}")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String, Object>> deleteEmergencyContact(@PathVariable("emergencyContactId") Long emergencyContactId, @PathVariable("employeeId") Long employeeId)throws EntityNotFoundException {
         emergencyContactService.deleteEmergencyContact(emergencyContactId, employeeId);
-        return ResponseEntity.ok(Map.of("success", true, "message","Emergency contact deleted"));
+        return ResponseEntity.status(204).body(Map.of("success", true, "message","Emergency contact deleted"));
     }
 
     @ExceptionHandler({

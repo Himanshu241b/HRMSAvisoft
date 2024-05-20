@@ -1,12 +1,14 @@
 package com.example.HRMSAvisoft.security;
 
-import com.example.HRMSAvisoft.entity.User;
+
+
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Collection;
 
 
@@ -26,12 +28,12 @@ public class JWTAuthenticationManager implements AuthenticationManager {
             var jwtAuthentication = (JWTAuthentication) authentication;
             var jwt = jwtAuthentication.getCredentials();
             var userId =jwtService.retrieveUserId(jwt);
-            User user = userService.getUserById(userId);
-            jwtAuthentication.loggedInUser = user;
+            var userEntity = userService.getUserById(userId);
+            var roles = userService.getUserRoles(userId);
+            jwtAuthentication.userEntity = userEntity;
             jwtAuthentication.setAuthenticated(true);
 
             // Set roles in the JWTAuthentication
-
             JWTAuthentication tokenProvider = new JWTAuthentication(jwt);
             Collection<? extends GrantedAuthority> authorities = tokenProvider.getAuthorities();
 

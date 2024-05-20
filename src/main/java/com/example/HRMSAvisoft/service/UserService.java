@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 
 @Service
 @Transactional
@@ -141,6 +142,12 @@ public class UserService {
         User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
         userRepository.deleteById(userId);
     }
+
+    public Collection<Role> getUserRoles(Long userId) {
+        User user = getUserById(userId);
+        return user.getRoles();
+    }
+
 
     public static class WrongPasswordCredentialsException extends IllegalAccessException{
         public WrongPasswordCredentialsException(String email){

@@ -5,18 +5,23 @@ import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private final JWTAuthenticationFilter jwtAuthenticationFilter;
+
+
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
     public SecurityConfig(JWTService jwtService, UserService userService) {
         this.jwtAuthenticationFilter = new JWTAuthenticationFilter(new JWTAuthenticationManager(jwtService, userService));
     }
@@ -26,12 +31,11 @@ public class SecurityConfig {
         http
                 .csrf(csrfSpec -> csrfSpec.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**")
-                        .permitAll()
+                        .requestMatchers("/**").permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
-        http.addFilterBefore(jwtAuthenticationFilter,  UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class);
         return http.build();
     }
 }

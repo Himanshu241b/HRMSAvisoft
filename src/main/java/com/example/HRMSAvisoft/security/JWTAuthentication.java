@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 public class JWTAuthentication implements Authentication {
 
    String jwt;
-   User loggedInUser;
+   User userEntity;
 
    @Autowired
    JWTService jwtService;
@@ -56,12 +57,12 @@ public class JWTAuthentication implements Authentication {
      */
     @Override
     public User getPrincipal() {
-        return loggedInUser;
+        return userEntity;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return (loggedInUser != null);
+        return (userEntity != null);
     }
 
     @Override
