@@ -8,11 +8,10 @@ import com.example.HRMSAvisoft.repository.EmergencyContactRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Transactional
 @Service
 public class EmergencyContactService {
 
@@ -34,7 +33,7 @@ public class EmergencyContactService {
         return employee.getEmergencyContacts();
     }
 
-    public EmergencyContact addEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeNotFoundException, ValidationException {
+    public EmergencyContact addEmergencyContact(@RequestBody  CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeNotFoundException, ValidationException {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
         if(employee == null){
@@ -61,7 +60,7 @@ public class EmergencyContactService {
         return newEmergencyContact;
     }
 
-    public EmergencyContact updateEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EntityNotFoundException{
+    public EmergencyContact updateEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EntityNotFoundException{
         EmergencyContact emergencyContactToUpdate = emergencyContactRepository.findById(emergencyContactId).orElseThrow(()-> new EntityNotFoundException("No emergency contact found"));
         if(createEmergencyContactDTO.getContact() != null){
             emergencyContactToUpdate.setContact(createEmergencyContactDTO.getContact());

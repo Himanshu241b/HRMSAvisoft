@@ -56,9 +56,6 @@ public class Employee {
 
     private BigDecimal salary;
 
-
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-
     @ManyToOne
     private Department department;
 
