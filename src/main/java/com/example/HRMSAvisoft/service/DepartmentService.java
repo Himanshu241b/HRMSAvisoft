@@ -8,6 +8,7 @@ import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Department addDepartment(CreateDepartmentDTO createDepartmentDTO) throws EmployeeNotFoundException {
+    public Department addDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO) throws EmployeeNotFoundException {
         Employee manager = employeeRepository.findById(createDepartmentDTO.getManagerId()).orElseThrow(()-> new EmployeeNotFoundException(createDepartmentDTO.getManagerId()));
         Department newDepartment = new Department();
         newDepartment.setDepartment(createDepartmentDTO.getDepartment());
@@ -38,7 +39,7 @@ public class DepartmentService {
         return departmentRepository.save(newDepartment);
     }
 
-    public Department updateDepartment(CreateDepartmentDTO createDepartmentDTO, Long departmentId)throws  DepartmentNotFoundException, EmployeeNotFoundException {
+    public Department updateDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO, Long departmentId)throws  DepartmentNotFoundException, EmployeeNotFoundException {
         Department departmentFoundById = departmentRepository.findById(departmentId).orElseThrow(()-> new DepartmentNotFoundException(departmentId));
 
         if(createDepartmentDTO.getDepartment() != null){
