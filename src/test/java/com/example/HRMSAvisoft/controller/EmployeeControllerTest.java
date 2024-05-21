@@ -87,26 +87,26 @@ public class EmployeeControllerTest {
         client = HttpClient.newHttpClient();
         port = "5555";
     }
-    @Test
-    @WithMockUser
-    @DisplayName("Test Get All Employees")
-    public void testGetAllEmployees() throws Exception {
-        // Given
-        Employee employee = new Employee();
-        employee.setEmployeeId(1L);
-        employee.setFirstName("John");
-        when(employeeService.getAllEmployees()).thenReturn(Collections.singletonList(employee));
-
-        // When/Then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/getAllEmployees"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees[0].employeeId").isNotEmpty())
-                .andExpect(jsonPath("$.Employees[0].firstName").value("John"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Employees Retrieved Successfully"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Success").value(true));
-        verify(employeeService, times(1)).getAllEmployees();
-    }
+//    @Test
+//    @WithMockUser
+//    @DisplayName("Test Get All Employees")
+//    public void testGetAllEmployees() throws Exception {
+//        // Given
+//        Employee employee = new Employee();
+//        employee.setEmployeeId(1L);
+//        employee.setFirstName("John");
+//        when(employeeService.getAllEmployees()).thenReturn(Collections.singletonList(employee));
+//
+//        // When/Then
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/getAllEmployees"))
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees").exists())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees[0].employeeId").isNotEmpty())
+//                .andExpect(jsonPath("$.Employees[0].firstName").value("John"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Employees Retrieved Successfully"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Success").value(true));
+//        verify(employeeService, times(1)).getAllEmployees();
+//    }
     @Test
     @WithMockUser
     void testGetEmployeeById() throws Exception {

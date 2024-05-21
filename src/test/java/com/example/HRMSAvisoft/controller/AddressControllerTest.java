@@ -19,11 +19,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.plaf.IconUIResource;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -37,10 +39,32 @@ public class AddressControllerTest {
     private int port;
 
     private HttpClient client;
+    AddressDTO addressDTO;
+    JsonReader jsonReader =new JsonReader();
+    Map<String,Object> dataMap=jsonReader.readFile("address");
+
+        String propertyNumber=(String)dataMap.get("propertyNumber");
+        AddressType addressType=(AddressType)dataMap.get("addressType");
+        Long zipCode=Long.valueOf(dataMap.get("zipCode").toString());
+        String city=(String)dataMap.get("city");
+        String state=(String)dataMap.get("state");
+        String country=(String)dataMap.get("country");
+
+    public AddressControllerTest() throws IOException {
+    }
+
     @BeforeEach
     public void setUp(){
         port=5555;
         client = HttpClient.newHttpClient();
+        addressDTO=new AddressDTO();
+        addressDTO.setPropertyNumber(propertyNumber);
+        addressDTO.setAddressType(addressType);
+        addressDTO.setZipCode(zipCode);
+        addressDTO.setCity(city);
+        addressDTO.setState(state);
+        addressDTO.setCountry(country);
+
     }
     @Test
     @DisplayName("AddAddressToEmployee")
@@ -48,15 +72,6 @@ public class AddressControllerTest {
     public void addAddressToEmployee() throws IOException, InterruptedException {
         Long employeeId = 3L;
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/addNewAddress";
-
-        AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setPropertyNumber("123");
-        addressDTO.setAddressType(AddressType.TEMPORARY);
-        addressDTO.setZipCode(12345L);
-        addressDTO.setCity("Springfield");
-        addressDTO.setState("State");
-        addressDTO.setCountry("Country");
-
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(addressDTO);
@@ -78,7 +93,7 @@ public class AddressControllerTest {
     @DisplayName("Remove Address from Employee")
     public void removeAddressFromEmployee() throws IOException, InterruptedException {
         Long employeeId = 3L;
-        Long addressId = 21L; // Assuming addressId
+        Long addressId = 23L; // Assuming addressId
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/removeAddress/" + addressId;
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -99,13 +114,6 @@ public class AddressControllerTest {
         Long addressId = 9L; //
         String url = "http://localhost:" + port + "/api/v1/address/" + employeeId + "/editAddress/" + addressId;
 
-        AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setPropertyNumber("123");
-        addressDTO.setAddressType(AddressType.TEMPORARY);
-        addressDTO.setZipCode(12345L);
-        addressDTO.setCity("Springfield");
-        addressDTO.setState("State");
-        addressDTO.setCountry("Country");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(addressDTO);

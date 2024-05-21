@@ -10,6 +10,8 @@ import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -97,9 +99,9 @@ public class EmployeeService {
         return employeeRepository.save(employeeToAddInfo);
     }
 
-    public List<Employee> getAllEmployees()throws DataAccessException
+    public Page<Employee> getAllEmployees(Pageable pageable)throws DataAccessException
     {
-        return employeeRepository.findAll();
+        return employeeRepository.findAll(pageable);
     }
     public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException, NullPointerException
     {

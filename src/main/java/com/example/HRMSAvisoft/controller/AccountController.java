@@ -21,7 +21,7 @@ public class AccountController {
     public AccountController(AccountService accountService){
         this.accountService=accountService;
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}/AddBankAccount")
     public ResponseEntity<Map<String,Object>>addAccount(@RequestBody @Valid AddAccountDTO accountDTO, @PathVariable Long employeeId)throws EmployeeNotFoundException {
         Employee updatedEmployee=accountService.addAccountToEmployee(employeeId,accountDTO);
@@ -31,7 +31,7 @@ public class AccountController {
         response.put("updatedUser", updatedEmployee);
         return ResponseEntity.ok(response);
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @DeleteMapping("/{employeeId}/removeAccount")
     public ResponseEntity<Map<String,Object>> removeAccountFromEmployee(@PathVariable Long employeeId)throws EmployeeNotFoundException {
         Map<String, Object> response = new HashMap<String, Object>();

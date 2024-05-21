@@ -10,6 +10,10 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,23 +77,27 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/getAllEmployees")
-    public ResponseEntity<Map<String,Object>>getAllEmployees() {
+    public ResponseEntity<Map<String, Object>> getAllEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "employeeId") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<Employee> pageOfEmployees = employeeService.getAllEmployees(pageable);
 
         Map<String, Object> responseData = new HashMap<>();
-        List<Employee> listOfEmployees=employeeService.getAllEmployees();
-        if(listOfEmployees!=null){
-            responseData.put("Employees",listOfEmployees);
-            responseData.put("message","Employees Retrieved Successfully");
-            responseData.put("Success",true);
-        }else {
-            responseData.put("Employees", null);
-            responseData.put("message", "Employee List is Empty");
-            responseData.put("Success",true);
-        }
+        responseData.put("Employees", pageOfEmployees.getContent());
+        responseData.put("currentPage", pageOfEmployees.getNumber());
+        responseData.put("totalItems", pageOfEmployees.getTotalElements());
+        responseData.put("totalPages", pageOfEmployees.getTotalPages());
+        responseData.put("message", "Employees Retrieved Successfully");
+        responseData.put("Success", true);
+
         return ResponseEntity.ok().body(responseData);
     }
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+
     @GetMapping("{employeeId}")
     public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeNotFoundException, DataAccessException
     {
