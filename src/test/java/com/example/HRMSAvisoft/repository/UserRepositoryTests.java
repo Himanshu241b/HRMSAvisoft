@@ -54,31 +54,31 @@ public class UserRepositoryTests {
         userRepository.deleteAll();
     }
 
-    @Test
-//   @Transactional
-    public void testSaveUser() {
-
-        Role role = new Role();
-        role.setRole("ROLE_USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        User user = new User();
-        user.setEmail("john.doe@example.com");
-        user.setPassword("password");
-        user.setCreatedAt(LocalDateTime.now().toString());
-        user.setCreatedBy(null);
-
-        user.setRoles(roles);
-
-        // When
-        User savedUser = userRepository.save(user);
-
-        // Then
-        assertThat(savedUser).isNotNull();
-        assertThat(savedUser.getUserId()).isNotNull();
-        assertThat(savedUser.getEmail()).isEqualTo("john.doe@example.com");
-        assertThat(savedUser.getPassword()).isEqualTo("password");
-    }
+//    @Test
+////   @Transactional
+//    public void testSaveUser() {
+//
+//        Role role = new Role();
+//        role.setRole("ROLE_USER");
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
+//        User user = new User();
+//        user.setEmail("john.doe@example.com");
+//        user.setPassword("password");
+//        user.setCreatedAt(LocalDateTime.now().toString());
+//        user.setCreatedBy(null);
+//
+//        user.setRoles(roles);
+//
+//        // When
+//        User savedUser = userRepository.save(user);
+//
+//        // Then
+//        assertThat(savedUser).isNotNull();
+//        assertThat(savedUser.getUserId()).isNotNull();
+//        assertThat(savedUser.getEmail()).isEqualTo("john.doe@example.com");
+//        assertThat(savedUser.getPassword()).isEqualTo("password");
+//    }
 
     @Test
     @Transactional

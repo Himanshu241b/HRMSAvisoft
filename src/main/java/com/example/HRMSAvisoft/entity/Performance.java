@@ -11,20 +11,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
-public class Department {
+public class Performance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long departmentId;
+    private Long performanceId;
 
-    @Column(nullable = false)
-    private String department;
+    private String reviewDate;
 
-    private String description;
+    @OneToOne
+    @JoinColumn(name = "reviewerId", referencedColumnName = "employeeId")
+    private Employee reviewer;
 
-    @ManyToOne(fetch =  FetchType.EAGER)
-    @JoinColumn(name = "managerId")
-    private Employee manager;
+    private Rating rating;
+
+    private String comment;
+
+
 
 }

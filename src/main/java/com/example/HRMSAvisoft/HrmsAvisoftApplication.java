@@ -9,10 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @SpringBootApplication
 @RestController
-
 public class HrmsAvisoftApplication {
    @Bean
 	public ModelMapper modelMapper() {

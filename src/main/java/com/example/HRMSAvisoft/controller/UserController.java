@@ -8,13 +8,13 @@ import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -115,8 +115,21 @@ public class UserController {
         response.put("token", token);
         response.put("loginUser", userResponse);
         return ResponseEntity.ok(response);
-
     }
+
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+//        // Extract the token from the Authorization header
+//        String jwt = token.substring(7); // Assuming "Bearer " prefix is used
+//
+//        // Add the token to the blacklist
+//        jwtBlacklist.addToBlacklist(jwt);
+//
+//        // You can also implement additional logic here, such as notifying clients of successful logout
+//
+//        return ResponseEntity.ok("Logout successful");
+//    }
 
 
     @ExceptionHandler(

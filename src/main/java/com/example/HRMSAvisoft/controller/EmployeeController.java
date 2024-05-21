@@ -8,8 +8,6 @@ import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -32,7 +30,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-     private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,6 +51,7 @@ public class EmployeeController {
         return ResponseEntity.ok().body(message);
     }
 
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/searchEmployee")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
@@ -71,10 +70,12 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}")
-    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody  @Valid CreateEmployeeDTO createEmployee) throws EmployeeNotFoundException {
+    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody  @Valid CreateEmployeeDTO createEmployee) throws EmployeeNotFoundException, EmployeeService.EmployeeCodeAlreadyExistsException {
         Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/getAllEmployees")
     public ResponseEntity<Map<String, Object>> getAllEmployees(
             @RequestParam(defaultValue = "0") int page,
@@ -111,6 +112,8 @@ public class EmployeeController {
 //        }
 //        return ResponseEntity.ok().body(responseData);
 //    }
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+
     @GetMapping("{employeeId}")
     public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeNotFoundException, DataAccessException
     {
@@ -119,9 +122,10 @@ public class EmployeeController {
         return ResponseEntity.ok().body(Map.of("Employee", employee, "message", "Employee retrieved Successfully", "Status", true));
 
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PutMapping("/updatePersonalDetails/{employeeId}")
-    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody @Valid UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeNotFoundException
+    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeNotFoundException
         {
 
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
@@ -134,7 +138,7 @@ public class EmployeeController {
 
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",savedEmployee , "message", "Personal Details Updated", "Status", true));
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PutMapping("/updateEmployeeDetails/{employeeId}")
     public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeNotFoundException
     {
@@ -159,7 +163,8 @@ public class EmployeeController {
     @ExceptionHandler({
             IOException.class,
             RuntimeException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            EmployeeService.EmployeeCodeAlreadyExistsException.class
 
     })
 
@@ -169,16 +174,17 @@ public class EmployeeController {
         if (exception instanceof IOException) {
             message = "Failed to update Profile Image";
             status = HttpStatus.BAD_REQUEST;
-        }else if(exception instanceof NullPointerException) {
+        }
+        else if(exception instanceof EmployeeService.EmployeeCodeAlreadyExistsException){
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
+        }
+        else if(exception instanceof NullPointerException) {
             message = exception.getMessage();
             status =  HttpStatus.BAD_REQUEST;
         }
         else if(exception instanceof IllegalArgumentException) {
             message = exception.getMessage();
-            status = HttpStatus.BAD_REQUEST;
-        }
-        else if (exception instanceof RuntimeException) {
-            message = "Invalid image file";
             status = HttpStatus.BAD_REQUEST;
         }
         else{

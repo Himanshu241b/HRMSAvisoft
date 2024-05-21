@@ -93,6 +93,7 @@ public class EmployeeRepositoryTests {
         savedEmployee = employeeRepository.save(employee);
 
         Employee employeeFoundById = employeeRepository.findById(empId).orElse(null);
+
         assertEquals(employeeFoundById.getEmployeeId(), savedEmployee.getEmployeeId());
         assertEquals(employeeFoundById.getFirstName(), savedEmployee.getFirstName());
         assertEquals(employeeFoundById.getLastName(), savedEmployee.getLastName());

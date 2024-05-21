@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.repository;
 
+import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> searchEmployeesByName(@Param("name") String name);
 
     Employee findTopByOrderByEmployeeCodeDesc();
+
+    boolean existsByEmployeeCode(String employeeCode);
+
+    List<Employee> findByDepartment(Department department);
 
 }
