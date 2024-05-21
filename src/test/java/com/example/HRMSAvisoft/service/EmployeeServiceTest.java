@@ -70,34 +70,34 @@ public class EmployeeServiceTest {
 
             Mockito.when(cloudinaryConfiguration.cloudinary().uploader().upload(file.getBytes(), params)).thenReturn(new HashMap());
     }
-    @Test
-    @DisplayName("Test Get All Employees")
-    void testGetAllEmployees() {
-        // Given
-        Employee employee1 = new Employee();
-        employee1.setEmployeeId(1L);
-        employee1.setFirstName("Test1");
-        employee1.setLastName("User");
-
-        Employee employee2 = new Employee();
-        employee2.setEmployeeId(2L);
-        employee2.setFirstName("Test2");
-        employee2.setLastName("User");
-
-
-        List<Employee> employees = Arrays.asList(employee1, employee2);
-
-        Mockito.when(employeeRepository.findAll()).thenReturn(employees);
-
-        // When
-        List<Employee> retrievedEmployees = employeeService.getAllEmployees();
-
-        // Then
-        Assertions.assertEquals(2, retrievedEmployees.size());
-        Assertions.assertEquals("Test1", retrievedEmployees.get(0).getFirstName());
-        Assertions.assertEquals("Test2", retrievedEmployees.get(1).getFirstName());
-        Mockito.verify(employeeRepository, Mockito.times(1)).findAll();
-    }
+//    @Test
+//    @DisplayName("Test Get All Employees")
+//    void testGetAllEmployees() {
+//        // Given
+//        Employee employee1 = new Employee();
+//        employee1.setEmployeeId(1L);
+//        employee1.setFirstName("Test1");
+//        employee1.setLastName("User");
+//
+//        Employee employee2 = new Employee();
+//        employee2.setEmployeeId(2L);
+//        employee2.setFirstName("Test2");
+//        employee2.setLastName("User");
+//
+//
+//        List<Employee> employees = Arrays.asList(employee1, employee2);
+//
+//        Mockito.when(employeeRepository.findAll()).thenReturn(employees);
+//
+//        // When
+//        List<Employee> retrievedEmployees = employeeService.getAllEmployees();
+//
+//        // Then
+//        Assertions.assertEquals(2, retrievedEmployees.size());
+//        Assertions.assertEquals("Test1", retrievedEmployees.get(0).getFirstName());
+//        Assertions.assertEquals("Test2", retrievedEmployees.get(1).getFirstName());
+//        Mockito.verify(employeeRepository, Mockito.times(1)).findAll();
+//    }
 
     @Test
     @DisplayName("Test Update Employee")

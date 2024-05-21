@@ -5,6 +5,7 @@ import com.example.HRMSAvisoft.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class RoleController {
         this.modelMapper = modelMapper;
         this.roleService = roleService;
     }
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/addRole")
     public ResponseEntity<Role> saveRole(@RequestBody String role) {
         Role roleAdded =roleService.addRole(role);

@@ -96,22 +96,6 @@ public class EmployeeController {
         return ResponseEntity.ok().body(responseData);
     }
 
-//    @GetMapping("/getAllEmployees")
-//    public ResponseEntity<Map<String,Object>>getAllEmployees() {
-//
-//        Map<String, Object> responseData = new HashMap<>();
-//        List<Employee> listOfEmployees=employeeService.getAllEmployees();
-//        if(listOfEmployees!=null){
-//            responseData.put("Employees",listOfEmployees);
-//            responseData.put("message","Employees Retrieved Successfully");
-//            responseData.put("Success",true);
-//        }else {
-//            responseData.put("Employees", null);
-//            responseData.put("message", "Employee List is Empty");
-//            responseData.put("Success",true);
-//        }
-//        return ResponseEntity.ok().body(responseData);
-//    }
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
 
     @GetMapping("{employeeId}")
