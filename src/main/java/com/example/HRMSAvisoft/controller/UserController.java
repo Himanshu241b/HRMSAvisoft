@@ -3,6 +3,7 @@ package com.example.HRMSAvisoft.controller;
 import com.example.HRMSAvisoft.dto.*;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -107,6 +108,7 @@ public class UserController {
             userResponse.setSalary(employee.getSalary());
         }
 
+
         String token = JWTService.createJWT(loggedInUser.getUserId(), loggedInUser.getRoles());
 
         Map<String, Object> response = new HashMap<String, Object>();
@@ -116,6 +118,17 @@ public class UserController {
         response.put("loginUser", userResponse);
         return ResponseEntity.ok(response);
     }
+
+    @Transactional
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+    @DeleteMapping("/{userId}")
+    public ResponseEntity deleteEmployee(@PathVariable("userId") Long userId)throws EmployeeNotFoundException {
+        if(userService.deleteUser(userId))
+            return ResponseEntity.status(204).body(null);
+        else
+            return ResponseEntity.status(500).body(null);
+    }
+
 
 
 //    @PostMapping("/logout")
@@ -135,7 +148,9 @@ public class UserController {
     @ExceptionHandler(
             {UserService.WrongPasswordCredentialsException.class
                     ,UserService.EmailAlreadyExistsException.class, IOException.class,
-                    UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
+                    UserService.IllegalAccessRoleException.class, IllegalArgumentException.class
+                    ,EntityNotFoundException.class
+            })
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
@@ -143,6 +158,10 @@ public class UserController {
             message = exception.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
+         else if(exception instanceof EntityNotFoundException){
+             message = exception.getMessage();
+             status = HttpStatus.BAD_REQUEST;
+         }
         else if(exception instanceof UserService.IllegalAccessRoleException){
             message = exception.getMessage();
             status = HttpStatus.UNAUTHORIZED;
