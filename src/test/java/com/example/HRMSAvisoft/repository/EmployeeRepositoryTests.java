@@ -8,6 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -88,6 +93,7 @@ public class EmployeeRepositoryTests {
         savedEmployee = employeeRepository.save(employee);
 
         Employee employeeFoundById = employeeRepository.findById(empId).orElse(null);
+
         assertEquals(employeeFoundById.getEmployeeId(), savedEmployee.getEmployeeId());
         assertEquals(employeeFoundById.getFirstName(), savedEmployee.getFirstName());
         assertEquals(employeeFoundById.getLastName(), savedEmployee.getLastName());

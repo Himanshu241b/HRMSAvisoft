@@ -15,5 +15,4 @@ import lombok.Setter;
 public class Role {
     @Id
     private String role;
-
 }

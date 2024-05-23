@@ -5,10 +5,13 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,11 +33,13 @@ public class EmployeeService {
     private DepartmentRepository departmentRepository;
 
 
+
     EmployeeService(EmployeeRepository employeeRepository, Cloudinary cloudinary){
 
         this.employeeRepository = employeeRepository;
         this.cloudinary = cloudinary;
     }
+
     public void uploadProfileImage(Long employeeId, MultipartFile file)throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
 
@@ -65,7 +70,11 @@ public class EmployeeService {
         return searchedEmployees;
     }
 
-    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException{
+    public Employee saveEmployeePersonalInfo(Long employeeId, CreateEmployeeDTO createEmployeeDTO)throws EmployeeNotFoundException, EmployeeCodeAlreadyExistsException{
+
+        if (employeeRepository.existsByEmployeeCode(createEmployeeDTO.getEmployeeCode())) {
+            throw new EmployeeCodeAlreadyExistsException("Employee code already exists: " + createEmployeeDTO.getEmployeeCode());
+        }
         Department departmentOfEmployee =departmentRepository.findById(createEmployeeDTO.getDepartmentId()).orElse(null);
 
         Employee employeeToAddInfo = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException(employeeId));
@@ -90,11 +99,11 @@ public class EmployeeService {
         return employeeRepository.save(employeeToAddInfo);
     }
 
-    public List<Employee> getAllEmployees()throws DataAccessException
+    public Page<Employee> getAllEmployees(Pageable pageable)throws DataAccessException
     {
-        return employeeRepository.findAll();
+        return employeeRepository.findAll(pageable);
     }
-    public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException,NullPointerException
+    public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException, NullPointerException
     {
         Employee employee= employeeRepository.getByEmployeeId(employeeId);
         if(employee!=null)return employee;
@@ -113,21 +122,15 @@ public class EmployeeService {
 
 
     private boolean validateSearchTerm(String term) {
-        // Regular expression pattern to allow only alphabets and spaces
         String pattern = "^[a-zA-Z\\s]+$";
         return Pattern.matches(pattern, term);
     }
 
-    public static class EmployeeNotFoundException extends Exception {
-        public EmployeeNotFoundException(Long employeeId) {
-            super("Employee not found with ID: " + employeeId);
+
+    public static class EmployeeCodeAlreadyExistsException extends RuntimeException{
+        public EmployeeCodeAlreadyExistsException(String message) {
+            super(message);
         }
-    }
-
-
-    public static class AddressNotFoundException extends RuntimeException{
-        public AddressNotFoundException(Long addressId){super("Address not found with ID: " + addressId);}
-        public AddressNotFoundException(Long employeeId,Long addressId){super("Employee with ID :"+employeeId+" does not contain address with ID : "+addressId);}
     }
 
 

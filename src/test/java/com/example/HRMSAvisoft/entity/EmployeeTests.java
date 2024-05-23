@@ -36,7 +36,6 @@ public class EmployeeTests {
         String profileImage = "";
         List<Address> addresses = new ArrayList<Address>();
 
-
         Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, account);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
@@ -51,7 +50,6 @@ public class EmployeeTests {
         assertEquals(account, employeeByConstructor.getAccount());
         assertEquals(profileImage, employeeByConstructor.getProfileImage());
     }
-
 
     @Test
     @DisplayName("test_Employee_setters_and_getters")

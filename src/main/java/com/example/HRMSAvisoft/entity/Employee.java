@@ -59,7 +59,7 @@ public class Employee {
     @ManyToOne
     private Department department;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
 }

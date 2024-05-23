@@ -3,13 +3,14 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreateEmergencyContactDTO;
 import com.example.HRMSAvisoft.entity.EmergencyContact;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.EmergencyContactRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmergencyContactService {
@@ -23,22 +24,31 @@ public class EmergencyContactService {
         this.emergencyContactRepository = emergencyContactRepository;
     }
 
-    public List<EmergencyContact> getEmergencyContactsOfEmployee(Long employeeId) throws EmployeeService.EmployeeNotFoundException {
+    public List<EmergencyContact> getEmergencyContactsOfEmployee(Long employeeId) throws EmployeeNotFoundException {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
         if(employee == null){
-            throw new EmployeeService.EmployeeNotFoundException(employeeId);
+            throw new EmployeeNotFoundException(employeeId);
         }
         return employee.getEmergencyContacts();
     }
 
-    public EmergencyContact addEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeService.EmployeeNotFoundException {
+    public EmergencyContact addEmergencyContact(@RequestBody  CreateEmergencyContactDTO createEmergencyContactDTO, Long employeeId) throws EmployeeNotFoundException, ValidationException {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
 
         if(employee == null){
-            throw new EmployeeService.EmployeeNotFoundException(employeeId);
+            throw new EmployeeNotFoundException(employeeId);
         }
 
+        if((createEmergencyContactDTO.getRelationship() == null || createEmergencyContactDTO.getRelationship() == "") && (createEmergencyContactDTO.getContact() == null || createEmergencyContactDTO.getContact() == "")){
+            throw new ValidationException("All fields are required");
+        }
+        if(createEmergencyContactDTO.getContact() == null || createEmergencyContactDTO.getContact() == ""){
+            throw new ValidationException("Contact field cannot be empty.");
+        }
+        if(createEmergencyContactDTO.getRelationship() == null || createEmergencyContactDTO.getRelationship() == ""){
+            throw new ValidationException("Relationship field cannot be empty");
+        }
         EmergencyContact emergencyContact = new EmergencyContact();
         emergencyContact.setContact(createEmergencyContactDTO.getContact());
         emergencyContact.setRelationship(createEmergencyContactDTO.getRelationship());
@@ -50,7 +60,7 @@ public class EmergencyContactService {
         return newEmergencyContact;
     }
 
-    public EmergencyContact updateEmergencyContact(CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EntityNotFoundException{
+    public EmergencyContact updateEmergencyContact(@RequestBody CreateEmergencyContactDTO createEmergencyContactDTO, Long emergencyContactId)throws EntityNotFoundException{
         EmergencyContact emergencyContactToUpdate = emergencyContactRepository.findById(emergencyContactId).orElseThrow(()-> new EntityNotFoundException("No emergency contact found"));
         if(createEmergencyContactDTO.getContact() != null){
             emergencyContactToUpdate.setContact(createEmergencyContactDTO.getContact());
@@ -69,6 +79,13 @@ public class EmergencyContactService {
 
         employee.getEmergencyContacts().remove(emergencyContactToDelete);
         emergencyContactRepository.delete(emergencyContactToDelete);
+
+    }
+
+    public static class ValidationException extends RuntimeException{
+        public ValidationException(String message){
+            super(message);
+        }
 
     }
 }

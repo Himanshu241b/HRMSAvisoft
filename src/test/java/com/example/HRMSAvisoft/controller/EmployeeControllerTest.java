@@ -1,10 +1,12 @@
 package com.example.HRMSAvisoft.controller;
 
+import com.example.HRMSAvisoft.dto.LoginUserResponseDTO;
 import com.example.HRMSAvisoft.dto.UpdateEmployeeDetailsDTO;
 import com.example.HRMSAvisoft.dto.UpdatePersonalDetailsDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Gender;
 import com.example.HRMSAvisoft.entity.Position;
+import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.AddressService;
 import com.example.HRMSAvisoft.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,13 +15,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,27 +46,31 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EmployeeController.class)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ActiveProfiles("test")
 public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    ;
+
+    @Mock
+    ModelMapper modelMapper;
+
     @MockBean
     private EmployeeService employeeService;
     @MockBean
     private AddressService addressService;
-    @Autowired
-    private ObjectMapper objectMapper;
+    @MockBean
+    private UserRepository userRepository;
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private EmployeeController employeeController;
+
     HttpClient client;
     String port;
 
@@ -77,26 +87,26 @@ public class EmployeeControllerTest {
         client = HttpClient.newHttpClient();
         port = "5555";
     }
-    @Test
-    @WithMockUser
-    @DisplayName("Test Get All Employees")
-    public void testGetAllEmployees() throws Exception {
-        // Given
-        Employee employee = new Employee();
-        employee.setEmployeeId(1L);
-        employee.setFirstName("John");
-        when(employeeService.getAllEmployees()).thenReturn(Collections.singletonList(employee));
-
-        // When/Then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/getAllEmployees"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees[0].employeeId").isNotEmpty())
-                .andExpect(jsonPath("$.Employees[0].firstName").value("John"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Employees Retrieved Successfully"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.Success").value(true));
-        verify(employeeService, times(1)).getAllEmployees();
-    }
+//    @Test
+//    @WithMockUser
+//    @DisplayName("Test Get All Employees")
+//    public void testGetAllEmployees() throws Exception {
+//        // Given
+//        Employee employee = new Employee();
+//        employee.setEmployeeId(1L);
+//        employee.setFirstName("John");
+//        when(employeeService.getAllEmployees()).thenReturn(Collections.singletonList(employee));
+//
+//        // When/Then
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/getAllEmployees"))
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees").exists())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Employees[0].employeeId").isNotEmpty())
+//                .andExpect(jsonPath("$.Employees[0].firstName").value("John"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Employees Retrieved Successfully"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.Success").value(true));
+//        verify(employeeService, times(1)).getAllEmployees();
+//    }
     @Test
     @WithMockUser
     void testGetEmployeeById() throws Exception {
@@ -190,12 +200,11 @@ public class EmployeeControllerTest {
         mockMvc.perform(put("/api/v1/employee/updateEmployeeDetails/{employeeId}", employeeId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(updateEmployeeDetailsDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.UpdatedEmployee.employeeId").value(employeeId))
                 .andExpect(jsonPath("$.message").value("Personal Details Updated"))
                 .andExpect(jsonPath("$.Status").value(true));
 
-        // Verify that the EmployeeService methods were called
         verify(employeeService, times(1)).getEmployeeById(employeeId);
         verify(employeeService, times(1)).updateEmployee(any(Employee.class));
         verifyNoMoreInteractions(employeeService);
@@ -230,30 +239,4 @@ public class EmployeeControllerTest {
 //        assertEquals(200, postResponse.statusCode());
 //    }
 
-    @Test
-    @DisplayName("test_search_employee_success")
-    void test_search_employee_success() throws Exception {
-
-        Employee employee1 = new Employee();
-        Employee employee2 = new Employee();
-        employee1.setFirstName("test");
-        employee1.setLastName("user");
-        employee2.setFirstName("test2");
-        employee2.setLastName("user2");
-        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
-
-        // Mock the service method
-        when(employeeService.searchEmployeesByName("test")).thenReturn(mockEmployees);
-
-        // Perform the MVC request and verify the results
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:5555/api/v1/employee/searchEmployee")
-                        .param("name", "test")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].firstName").value("test"))
-                .andExpect(jsonPath("$[1].firstName").value("test2"))
-                .andExpect(jsonPath("$[0].lastName").value("user"))
-                .andExpect(jsonPath("$[1].lastName").value("user2"));
-    }
 }

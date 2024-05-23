@@ -3,13 +3,17 @@ package com.example.HRMSAvisoft.controller;
 import com.example.HRMSAvisoft.dto.*;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.UserRepository;
 import com.example.HRMSAvisoft.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,8 +30,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,12 +45,13 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}/uploadImage")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeService.EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("employeeId") Long employeeId, @RequestParam("file") MultipartFile file) throws EmployeeNotFoundException, IOException, NullPointerException, RuntimeException {
         employeeService.uploadProfileImage(employeeId, file);
         String message = "{\"message\": \"Profile Uploaded Successfully\"}";
         return ResponseEntity.ok().body(message);
     }
 
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/searchEmployee")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
@@ -66,38 +70,46 @@ public class EmployeeController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("/{employeeId}")
-    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody CreateEmployeeDTO createEmployee) throws EmployeeService.EmployeeNotFoundException {
+    public ResponseEntity<Map<String, Object>> saveEmployeePersonalInfo(@PathVariable Long employeeId, @RequestBody  @Valid CreateEmployeeDTO createEmployee) throws EmployeeNotFoundException, EmployeeService.EmployeeCodeAlreadyExistsException {
         Employee newEmployee = employeeService.saveEmployeePersonalInfo(employeeId, createEmployee);
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
 
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/getAllEmployees")
-    public ResponseEntity<Map<String,Object>>getAllEmployees() {
+    public ResponseEntity<Map<String, Object>> getAllEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "employeeId") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<Employee> pageOfEmployees = employeeService.getAllEmployees(pageable);
 
         Map<String, Object> responseData = new HashMap<>();
-        List<Employee> listOfEmployees=employeeService.getAllEmployees();
-        if(listOfEmployees!=null){
-            responseData.put("Employees",listOfEmployees);
-            responseData.put("message","Employees Retrieved Successfully");
-            responseData.put("Success",true);
-        }else {
-            responseData.put("Employees", null);
-            responseData.put("message", "Employee List is Empty");
-            responseData.put("Success",true);
-        }
+        responseData.put("Employees", pageOfEmployees.getContent());
+        responseData.put("currentPage", pageOfEmployees.getNumber());
+        responseData.put("totalItems", pageOfEmployees.getTotalElements());
+        responseData.put("totalPages", pageOfEmployees.getTotalPages());
+        responseData.put("message", "Employees Retrieved Successfully");
+        responseData.put("Success", true);
+
         return ResponseEntity.ok().body(responseData);
     }
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+
     @GetMapping("{employeeId}")
-    public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeService.EmployeeNotFoundException, DataAccessException
+    public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeNotFoundException, DataAccessException
     {
         Employee employee= employeeService.getEmployeeById(employeeId);
         Map<String, Object> responseData = new HashMap<>();
         return ResponseEntity.ok().body(Map.of("Employee", employee, "message", "Employee retrieved Successfully", "Status", true));
 
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PutMapping("/updatePersonalDetails/{employeeId}")
-    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+    public ResponseEntity<Map<String ,Object>> updatePersonalDetails(@PathVariable Long employeeId, @RequestBody UpdatePersonalDetailsDTO updatePersonalDetails)throws NullPointerException,EmployeeNotFoundException
         {
 
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
@@ -110,9 +122,9 @@ public class EmployeeController {
 
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",savedEmployee , "message", "Personal Details Updated", "Status", true));
     }
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PutMapping("/updateEmployeeDetails/{employeeId}")
-    public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeService.EmployeeNotFoundException
+    public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeNotFoundException
     {
         Employee existingEmployee = employeeService.getEmployeeById(employeeId);
         if(updateEmployeeDetailsDTO.getFirstName()!=null) existingEmployee.setFirstName(updateEmployeeDetailsDTO.getFirstName());
@@ -121,6 +133,9 @@ public class EmployeeController {
         if(updateEmployeeDetailsDTO.getGender()!=null)existingEmployee.setGender(updateEmployeeDetailsDTO.getGender());
         if(updateEmployeeDetailsDTO.getDateOfBirth()!=null)existingEmployee.setDateOfBirth(updateEmployeeDetailsDTO.getDateOfBirth());
         if(updateEmployeeDetailsDTO.getJoinDate()!=null)existingEmployee.setJoinDate(updateEmployeeDetailsDTO.getJoinDate());
+        if(updateEmployeeDetailsDTO.getAdhaarNumber()!=null)existingEmployee.setAdhaarNumber(updateEmployeeDetailsDTO.getAdhaarNumber());
+        if(updateEmployeeDetailsDTO.getUanNumber()!=null)existingEmployee.setUanNumber(updateEmployeeDetailsDTO.getUanNumber());
+        if(updateEmployeeDetailsDTO.getPanNumber()!=null)existingEmployee.setPanNumber(updateEmployeeDetailsDTO.getPanNumber());
         if(updateEmployeeDetailsDTO.getPosition()!=null)existingEmployee.setPosition(updateEmployeeDetailsDTO.getPosition());
         if(updateEmployeeDetailsDTO.getSalary()!=0)existingEmployee.setSalary(  BigDecimal.valueOf(updateEmployeeDetailsDTO.getSalary()));
         Employee savedEmployee = employeeService.updateEmployee(existingEmployee);
@@ -130,33 +145,30 @@ public class EmployeeController {
 
 
     @ExceptionHandler({
-            EmployeeService.EmployeeNotFoundException.class,
             IOException.class,
             RuntimeException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            EmployeeService.EmployeeCodeAlreadyExistsException.class
 
     })
-
 
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if(exception instanceof EmployeeService.EmployeeNotFoundException) {
-            message = exception.getMessage();
-            status = HttpStatus.NOT_FOUND;
-        } else if (exception instanceof IOException) {
+        if (exception instanceof IOException) {
             message = "Failed to update Profile Image";
             status = HttpStatus.BAD_REQUEST;
-        }else if(exception instanceof NullPointerException) {
+        }
+        else if(exception instanceof EmployeeService.EmployeeCodeAlreadyExistsException){
+            message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
+        }
+        else if(exception instanceof NullPointerException) {
             message = exception.getMessage();
             status =  HttpStatus.BAD_REQUEST;
         }
         else if(exception instanceof IllegalArgumentException) {
             message = exception.getMessage();
-            status = HttpStatus.BAD_REQUEST;
-        }
-        else if (exception instanceof RuntimeException) {
-            message = "Invalid image file";
             status = HttpStatus.BAD_REQUEST;
         }
         else{

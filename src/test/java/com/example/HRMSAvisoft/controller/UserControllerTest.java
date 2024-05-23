@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.controller;
 
 
+import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.User;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
@@ -58,33 +60,7 @@ class UserControllerTest {
         mockEmployee.setEmployeeId(1L);
         mockEmployee.setFirstName("John");
         mockEmployee.setLastName("Doe");
-        // Mock the userService.save@Test
-        //    void testUserLogin() throws Exception {
-        //        LoginUserDTO loginUserDTO = new LoginUserDTO();
-        //        loginUserDTO.setUsername("testuser");
-        //        loginUserDTO.setPassword("testpassword");
-        //
-        //        User mockUser = new User();
-        //        mockUser.setUserId(1L);
-        //        mockUser.setEmail("test@example.com");
-        //
-        //        Employee mockEmployee = new Employee();
-        //        mockEmployee.setFirstName("John");
-        //        mockEmployee.setLastName("Doe");
-        //
-        //        when(userService.userLogin(any(LoginUserDTO.class))).thenReturn(mockUser);
-        //        when(mockUser.getEmployee()).thenReturn(mockEmployee);
-        //
-        //        mockMvc.perform(post("/api/v1/user/login")
-        //                        .contentType(MediaType.APPLICATION_JSON)
-        //                        .content(objectMapper.writeValueAsString(loginUserDTO)))
-        //                .andExpect(status().isOk())
-        //                .andExpect(jsonPath("$.message").value("Login Successful"))
-        //                .andExpect(jsonPath("$.userId").value(1L))
-        //                .andExpect(jsonPath("$.email").value("test@example.com"))
-        //                .andExpect(jsonPath("$.firstName").value("John"))
-        //                .andExpect(jsonPath("$.lastName").value("Doe"));
-        //    }User method to return the mock user
+
         when(userService.saveUser(any(CreateUserDTO.class), any(User.class))).thenReturn(mockEmployee);
         // Perform POST request to "/api/v1/user/saveUser" with JSON request body
         mockMvc.perform(post("/api/v1/user/saveUser")
@@ -98,7 +74,6 @@ class UserControllerTest {
     @Test
     @DisplayName("Test User Login")
     void testUserLogin() throws Exception {
-        // Prepare test data
         LoginUserDTO loginUserDTO = new LoginUserDTO();
         loginUserDTO.setEmail("testuser");
         loginUserDTO.setPassword("testpassword");
@@ -119,12 +94,12 @@ class UserControllerTest {
         mockMvc.perform(post("/api/v1/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginUserDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.message").value("Login Successful"))
-                .andExpect(jsonPath("$.userId").value(1L))
-                .andExpect(jsonPath("$.email").value("test@example.com"))
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
+                .andExpect(jsonPath("$.loginUser.userId").value(1L))
+                .andExpect(jsonPath("$.loginUser.email").value("test@example.com"))
+                .andExpect(jsonPath("$.loginUser.firstName").value("John"))
+                .andExpect(jsonPath("$.loginUser.lastName").value("Doe"));
     }
 
 

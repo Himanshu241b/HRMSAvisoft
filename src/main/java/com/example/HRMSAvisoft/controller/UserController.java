@@ -6,15 +6,15 @@ import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -60,16 +60,15 @@ public class UserController {
 
 
     @PostMapping("/addNewUser")
-    @PreAuthorize("hasAnyAuthority('Role_super_admin','Role_admin')")
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
-                                                         @RequestBody AddNewUserDTO addNewUserDTO)throws IOException,UserService.EmailAlreadyExistsException{
+                                                         @RequestBody @Valid AddNewUserDTO addNewUserDTO)throws IOException,UserService.EmailAlreadyExistsException{
         User createdUser=userService.addNewUser(addNewUserDTO,loggedInUser);
         NewUserResponseDTO newUser=new NewUserResponseDTO();
         newUser.setUserId(createdUser.getUserId());
         newUser.setEmail(createdUser.getEmail());
         newUser.setCreatedAt(createdUser.getCreatedAt());
         newUser.setEmployeeId(createdUser.getEmployee().getEmployeeId());
-
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("message", "New User Created!!");
         response.put("success", true);
@@ -89,7 +88,6 @@ public class UserController {
             userResponse.setRoles(loggedInUser.getRoles());
             userResponse.setCreatedAt(loggedInUser.getCreatedAt());
             Employee employee = loggedInUser.getEmployee();
-
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
@@ -117,22 +115,31 @@ public class UserController {
         response.put("token", token);
         response.put("loginUser", userResponse);
         return ResponseEntity.ok(response);
-
     }
 
 
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+//        // Extract the token from the Authorization header
+//        String jwt = token.substring(7); // Assuming "Bearer " prefix is used
+//
+//        // Add the token to the blacklist
+//        jwtBlacklist.addToBlacklist(jwt);
+//
+//        // You can also implement additional logic here, such as notifying clients of successful logout
+//
+//        return ResponseEntity.ok("Logout successful");
+//    }
+
+
     @ExceptionHandler(
-            {UserService.WrongPasswordCredentialsException.class,EntityNotFoundException.class
+            {UserService.WrongPasswordCredentialsException.class
                     ,UserService.EmailAlreadyExistsException.class, IOException.class,
                     UserService.IllegalAccessRoleException.class, IllegalArgumentException.class})
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if(exception instanceof EntityNotFoundException){
-            message = exception.getMessage();
-            status = HttpStatus.NOT_FOUND;
-        }
-        else if(exception instanceof IllegalArgumentException){
+         if(exception instanceof IllegalArgumentException){
             message = exception.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
