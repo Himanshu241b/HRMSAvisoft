@@ -35,8 +35,9 @@ public class EmployeeTests {
         String dateOfBirth = "2004/12/22";
         String profileImage = "";
         List<Address> addresses = new ArrayList<Address>();
+        List<Performance> performanceList = new ArrayList<Performance>();
 
-        Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, account);
+        Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, performanceList, account);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
         assertEquals(firstName, employeeByConstructor.getFirstName());
