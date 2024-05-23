@@ -34,7 +34,7 @@ public class User {
     @JoinColumn(name="created_by")
     private User createdBy;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "employeeId")
     private Employee employee;
 

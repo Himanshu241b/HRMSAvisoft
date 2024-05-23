@@ -6,10 +6,14 @@ import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
+import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.RoleRepository;
 import com.example.HRMSAvisoft.repository.UserRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,9 @@ public class UserService {
     final private PasswordEncoder passwordEncoder;
 
     final private RoleRepository roleRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     final private EmployeeRepository employeeRepository;
 
@@ -132,20 +139,40 @@ public class UserService {
         }
     }
 
+//    @Transactional
+//    public boolean deleteEmployeeById(Long employeeId) throws EmployeeNotFoundException {
+//
+//    }
+
     public static class IllegalAccessRoleException extends IllegalAccessException{
         public IllegalAccessRoleException(String email, String role){
             super(email +" does not have the access to "+ role +" role.");
         }
     }
 
-    public void deleteUser(Long userId) {
-        User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId));
-        userRepository.deleteById(userId);
+    public boolean deleteUser(Long userId) {
+
+        try {
+            User userToDelete = userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found"));
+            userRepository.delete(userToDelete);
+        } finally {
+        }
+        return true;
     }
 
     public Collection<Role> getUserRoles(Long userId) {
         User user = getUserById(userId);
         return user.getRoles();
+    }
+
+    private void enableForeignKeyChecks() {
+        Query query = entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1");
+        query.executeUpdate();
+    }
+
+    private void disableForeignKeyChecks() {
+        Query query = entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0");
+        query.executeUpdate();
     }
 
 

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -55,6 +56,23 @@ public class EmployeeController {
     @GetMapping("/searchEmployee")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
+        List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
+            LoginUserResponseDTO loginUserResponseDTO = modelMapper.map(employee, LoginUserResponseDTO.class);
+            User userEmployee = userRepository.findByEmployee(employee);
+            loginUserResponseDTO.setUserId(userEmployee.getUserId());
+            loginUserResponseDTO.setEmail(userEmployee.getEmail());
+            loginUserResponseDTO.setRoles(userEmployee.getRoles());
+            loginUserResponseDTO.setCreatedAt(userEmployee.getCreatedAt());
+            return loginUserResponseDTO;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(loginUserResponseDTOs);
+    }
+
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+    @GetMapping("/searchByManager")
+    public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeeByManagerId(@RequestParam("managerId") Long managerId)throws IllegalArgumentException{
+        List<Employee> searchedEmployees = employeeService.searchEmployeeByManagerId(managerId);
         List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
             LoginUserResponseDTO loginUserResponseDTO = modelMapper.map(employee, LoginUserResponseDTO.class);
             User userEmployee = userRepository.findByEmployee(employee);
@@ -122,6 +140,7 @@ public class EmployeeController {
 
         return ResponseEntity.ok().body(Map.of("UpdatedEmployee",savedEmployee , "message", "Personal Details Updated", "Status", true));
     }
+    
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PutMapping("/updateEmployeeDetails/{employeeId}")
     public ResponseEntity<Map<String,Object>>updateEmployeeDetails(@PathVariable Long employeeId, @RequestBody UpdateEmployeeDetailsDTO updateEmployeeDetailsDTO)throws NullPointerException,EmployeeNotFoundException
@@ -144,6 +163,8 @@ public class EmployeeController {
     }
 
 
+
+
     @ExceptionHandler({
             IOException.class,
             RuntimeException.class,
@@ -155,9 +176,10 @@ public class EmployeeController {
     public ResponseEntity<ErrorResponseDTO> handleErrors(Exception exception){
         String message;
         HttpStatus status;
-        if (exception instanceof IOException) {
-            message = "Failed to update Profile Image";
-            status = HttpStatus.BAD_REQUEST;
+        if(exception instanceof EmployeeNotFoundException)
+        {
+            message = exception.getMessage();
+            status = HttpStatus.NOT_FOUND;
         }
         else if(exception instanceof EmployeeService.EmployeeCodeAlreadyExistsException){
             message = exception.getMessage();
@@ -169,6 +191,10 @@ public class EmployeeController {
         }
         else if(exception instanceof IllegalArgumentException) {
             message = exception.getMessage();
+            status = HttpStatus.BAD_REQUEST;
+        }
+        else if (exception instanceof IOException) {
+            message = "Failed to update Profile Image";
             status = HttpStatus.BAD_REQUEST;
         }
         else{
