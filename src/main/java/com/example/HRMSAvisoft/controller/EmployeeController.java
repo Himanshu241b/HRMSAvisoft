@@ -69,6 +69,9 @@ public class EmployeeController {
         return ResponseEntity.ok(loginUserResponseDTOs);
     }
 
+
+  //  @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/searchByManager")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeeByManagerId(@RequestParam("managerId") Long managerId)throws IllegalArgumentException{
@@ -93,8 +96,9 @@ public class EmployeeController {
         return ResponseEntity.ok(Map.of("success", true, "message", "Employee created Successfully", "Employee", newEmployee));
     }
 
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-    @GetMapping("/getAllEmployees")
+
+  @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+  @GetMapping("/getAllEmployees")
     public ResponseEntity<Map<String, Object>> getAllEmployees(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
