@@ -74,8 +74,7 @@ public class UserController {
         response.put("message", "New User Created!!");
         response.put("success", true);
         response.put("newUser", newUser);
-        return ResponseEntity.ok(response);
-
+        return ResponseEntity.status(201).body(response);
     }
 
     @PostMapping("/login")

@@ -18,9 +18,12 @@ public class Performance {
     @Column(nullable = false)
     private Long performanceId;
 
+    @ManyToOne
+    private Employee employee;
+
     private String reviewDate;
 
-    @OneToOne
+    @ManyToOne()
     @JoinColumn(name = "reviewerId", referencedColumnName = "employeeId")
     private Employee reviewer;
 
