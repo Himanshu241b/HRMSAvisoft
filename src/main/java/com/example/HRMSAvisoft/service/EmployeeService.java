@@ -16,6 +16,7 @@ import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,7 +113,12 @@ public class EmployeeService {
 
     public Page<Employee> getAllEmployees(Pageable pageable)throws DataAccessException
     {
-        return employeeRepository.findAll(pageable);
+       Page<Employee> pageOfEmployees= employeeRepository.findAll(pageable);
+        if (pageOfEmployees.isEmpty() && pageable.getPageNumber() > 0) {
+            pageable = PageRequest.of(pageOfEmployees.getTotalPages() - 1, pageable.getPageSize(), pageable.getSort());
+            pageOfEmployees = employeeRepository.findAll(pageable);
+        }
+        return pageOfEmployees;
     }
     public Employee getEmployeeById(Long employeeId)throws EmployeeNotFoundException, NullPointerException
     {
