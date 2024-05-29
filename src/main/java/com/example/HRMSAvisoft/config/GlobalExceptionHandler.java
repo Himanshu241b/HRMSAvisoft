@@ -2,6 +2,8 @@ package com.example.HRMSAvisoft.config;
 
 import com.example.HRMSAvisoft.exception.EmergencyContactNotFoundException;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
+import com.example.HRMSAvisoft.exception.InsufficientLeaveBalanceException;
+import com.example.HRMSAvisoft.exception.LeaveRequestNotFoundException;
 import com.example.HRMSAvisoft.service.AddressService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,10 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    HttpStatus status;
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,Object>>handlesValidationErrors(MethodArgumentNotValidException exception) {
+        HttpStatus status;
         List<String> errors = exception.getBindingResult().getFieldErrors()
                 .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
         Map<String,Object>responseData=new HashMap<>();
@@ -62,6 +65,20 @@ public class GlobalExceptionHandler {
         }
         responseData.put("Success",false);
         return ResponseEntity.status(status).body(responseData);
+    }
+    @ExceptionHandler({InsufficientLeaveBalanceException.class, LeaveRequestNotFoundException.class})
+    public ResponseEntity<Map<String,Object>>handlesLeaveErrors(Exception exception){
+        Map<String ,Object> responseData = new HashMap<>();
+        HttpStatus httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
+        if(exception instanceof LeaveRequestNotFoundException){
+            responseData.put("message",exception.getMessage());
+            httpStatus=HttpStatus.NOT_FOUND;
+        }
+        else if(exception instanceof InsufficientLeaveBalanceException ){
+            responseData.put("message",exception.getMessage());
+        }
+        responseData.put("Success",false);
+        return ResponseEntity.status(httpStatus).body(responseData);
     }
 
 
