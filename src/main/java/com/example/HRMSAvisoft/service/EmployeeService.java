@@ -5,9 +5,14 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.HRMSAvisoft.dto.CreateEmployeeDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.entity.Employee;
+import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.DepartmentRepository;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
+import com.example.HRMSAvisoft.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -29,6 +34,9 @@ public class EmployeeService {
     private  Cloudinary cloudinary;
 
     private  EmployeeRepository employeeRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -61,7 +69,7 @@ public class EmployeeService {
 
 
     public List<Employee> searchEmployeesByName(String name)throws IllegalArgumentException{
-        if(name == ""){
+        if(name.equals("") || name == null){
             throw new IllegalArgumentException("Search field empty");
         }
         if(!validateSearchTerm(name)){
@@ -117,15 +125,16 @@ public class EmployeeService {
             throw new EmployeeNotFoundException(employeeId);
         }
     }
-    public void deleteEmployeeById(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
-    }
+
+
+
     public Employee updateEmployee(Employee updatedEmployee) {
         return employeeRepository.save(updatedEmployee);
     }
 
-
-
+    public List<Employee> searchEmployeeByManagerId(Long managerId){
+        return employeeRepository.findEmployeesByManagerId(managerId);
+    }
 
     private boolean validateSearchTerm(String term) {
         String pattern = "^[a-zA-Z\\s]+$";

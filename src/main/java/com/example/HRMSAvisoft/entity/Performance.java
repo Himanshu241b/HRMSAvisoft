@@ -24,10 +24,9 @@ public class Performance {
     @JoinColumn(name = "reviewerId", referencedColumnName = "employeeId")
     private Employee reviewer;
 
+    @Enumerated(EnumType.STRING)
     private Rating rating;
 
     private String comment;
-
-
 
 }
