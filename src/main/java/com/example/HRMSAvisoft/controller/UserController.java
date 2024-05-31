@@ -47,19 +47,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/saveUser")
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-    public ResponseEntity<CreateUserResponseDTO>saveUser(@AuthenticationPrincipal User loggedInUser,
-                                        @RequestBody CreateUserDTO createUserDTO) throws IOException {
-        Employee createdUserEmployee = userService.saveUser(createUserDTO, loggedInUser);
-        CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
-        createUserResponseDTO.setMessage("User Created Successfully");
-        createUserResponseDTO.setEmployeeId(createdUserEmployee.getEmployeeId());
-        createUserResponseDTO.setProfileImage(createUserResponseDTO.getProfileImage());
-        return ResponseEntity.status(HttpStatus.CREATED).body(createUserResponseDTO);
-    }
-
-
     @PostMapping("/addNewUser")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
@@ -74,8 +61,7 @@ public class UserController {
         response.put("message", "New User Created!!");
         response.put("success", true);
         response.put("newUser", newUser);
-        return ResponseEntity.ok(response);
-
+        return ResponseEntity.status(201).body(response);
     }
 
     @PostMapping("/login")

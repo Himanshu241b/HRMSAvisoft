@@ -84,9 +84,13 @@ public class EmployeeService {
         if (employeeRepository.existsByEmployeeCode(createEmployeeDTO.getEmployeeCode())) {
             throw new EmployeeCodeAlreadyExistsException("Employee code already exists: " + createEmployeeDTO.getEmployeeCode());
         }
-        Department departmentOfEmployee =departmentRepository.findById(createEmployeeDTO.getDepartmentId()).orElse(null);
-
         Employee employeeToAddInfo = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException(employeeId));
+
+        if(createEmployeeDTO.getDepartmentId() != null) {
+            Department departmentOfEmployee = departmentRepository.findById(createEmployeeDTO.getDepartmentId()).orElse(null);
+            employeeToAddInfo.setDepartment(departmentOfEmployee);
+
+        }
 
         employeeToAddInfo.setFirstName(createEmployeeDTO.getFirstName());
         employeeToAddInfo.setLastName(createEmployeeDTO.getLastName());
@@ -94,7 +98,6 @@ public class EmployeeService {
         employeeToAddInfo.setGender(createEmployeeDTO.getGender());
         employeeToAddInfo.setSalary(createEmployeeDTO.getSalary());
         employeeToAddInfo.setEmployeeCode(createEmployeeDTO.getEmployeeCode());
-        employeeToAddInfo.setDepartment(departmentOfEmployee);
         employeeToAddInfo.setAdhaarNumber(createEmployeeDTO.getAdhaarNumber());
         employeeToAddInfo.setPanNumber(createEmployeeDTO.getPanNumber());
         employeeToAddInfo.setUanNumber(createEmployeeDTO.getUanNumber());
