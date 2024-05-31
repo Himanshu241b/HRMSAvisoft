@@ -1,9 +1,6 @@
 package com.example.HRMSAvisoft.config;
 
-import com.example.HRMSAvisoft.exception.EmergencyContactNotFoundException;
-import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
-import com.example.HRMSAvisoft.exception.InsufficientLeaveBalanceException;
-import com.example.HRMSAvisoft.exception.LeaveRequestNotFoundException;
+import com.example.HRMSAvisoft.exception.*;
 import com.example.HRMSAvisoft.service.AddressService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -66,7 +63,7 @@ public class GlobalExceptionHandler {
         responseData.put("Success",false);
         return ResponseEntity.status(status).body(responseData);
     }
-    @ExceptionHandler({InsufficientLeaveBalanceException.class, LeaveRequestNotFoundException.class})
+    @ExceptionHandler({InsufficientLeaveBalanceException.class, LeaveRequestNotFoundException.class,OverlappingLeaveRequestException.class})
     public ResponseEntity<Map<String,Object>>handlesLeaveErrors(Exception exception){
         Map<String ,Object> responseData = new HashMap<>();
         HttpStatus httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
@@ -75,6 +72,9 @@ public class GlobalExceptionHandler {
             httpStatus=HttpStatus.NOT_FOUND;
         }
         else if(exception instanceof InsufficientLeaveBalanceException ){
+            responseData.put("message",exception.getMessage());
+        }
+        else if(exception instanceof OverlappingLeaveRequestException){
             responseData.put("message",exception.getMessage());
         }
         responseData.put("Success",false);

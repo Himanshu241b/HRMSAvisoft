@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cd88f18-8ca6-4430-bdb3-fd0a4def442b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/CreatePerformanceDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/PerformanceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/PerformanceService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/exception/OverlappingLeaveRequestException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Performance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Performance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/config/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/config/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/LeaveRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/LeaveRequestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/LeaveRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/LeaveRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/LeaveRequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/LeaveRequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,12 +45,15 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HrmsAvisoftApplication.executor": "Run",
-    "git-widget-placeholder": "Merging sakshi"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sakshi&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.HRMSAvisoft.exception" />
@@ -69,7 +64,20 @@
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId">
+  <component name="RunManager" selected="Application.HrmsAvisoftApplication">
+    <configuration name="HrmsAvisoftApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.HrmsAvisoftApplication" />
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
@@ -97,22 +105,6 @@
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
       <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmergencyContactRepositoryTests" />
       <option name="METHOD_NAME" value="testGetEmergencyContactsById" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmergencyContactTests.test_EmergencyContactConstructor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.entity" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.entity.EmergencyContactTests" />
-      <option name="METHOD_NAME" value="test_EmergencyContactConstructor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -152,18 +144,18 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById" />
+        <item itemvalue="Application.HrmsAvisoftApplication" />
         <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" />
+        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById" />
         <item itemvalue="JUnit.UserRepositoryTests.testSaveUser" />
         <item itemvalue="JUnit.EmergencyContactTests.test_EmergencyContactGetterSetters" />
-        <item itemvalue="JUnit.EmergencyContactTests.test_EmergencyContactConstructor" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2618ae71-fac0-40cd-865d-df18eb25298a" name="Changes" comment="" />
+      <changelist id="6cd88f18-8ca6-4430-bdb3-fd0a4def442b" name="Changes" comment="" />
       <created>1713865468822</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -253,7 +245,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java</url>
-          <line>94</line>
+          <line>106</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
