@@ -88,7 +88,7 @@ public class EmergencyContactControllerTests {
     @Test
     @DisplayName("test_addEmergencyContactToEmployee")
     void testAddEmergencyContactToEmployee() throws Exception {
-        String jsonPayload = readFileAsString("src/test/resources/payload/CreateEmergencyContact.json");
+        String jsonPayload = readFileAsString("src/test/resources/payloads/CreateEmergencyContact.json");
 
         // Mocking the EmployeeRepository to return an employee when findById is called
         Employee mockEmployee = new Employee();

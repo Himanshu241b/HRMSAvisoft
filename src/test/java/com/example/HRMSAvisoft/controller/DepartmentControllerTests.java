@@ -88,7 +88,7 @@ public class DepartmentControllerTests {
     @DisplayName("test_addDepartment")
     void test_addDepartment() throws Exception {
 
-        String jsonPayload = readFileAsString("src/test/resources/payload/CreateDepartment.json");
+        String jsonPayload = readFileAsString("src/test/resources/payloads/CreateDepartment.json");
         Employee mockManager = new Employee();
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(mockManager));
 

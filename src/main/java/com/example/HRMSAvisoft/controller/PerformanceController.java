@@ -152,10 +152,6 @@ public class PerformanceController {
             message = exception.getMessage();
             status = HttpStatus.NOT_FOUND;
         }
-        else if(exception instanceof IllegalAccessException){
-            message = exception.getMessage();
-            status = HttpStatus.FORBIDDEN;
-        }
         else{
             message = "something went wrong";
             status = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -62,7 +62,7 @@ public class Employee {
     private Department department;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Performance> performanceList;
+    private List<Performance> performanceList = new ArrayList<Performance>();
 
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
