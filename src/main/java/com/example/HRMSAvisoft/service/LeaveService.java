@@ -7,6 +7,7 @@ import com.example.HRMSAvisoft.entity.LeaveStatus;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.exception.InsufficientLeaveBalanceException;
 import com.example.HRMSAvisoft.exception.LeaveRequestNotFoundException;
+import com.example.HRMSAvisoft.exception.OverlappingLeaveRequestException;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.LeaveBalanceRepository;
 import com.example.HRMSAvisoft.repository.LeaveRequestRepository;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,8 +35,12 @@ public class LeaveService {
         this.leaveBalanceRepository = leaveBalanceRepository;
     }
 
-    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException{
+    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException ,OverlappingLeaveRequestException{
     Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
+        List<LeaveRequest> overlappingRequests = leaveRequestRepository.findOverlappingLeaveRequests(employeeId, leaveRequest.getStartDate(), leaveRequest.getEndDate());
+        if (!overlappingRequests.isEmpty()) {
+            throw new OverlappingLeaveRequestException();
+        }
     leaveRequest.setEmployee(employee);
     leaveRequest.setStatus(LeaveStatus.PENDING);
     return leaveRequestRepository.save(leaveRequest);
@@ -75,6 +82,7 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
         leaveRequest.setStatus(LeaveStatus.DECLINED);
         leaveRequestRepository.save(leaveRequest);
     }
+
     public Page <LeaveRequest>getPendingLeaveRequestsForEmployee(Long employeeId, Pageable pageable)throws EmployeeNotFoundException{
         Employee employee=employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
         return leaveRequestRepository.findByEmployeeAndStatus(employee, LeaveStatus.PENDING, pageable);
@@ -92,4 +100,8 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
     }
 
 
+    public Page<LeaveRequest>getAllLeaveRequestsForEmployee(Long employeeId,Pageable pageable)throws EmployeeNotFoundException{
+        Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
+        return leaveRequestRepository.findByEmployee(employee,pageable);
+    }
 }

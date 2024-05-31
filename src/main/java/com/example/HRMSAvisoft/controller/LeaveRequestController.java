@@ -1,11 +1,9 @@
 package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.LeaveRequestDTO;
-import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.LeaveRequest;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.exception.LeaveRequestNotFoundException;
-import com.example.HRMSAvisoft.service.EmployeeService;
 import com.example.HRMSAvisoft.service.LeaveService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,10 +25,8 @@ public class LeaveRequestController
 {
     private LeaveService leaveService;
     private ModelMapper modelMapper;
-    private EmployeeService employeeService;
-    public LeaveRequestController(LeaveService leaveService,EmployeeService employeeService,ModelMapper modelMapper){
+    public LeaveRequestController(LeaveService leaveService,ModelMapper modelMapper){
         this.leaveService=leaveService;
-        this.employeeService=employeeService;
         this.modelMapper=modelMapper;
     }
     @PostMapping("/{employeeId}/leaveRequest")
@@ -47,8 +44,9 @@ public class LeaveRequestController
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 
     }
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/getLeaveRequests")
-    public ResponseEntity<Map<String,Object>>getleaveRequests(@RequestParam (defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size){
+    public ResponseEntity<Map<String,Object>>getLeaveRequests(@RequestParam (defaultValue = "0")int page,@RequestParam(defaultValue = "10")int size){
         Map<String, Object>response =new HashMap<>();
         if(page<0||size<=0){
             response.put("Message","Invalid page or size parameters");
@@ -105,6 +103,39 @@ public class LeaveRequestController
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+    @GetMapping("getLeaveRequestsForEmployee/{employeeId}")
+    public ResponseEntity<Map<String,Object>>getLeaveRequestForEmployee(@PathVariable Long employeeId
+            ,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5") int  size) throws  Exception{
+        Map<String, Object> response = new HashMap<>();
+
+        if (page < 0 || size <= 0) {
+            response.put("message", "Invalid page or size parameters");
+            response.put("success", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        Page<LeaveRequest> leaveRequestsPage = leaveService.getAllLeaveRequestsForEmployee(employeeId, pageable);
+        if (leaveRequestsPage.isEmpty()) {
+            response.put("message", "No leave requests found");
+            response.put("success", true);
+            response.put("leaveRequests", leaveRequestsPage.getContent());
+            response.put("currentPage", leaveRequestsPage.getNumber());
+            response.put("totalItems", leaveRequestsPage.getTotalElements());
+            response.put("totalPages", leaveRequestsPage.getTotalPages());
+            return ResponseEntity.ok(response);
+        }
+        List<LeaveRequestDTO> leaveRequestDTOs = leaveRequestsPage.getContent().stream()
+                .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDTO.class))
+                .toList();
+
+        response.put("leaveRequests",leaveRequestDTOs);
+        response.put("currentPage", leaveRequestsPage.getNumber());
+        response.put("totalItems", leaveRequestsPage.getTotalElements());
+        response.put("totalPages", leaveRequestsPage.getTotalPages());
+        response.put("success", true);
+
+        return ResponseEntity.ok(response);
+    }
     @GetMapping("/pendingLeaveRequestsForEmployee")
     public ResponseEntity<Map<String, Object>> getPendingLeaveRequestsForEmployee(
             @RequestParam Long employeeId,
@@ -125,7 +156,7 @@ public class LeaveRequestController
         if (leaveRequestsPage.isEmpty()) {
             response.put("message", "No Pending leave requests found");
             response.put("success", true);
-            response.put("leaveRequests", leaveRequestsPage.getContent());
+            response.put("pendingLeaveRequests", leaveRequestsPage.getContent());
             response.put("currentPage", leaveRequestsPage.getNumber());
             response.put("totalItems", leaveRequestsPage.getTotalElements());
             response.put("totalPages", leaveRequestsPage.getTotalPages());
@@ -135,7 +166,7 @@ public class LeaveRequestController
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDTO.class))
                 .toList();
 
-        response.put("Pending Leave Requests ",leaveRequestDTOs);
+        response.put("pendingLeaveRequests",leaveRequestDTOs);
         response.put("currentPage", leaveRequestsPage.getNumber());
         response.put("totalItems", leaveRequestsPage.getTotalElements());
         response.put("totalPages", leaveRequestsPage.getTotalPages());
@@ -163,7 +194,7 @@ public class LeaveRequestController
         if (leaveRequestsPage.isEmpty()) {
             response.put("message", "No Approved leave requests found");
             response.put("success", true);
-            response.put("leaveRequests", leaveRequestsPage.getContent());
+            response.put("approvedLeaveRequests", leaveRequestsPage.getContent());
             response.put("currentPage", leaveRequestsPage.getNumber());
             response.put("totalItems", leaveRequestsPage.getTotalElements());
             response.put("totalPages", leaveRequestsPage.getTotalPages());
@@ -173,7 +204,7 @@ public class LeaveRequestController
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDTO.class))
                 .toList();
 
-        response.put("Approved Leave Requests ",leaveRequestDTOs);
+        response.put("approvedLeaveRequests",leaveRequestDTOs);
         response.put("currentPage", leaveRequestsPage.getNumber());
         response.put("totalItems", leaveRequestsPage.getTotalElements());
         response.put("totalPages", leaveRequestsPage.getTotalPages());
@@ -201,7 +232,7 @@ public class LeaveRequestController
         if (leaveRequestsPage.isEmpty()) {
             response.put("message", "No Declined leave requests found");
             response.put("success", true);
-            response.put("leaveRequests", leaveRequestsPage.getContent());
+            response.put("declinedLeaveRequests", leaveRequestsPage.getContent());
             response.put("currentPage", leaveRequestsPage.getNumber());
             response.put("totalItems", leaveRequestsPage.getTotalElements());
             response.put("totalPages", leaveRequestsPage.getTotalPages());
@@ -211,7 +242,7 @@ public class LeaveRequestController
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDTO.class))
                 .toList();
 
-        response.put("Approved Leave Requests ",leaveRequestDTOs);
+        response.put("declinedLeaveRequests",leaveRequestDTOs);
         response.put("currentPage", leaveRequestsPage.getNumber());
         response.put("totalItems", leaveRequestsPage.getTotalElements());
         response.put("totalPages", leaveRequestsPage.getTotalPages());

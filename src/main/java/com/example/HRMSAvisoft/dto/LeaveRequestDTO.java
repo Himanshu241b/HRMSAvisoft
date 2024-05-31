@@ -13,6 +13,8 @@ import java.time.LocalDate;
 public class LeaveRequestDTO {
     private Long id;
     private Long employeeId;
+    private String employeeFirstName;
+    private String employeeLastName;
     private String leaveType;
     private LocalDate startDate ;
     private LocalDate endDate;
