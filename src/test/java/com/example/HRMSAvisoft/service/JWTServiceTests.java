@@ -16,8 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JWTServiceTests {
 
 
-    private static final long EXPIRATION_TIME_MILLIS = 3600000; // 1 hour in milliseconds
-
+    private static final long EXPIRATION_TIME_MILLIS = 86400000; // 1 day in milliseconds
 
     @InjectMocks
     private JWTService jwtService;

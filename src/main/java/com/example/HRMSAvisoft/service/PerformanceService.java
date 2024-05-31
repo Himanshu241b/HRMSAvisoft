@@ -4,9 +4,11 @@ package com.example.HRMSAvisoft.service;
 import com.example.HRMSAvisoft.dto.CreatePerformanceDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Performance;
+import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.PerformanceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,6 +39,7 @@ public class PerformanceService {
         Performance newPerformanceRecord = new Performance();
         newPerformanceRecord.setComment(createPerformanceDTO.getComment());
         newPerformanceRecord.setRating(createPerformanceDTO.getRating());
+        newPerformanceRecord.setEmployee(employeeToAddPerformance);
         newPerformanceRecord.setReviewer(reviewer);
         LocalDateTime reviewedAt = LocalDateTime.now();
         DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -48,4 +51,36 @@ public class PerformanceService {
         return newPerformanceRecord;
     }
 
+    public Performance updatePerformanceOfEmployee(User loggedInUser, Long performanceId, CreatePerformanceDTO createPerformanceDTO)throws IllegalAccessException, EntityNotFoundException{
+        Performance performanceToUpdate = performanceRepository.findById(performanceId).orElseThrow(()-> new EntityNotFoundException("Performance record not found."));
+
+        if(loggedInUser.getEmployee().getEmployeeId() != performanceToUpdate.getReviewer().getEmployeeId()){
+            throw new IllegalAccessException(("Forbidden to update performance."));
+        }
+        if(createPerformanceDTO.getComment() != null || createPerformanceDTO.getComment() != ""){
+            performanceToUpdate.setComment(createPerformanceDTO.getComment());
+        }
+        if(createPerformanceDTO.getRating() != null){
+            performanceToUpdate.setRating(createPerformanceDTO.getRating());
+        }
+        return performanceRepository.save(performanceToUpdate);
+    }
+
+    public List<Performance> getAllPerformance(){
+        return performanceRepository.findAll();
+    }
+
+    public List<Performance> getPerformanceOfReviewer(Long reviewerId){
+        Employee reviewer = employeeRepository.findById(reviewerId).orElseThrow(()-> new EntityNotFoundException("Reviewer not found"));
+        return performanceRepository.findByReviewer(reviewer);
+    }
+
+    public void deletePerformanceRecord(User loggedInUser, Long performanceId)throws IllegalAccessException{
+        Performance performanceToDelete = performanceRepository.findById(performanceId).orElseThrow(()-> new EntityNotFoundException("Performance record not found"));
+        if(loggedInUser.getEmployee().getEmployeeId() != performanceToDelete.getReviewer().getEmployeeId()){
+            throw new IllegalAccessException(("Forbidden to delete performance."));
+        }
+        Employee employeeWithPerformanceToDelete = employeeRepository.findById(performanceToDelete.getEmployee().getEmployeeId()).orElseThrow(()-> new EntityNotFoundException("Employee not found."));
+        employeeWithPerformanceToDelete.getPerformanceList().remove(performanceToDelete);
+    }
 }

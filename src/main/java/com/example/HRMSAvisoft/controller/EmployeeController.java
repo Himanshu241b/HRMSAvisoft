@@ -119,7 +119,6 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-
     @GetMapping("{employeeId}")
     public ResponseEntity<Map<String,Object>> getEmployeeById(@PathVariable Long employeeId)throws NullPointerException,EmployeeNotFoundException, DataAccessException
     {

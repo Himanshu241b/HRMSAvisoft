@@ -4,22 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6cd88f18-8ca6-4430-bdb3-fd0a4def442b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/CreatePerformanceDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/PerformanceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/PerformanceService.java" afterDir="false" />
+    <list default="true" id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/PerformanceControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/payloads/CreatePerformance.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/payloads/updatePerformance.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/HrmsAvisoftApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/HrmsAvisoftApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Performance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Performance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/DepartmentControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/DepartmentControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmergencyContactControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/EmergencyContactControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/PerformanceServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/PerformanceServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/payload/CreateDepartment.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/payloads/CreateDepartment.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/payload/CreateEmergencyContact.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/payloads/CreateEmergencyContact.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +29,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -53,98 +52,185 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HrmsAvisoftApplication.executor": "Run",
-    "git-widget-placeholder": "Merging sakshi"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.EmergencyContactControllerTests.testAddEmergencyContactToEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactServiceTests.test_addEmergencyContact_success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactServiceTests.test_returns_emergency_contacts_for_valid_employee_id.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactServiceTests.test_updateEmergencyContact_ReturnsUpdatedEmergencyContact.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactTests.test_EmergencyContactConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmergencyContactTests.test_EmergencyContactGetterSetters.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.test_search_employee_success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.testUploadProfileImage_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_imageUploadSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_null_employeeId_parameter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_null_file_parameter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTests.test_success_no_exceptions.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testDeleteEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testSaveEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testUpdateEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.test_searchEmployeesByName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testfindAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTests.testfindEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.test_returns_matching_employees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_invalidEmployeeIdAndValidImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_returns_matching_employees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndDifferentNameSameContentImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndEmptyImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndNullImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTests.test_validEmployeeIdAndValidImageFile.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeTests.testEmployeeConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testCreateJWT.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveRoles.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testRetrieveUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JWTServiceTests.testSetJwtKey.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.testDeletePerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.testGetAllPerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.testGetPerformanceByReviewer.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.testUpdatePerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.test_addPerformanceOfEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceControllerTests.test_getAllPerformanceOfEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceRespositoryTests.test_getPerformanceById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceRespositoryTests.test_savePerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceRespositoryTests.test_updatePerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_add_performance_success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_return_all_performance_records_when_records_exist.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_returns_performance_list_for_valid_id.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_reviewer_exists_and_has_performance_records.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_successfully_deletes_performance_record_when_logged_in_user_is_reviewer.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceServiceTests.test_update_performance_comment_and_rating_Sucess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceTests.testGetterSettersOfPerformance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PerformanceTests.test_PerformanceConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RoleTest.testRoleGetterSetter.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TestUserRepository.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserControllerTest.testUserLogin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTests.testSaveUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSaveUser_EmailAlreadyExists.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_Success.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsEntityNotFoundException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsRoleDoesNotMatchException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testSuperAdminLogin_throwsWrongPasswordCredentialException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_email_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_password_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_empty_role_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_multiple_roles_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.test_valid_login.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testSetters.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserTests.testUserConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;himanshu&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/himanshu/Desktop/Avisoft/java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.example.HRMSAvisoft.exception" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service" />
       <recent name="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources/payloads" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId">
-    <configuration name="EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="PerformanceControllerTests.testDeletePerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmergencyContactRepositoryTests" />
-      <option name="METHOD_NAME" value="testGetEmergencyContactsByEmployeeId" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testDeletePerformance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmergencyContactRepositoryTests.testGetEmergencyContactsById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testGetAllPerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.EmergencyContactRepositoryTests" />
-      <option name="METHOD_NAME" value="testGetEmergencyContactsById" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testGetAllPerformance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmergencyContactTests.test_EmergencyContactConstructor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testGetPerformanceByReviewer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.entity.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.entity" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.entity.EmergencyContactTests" />
-      <option name="METHOD_NAME" value="test_EmergencyContactConstructor" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testGetPerformanceByReviewer" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmergencyContactTests.test_EmergencyContactGetterSetters" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testUpdatePerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.entity.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.entity" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.entity.EmergencyContactTests" />
-      <option name="METHOD_NAME" value="test_EmergencyContactGetterSetters" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testUpdatePerformance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRepositoryTests.testSaveUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.test_addPerformanceOfEmployee" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.repository.*" />
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.repository.UserRepositoryTests" />
-      <option name="METHOD_NAME" value="testSaveUser" />
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="test_addPerformanceOfEmployee" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -152,18 +238,18 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsById" />
-        <item itemvalue="JUnit.EmergencyContactRepositoryTests.testGetEmergencyContactsByEmployeeId" />
-        <item itemvalue="JUnit.UserRepositoryTests.testSaveUser" />
-        <item itemvalue="JUnit.EmergencyContactTests.test_EmergencyContactGetterSetters" />
-        <item itemvalue="JUnit.EmergencyContactTests.test_EmergencyContactConstructor" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testDeletePerformance" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testUpdatePerformance" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testGetPerformanceByReviewer" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testGetAllPerformance" />
+        <item itemvalue="JUnit.PerformanceControllerTests.test_addPerformanceOfEmployee" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2618ae71-fac0-40cd-865d-df18eb25298a" name="Changes" comment="" />
+      <changelist id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="" />
       <created>1713865468822</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -176,19 +262,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/JWTServiceTests.java</url>
-          <line>23</line>
+          <line>22</line>
           <properties field="algorithmMock" class="com.example.HRMSAvisoft.service.JWTServiceTests" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveRequest.java</url>
-          <line>22</line>
-          <properties field="leaveType" class="com.example.HRMSAvisoft.entity.LeaveRequest" />
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/JWTServiceTests.java</url>
-          <line>46</line>
+          <line>45</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -201,84 +281,6 @@
           <line>201</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmergencyContactServiceTests.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmergencyContactRepositoryTests.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/AccountControllerTest.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/AddressController.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/UserTests.java</url>
-          <line>79</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveRequest.java</url>
-          <line>13</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/dto/LeaveRequestDTO.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveTypeService.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/EmployeeController.java</url>
-          <line>108</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/EmployeeRepositoryTests.java</url>
-          <line>175</line>
-          <properties class="com.example.HRMSAvisoft.repository.EmployeeRepositoryTests">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmergencyContactServiceTests.java</url>
-          <line>72</line>
-          <properties class="com.example.HRMSAvisoft.service.EmergencyContactServiceTests" method="test_updateEmergencyContact_ReturnsUpdatedEmergencyContact">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmergencyContactTests.java</url>
           <line>11</line>
@@ -287,6 +289,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/repository/PerformanceRespositoryTests.java</url>
+          <line>93</line>
+          <properties class="com.example.HRMSAvisoft.repository.PerformanceRespositoryTests" method="test_updatePerformance">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
