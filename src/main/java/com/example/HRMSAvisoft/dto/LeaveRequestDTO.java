@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.dto;
 
+import com.example.HRMSAvisoft.entity.AddressType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class LeaveRequestDTO {
     private LocalDate endDate;
     private Integer numberOfDays;
     private String reason;
+    private AddressType addressType;
 }
