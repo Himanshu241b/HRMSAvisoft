@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -35,11 +37,20 @@ public class LeaveService {
         this.leaveBalanceRepository = leaveBalanceRepository;
     }
 
-    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException ,OverlappingLeaveRequestException{
+    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException ,OverlappingLeaveRequestException,InsufficientLeaveBalanceException{
     Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
         List<LeaveRequest> overlappingRequests = leaveRequestRepository.findOverlappingLeaveRequests(employeeId, leaveRequest.getStartDate(), leaveRequest.getEndDate());
         if (!overlappingRequests.isEmpty()) {
             throw new OverlappingLeaveRequestException();
+        }
+        LeaveBalance leaveBalance = leaveBalanceRepository.findByEmployeeEmployeeIdAndLeaveTypeLeaveType(
+                leaveRequest.getEmployee().getEmployeeId(),
+                leaveRequest.getLeaveType()
+        ).orElseThrow(() -> new IllegalStateException("Leave balance not found for the employee and leave type"));
+
+        int totalAvailableLeave = leaveBalance.getAccruedLeave() + leaveBalance.getCarryForward();
+        if (leaveRequest.getNumberOfDays() > totalAvailableLeave) {
+            throw new InsufficientLeaveBalanceException(totalAvailableLeave);
         }
     leaveRequest.setEmployee(employee);
     leaveRequest.setStatus(LeaveStatus.PENDING);
@@ -64,7 +75,7 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
 
         int totalAvailableLeave = leaveBalance.getAccruedLeave() + leaveBalance.getCarryForward();
         if (leaveRequest.getNumberOfDays() > totalAvailableLeave) {
-            throw new InsufficientLeaveBalanceException();
+            throw new InsufficientLeaveBalanceException(totalAvailableLeave);
         }
 
         leaveBalance.setUsedLeave(leaveBalance.getUsedLeave() + leaveRequest.getNumberOfDays());
