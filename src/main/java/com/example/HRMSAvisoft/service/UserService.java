@@ -2,6 +2,7 @@ package com.example.HRMSAvisoft.service;
 
 import com.example.HRMSAvisoft.dto.AddNewUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
+import com.example.HRMSAvisoft.dto.UserInfoDTO;
 import com.example.HRMSAvisoft.entity.Employee;
 import com.example.HRMSAvisoft.entity.Role;
 import com.example.HRMSAvisoft.entity.User;
@@ -13,6 +14,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -132,7 +135,20 @@ public class UserService {
         Query query = entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0");
         query.executeUpdate();
     }
-
+    public Page<UserInfoDTO> getAllUserInfo(Pageable pageable) {
+        Page<Employee> employeePage = employeeRepository.findAll(pageable);
+        return employeePage.map(employee -> {
+            User user = userRepository.findByEmployee(employee);
+            return new UserInfoDTO(
+                    employee.getEmployeeId(),
+                    user.getUserId(),
+                    employee.getEmployeeCode(),
+                    user.getEmail(),
+                    employee.getFirstName() + " " + employee.getLastName(),
+                    employee.getProfileImage()
+            );
+        });
+    }
 
     public static class WrongPasswordCredentialsException extends IllegalAccessException{
         public WrongPasswordCredentialsException(String email){

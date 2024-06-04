@@ -7,6 +7,7 @@ import com.example.HRMSAvisoft.entity.LeaveStatus;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.exception.InsufficientLeaveBalanceException;
 import com.example.HRMSAvisoft.exception.LeaveRequestNotFoundException;
+import com.example.HRMSAvisoft.exception.OverlappingLeaveRequestException;
 import com.example.HRMSAvisoft.repository.EmployeeRepository;
 import com.example.HRMSAvisoft.repository.LeaveBalanceRepository;
 import com.example.HRMSAvisoft.repository.LeaveRequestRepository;
@@ -15,6 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,8 +37,23 @@ public class LeaveService {
         this.leaveBalanceRepository = leaveBalanceRepository;
     }
 
-    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException{
+    public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException ,OverlappingLeaveRequestException,InsufficientLeaveBalanceException{
     Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
+        leaveRequest.setEmployee(employee);
+        List<LeaveRequest> overlappingRequests = leaveRequestRepository.findOverlappingLeaveRequests(employeeId, leaveRequest.getStartDate(), leaveRequest.getEndDate());
+        if (!overlappingRequests.isEmpty()) {
+            throw new OverlappingLeaveRequestException();
+        }
+
+        LeaveBalance leaveBalance = leaveBalanceRepository.findByEmployeeEmployeeIdAndLeaveTypeLeaveType(
+                leaveRequest.getEmployee().getEmployeeId(),
+                leaveRequest.getLeaveType()
+        ).orElseThrow(() -> new IllegalStateException("Leave balance not found for the employee and leave type"));
+
+        int totalAvailableLeave = leaveBalance.getAccruedLeave() + leaveBalance.getCarryForward();
+        if (leaveRequest.getNumberOfDays() > totalAvailableLeave) {
+            throw new InsufficientLeaveBalanceException(totalAvailableLeave);
+        }
     leaveRequest.setEmployee(employee);
     leaveRequest.setStatus(LeaveStatus.PENDING);
     return leaveRequestRepository.save(leaveRequest);
@@ -57,7 +77,7 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
 
         int totalAvailableLeave = leaveBalance.getAccruedLeave() + leaveBalance.getCarryForward();
         if (leaveRequest.getNumberOfDays() > totalAvailableLeave) {
-            throw new InsufficientLeaveBalanceException();
+            throw new InsufficientLeaveBalanceException(totalAvailableLeave);
         }
 
         leaveBalance.setUsedLeave(leaveBalance.getUsedLeave() + leaveRequest.getNumberOfDays());
@@ -75,6 +95,7 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
         leaveRequest.setStatus(LeaveStatus.DECLINED);
         leaveRequestRepository.save(leaveRequest);
     }
+
     public Page <LeaveRequest>getPendingLeaveRequestsForEmployee(Long employeeId, Pageable pageable)throws EmployeeNotFoundException{
         Employee employee=employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
         return leaveRequestRepository.findByEmployeeAndStatus(employee, LeaveStatus.PENDING, pageable);
@@ -92,4 +113,8 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
     }
 
 
+    public Page<LeaveRequest>getAllLeaveRequestsForEmployee(Long employeeId,Pageable pageable)throws EmployeeNotFoundException{
+        Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
+        return leaveRequestRepository.findByEmployee(employee,pageable);
+    }
 }

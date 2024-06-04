@@ -23,5 +23,6 @@ public class LeaveBalance {
     private LeaveType leaveType;
     private int accruedLeave;
     private int usedLeave;
+    private int monthlyUsedLeave;
     private int carryForward;
 }

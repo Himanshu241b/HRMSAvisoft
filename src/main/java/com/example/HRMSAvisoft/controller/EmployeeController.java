@@ -101,7 +101,7 @@ public class EmployeeController {
   @GetMapping("/getAllEmployees")
     public ResponseEntity<Map<String, Object>> getAllEmployees(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "employeeId") String sortBy) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

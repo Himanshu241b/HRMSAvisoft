@@ -10,6 +10,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -113,6 +117,26 @@ public class UserController {
             return ResponseEntity.status(204).body(null);
         else
             return ResponseEntity.status(500).body(null);
+    }
+    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
+    @GetMapping("/getAllUserInfo")
+    public ResponseEntity<Map<String, Object>> getAllUserInfo(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "employeeId") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<UserInfoDTO> pageOfUsers = userService.getAllUserInfo(pageable);
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("Users", pageOfUsers.getContent());
+        responseData.put("currentPage", pageOfUsers.getNumber());
+        responseData.put("totalItems", pageOfUsers.getTotalElements());
+        responseData.put("totalPages", pageOfUsers.getTotalPages());
+        responseData.put("message", "User Information Retrieved Successfully");
+        responseData.put("Success", true);
+
+        return ResponseEntity.ok().body(responseData);
     }
 
 
