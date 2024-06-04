@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.service;
 
 import com.example.HRMSAvisoft.dto.AddNewUserDTO;
+import com.example.HRMSAvisoft.dto.CreateUserDTO;
 import com.example.HRMSAvisoft.dto.LoginUserDTO;
 import com.example.HRMSAvisoft.dto.UserInfoDTO;
 import com.example.HRMSAvisoft.entity.Employee;
@@ -50,6 +51,47 @@ public class UserService {
     public User getUserById(Long id){
         User user=userRepository.getByUserId(id);
         return user;
+    }
+
+    public Employee saveUser(CreateUserDTO createUserDTO, User loggedInUser) throws IOException {
+
+        User alreadyRegisteredUser = userRepository.getByEmail(createUserDTO.getEmail());
+
+        if(alreadyRegisteredUser!=null){
+            throw new EmailAlreadyExistsException(createUserDTO.getEmail());
+        }
+
+        User newUser=new User();
+        newUser.setEmail(createUserDTO.getEmail());
+        newUser.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
+
+
+        newUser.setCreatedBy(loggedInUser);
+        LocalDateTime createdAt = LocalDateTime.now();
+        DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        newUser.setCreatedAt(createdAt.format(createdAtFormatter));
+
+        Role roleToAdd = roleRepository.getByRole(createUserDTO.getRole());
+        newUser.getRoles().add(roleToAdd);
+
+        // make employee instance corresponding to the user and set some data of employee
+
+        Employee newEmployee = new Employee();
+        newEmployee.setFirstName(createUserDTO.getFirstName());
+        newEmployee.setLastName(createUserDTO.getLastName());
+        newEmployee.setJoinDate(createUserDTO.getJoinDate());
+        newEmployee.setGender(createUserDTO.getGender());
+        newEmployee.setPosition(createUserDTO.getPosition());
+        newEmployee.setSalary(createUserDTO.getSalary());
+        newEmployee.setDateOfBirth(createUserDTO.getDateOfBirth());
+        newEmployee.setProfileImage("https://api.dicebear.com/5.x/initials/svg?seed="+createUserDTO.getFirstName()+" "+createUserDTO.getLastName());
+        Employee savedEmployee = employeeRepository.save(newEmployee);
+
+        newUser.setEmployee(savedEmployee);
+        userRepository.save(newUser);
+
+        return savedEmployee;
+
     }
 
     public User addNewUser(AddNewUserDTO addNewUserDTO, User loggedInUser)throws IOException,EmailAlreadyExistsException{
