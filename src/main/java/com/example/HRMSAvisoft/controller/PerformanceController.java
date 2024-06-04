@@ -52,7 +52,6 @@ public class PerformanceController {
         return ResponseEntity.ok(allPerformanceOfEmployeeDTOs);
     }
 
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @PostMapping("")
     public ResponseEntity<Map<String, Object>> addPerformanceOfEmployee(@PathParam("employeeId") Long employeeId, @PathParam("reviewerId") Long reviewerId, @RequestBody CreatePerformanceDTO createPerformanceDTO)throws EmployeeNotFoundException, IllegalAccessException{
         Performance newPerformanceRecord = performanceService.addPerformanceOfEmployee(employeeId, reviewerId, createPerformanceDTO);
@@ -93,7 +92,6 @@ public class PerformanceController {
         return ResponseEntity.status(200).body(Map.of("success",true,"message","performace fetched successfully", "performanceList",allPerformanceOfEmployeeDTOs));
     }
 
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/reviewer/{reviewerId}")
     public ResponseEntity<Map<String, Object>> getPerformanceOfReviewer(@PathVariable("reviewerId") Long reviewerId){
         List<Performance> performanceListOfReviewer = performanceService.getPerformanceOfReviewer(reviewerId);
