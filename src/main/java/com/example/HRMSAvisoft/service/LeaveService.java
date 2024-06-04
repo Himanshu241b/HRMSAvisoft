@@ -39,10 +39,12 @@ public class LeaveService {
 
     public LeaveRequest createLeaveRequest(Long employeeId, LeaveRequest leaveRequest)throws EmployeeNotFoundException ,OverlappingLeaveRequestException,InsufficientLeaveBalanceException{
     Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
+        leaveRequest.setEmployee(employee);
         List<LeaveRequest> overlappingRequests = leaveRequestRepository.findOverlappingLeaveRequests(employeeId, leaveRequest.getStartDate(), leaveRequest.getEndDate());
         if (!overlappingRequests.isEmpty()) {
             throw new OverlappingLeaveRequestException();
         }
+
         LeaveBalance leaveBalance = leaveBalanceRepository.findByEmployeeEmployeeIdAndLeaveTypeLeaveType(
                 leaveRequest.getEmployee().getEmployeeId(),
                 leaveRequest.getLeaveType()

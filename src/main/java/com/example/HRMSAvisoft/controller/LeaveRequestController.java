@@ -93,9 +93,10 @@ public class LeaveRequestController
         Map<String, Object> response = new HashMap<>();
         try {
             LeaveRequest approvedLeaveRequest = leaveService.approveLeaveRequest(leaveRequestId);
+            LeaveRequestDTO approvedLeaveRequestDTO=modelMapper.map(approvedLeaveRequest, LeaveRequestDTO.class);
             response.put("message", "Leave request approved successfully");
             response.put("success", true);
-            response.put("leaveRequest", approvedLeaveRequest);
+            response.put("leaveRequest", approvedLeaveRequestDTO);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("message", e.getMessage());
