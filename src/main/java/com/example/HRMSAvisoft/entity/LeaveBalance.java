@@ -1,5 +1,6 @@
 package com.example.HRMSAvisoft.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,12 +18,12 @@ public class LeaveBalance {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
     @ManyToOne
     @JoinColumn(name = "leave_type_id")
     private LeaveType leaveType;
     private int accruedLeave;
     private int usedLeave;
-    private int monthlyUsedLeave;
     private int carryForward;
 }
