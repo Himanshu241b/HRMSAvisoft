@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d878fc48-5afe-4f6d-9db7-8e41066672e8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveBalanceService.java" afterDir="false" />
+    <list default="true" id="b1581506-ddfe-4b3b-b4f9-898efaed9a66" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Payroll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/LeaveRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/LeaveRequestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/PerformanceController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveBalance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveBalance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/entity/LeaveRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/scheduler/LeaveBalanceScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/scheduler/LeaveBalanceScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/LeaveService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/config/TestSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/config/TestSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/DepartmentControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/controller/DepartmentControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/entity/EmployeeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmergencyContactServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/HRMSAvisoft/service/EmergencyContactServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,21 +48,12 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HrmsAvisoftApplication.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AccountControllerTest.addAccount.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AccountControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddressControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DepartmentControllerTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmergencyContactControllerTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sakshi&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/HP/Desktop/AVI soft/HRMSAvisoft&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HrmsAvisoftApplication.executor": "Run",
+    "git-widget-placeholder": "Merging sakshi"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/HRMSAvisoft" />
@@ -85,7 +78,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AccountControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testDeletePerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -94,29 +87,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AccountControllerTest.addAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRMSAvisoft" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AccountControllerTest" />
-      <option name="METHOD_NAME" value="addAccount" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testDeletePerformance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AddressControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testGetAllPerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -125,13 +103,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.AddressControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testGetAllPerformance" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmployeeControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceControllerTests.testGetPerformanceByReviewer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HRMSAvisoft" />
       <extension name="coverage">
         <pattern>
@@ -140,8 +119,25 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.EmployeeControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testGetPerformanceByReviewer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PerformanceControllerTests.testUpdatePerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRMSAvisoft" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.HRMSAvisoft.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.HRMSAvisoft.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.HRMSAvisoft.controller.PerformanceControllerTests" />
+      <option name="METHOD_NAME" value="testUpdatePerformance" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -149,17 +145,17 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.HrmsAvisoftApplication" />
-        <item itemvalue="JUnit.AddressControllerTest" />
-        <item itemvalue="JUnit.AccountControllerTest" />
-        <item itemvalue="JUnit.AccountControllerTest.addAccount" />
-        <item itemvalue="JUnit.EmployeeControllerTest" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testDeletePerformance" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testUpdatePerformance" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testGetPerformanceByReviewer" />
+        <item itemvalue="JUnit.PerformanceControllerTests.testGetAllPerformance" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d878fc48-5afe-4f6d-9db7-8e41066672e8" name="Changes" comment="" />
+      <changelist id="719ea5b8-4898-444a-bcbd-579e6be4e96c" name="Changes" comment="" />
       <created>1713865468822</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

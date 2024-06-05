@@ -93,6 +93,7 @@ public class UserService {
         return savedEmployee;
 
     }
+
     public User addNewUser(AddNewUserDTO addNewUserDTO, User loggedInUser)throws IOException,EmailAlreadyExistsException{
         User alreadyRegisteredUser = userRepository.getByEmail(addNewUserDTO.getEmail());
         if(alreadyRegisteredUser!=null){
@@ -153,13 +154,12 @@ public class UserService {
         }
     }
 
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(Long userId)throws EmployeeNotFoundException {
 
-        try {
+
             User userToDelete = userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found"));
             userRepository.delete(userToDelete);
-        } finally {
-        }
+
         return true;
     }
 

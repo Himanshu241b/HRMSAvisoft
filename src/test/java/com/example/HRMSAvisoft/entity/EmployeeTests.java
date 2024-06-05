@@ -36,8 +36,10 @@ public class EmployeeTests {
         String profileImage = "";
         List<Address> addresses = new ArrayList<Address>();
         List<Performance> performanceList = new ArrayList<Performance>();
+        List<LeaveRequest> leaveRequests = new ArrayList<LeaveRequest>();
+        List<LeaveBalance> leaveBalanceList = new ArrayList<LeaveBalance>();
 
-        Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, performanceList, account);
+        Employee employeeByConstructor = new Employee(empId, employeeCode, firstName, lastName, contact, emergencyContacts, addresses, position, joinDate, gender, adhaarNumber, panNumber, uanNumber, profileImage, dateOfBirth, salary, department, performanceList, account, leaveRequests, leaveBalanceList);
 
         assertEquals(empId, employeeByConstructor.getEmployeeId());
         assertEquals(firstName, employeeByConstructor.getFirstName());
