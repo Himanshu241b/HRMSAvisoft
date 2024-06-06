@@ -163,7 +163,7 @@ public class PerformanceControllerTests {
         performanceList.add(performance1);
         performanceList.add(performance2);
 
-        when(performanceService.getPerformanceOfReviewer(1L)).thenReturn(performanceList);
+        when(performanceService.getPerformanceByReviewer(1L)).thenReturn(performanceList);
         mockMvc.perform(get(getPerformanceByReviewer)
                         .param("reviewerId", reviewerId.toString()))
                 .andDo(print())

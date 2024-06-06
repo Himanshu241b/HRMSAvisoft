@@ -57,7 +57,28 @@ public class EmployeeController {
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeesByName(@RequestParam("name") String name)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeesByName(name);
         List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
-            LoginUserResponseDTO loginUserResponseDTO = modelMapper.map(employee, LoginUserResponseDTO.class);
+            LoginUserResponseDTO loginUserResponseDTO = new LoginUserResponseDTO();
+            loginUserResponseDTO.setEmployeeCode(employee.getEmployeeCode());
+            if(employee.getDepartment() != null) {
+                loginUserResponseDTO.setDepartment(employee.getDepartment().getDepartment());
+                loginUserResponseDTO.setDepartmentId(employee.getDepartment().getDepartmentId());
+                loginUserResponseDTO.setDepartmentDescription(employee.getDepartment().getDescription());
+                loginUserResponseDTO.setManagerId(employee.getDepartment().getManager().getEmployeeId());
+            }
+            loginUserResponseDTO.setAddresses(employee.getAddresses());
+            loginUserResponseDTO.setAccount(employee.getAccount());
+            loginUserResponseDTO.setUanNumber(employee.getUanNumber());
+            loginUserResponseDTO.setPanNumber(employee.getPanNumber());
+            loginUserResponseDTO.setContact(employee.getContact());
+            loginUserResponseDTO.setFirstName(employee.getFirstName());
+            loginUserResponseDTO.setLastName(employee.getLastName());
+            loginUserResponseDTO.setSalary(employee.getSalary());
+            loginUserResponseDTO.setJoinDate(employee.getJoinDate());
+            loginUserResponseDTO.setAdhaarNumber(employee.getAdhaarNumber());
+            loginUserResponseDTO.setDateOfBirth(employee.getDateOfBirth());
+            loginUserResponseDTO.setPosition(employee.getPosition());
+            loginUserResponseDTO.setProfileImage(employee.getProfileImage());
+            loginUserResponseDTO.setGender(employee.getGender());
             User userEmployee = userRepository.findByEmployee(employee);
             loginUserResponseDTO.setUserId(userEmployee.getUserId());
             loginUserResponseDTO.setEmail(userEmployee.getEmail());
@@ -70,14 +91,32 @@ public class EmployeeController {
     }
 
 
-  //  @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
-
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/searchByManager")
     public ResponseEntity<List<LoginUserResponseDTO>> searchEmployeeByManagerId(@RequestParam("managerId") Long managerId)throws IllegalArgumentException{
         List<Employee> searchedEmployees = employeeService.searchEmployeeByManagerId(managerId);
         List<LoginUserResponseDTO> loginUserResponseDTOs = searchedEmployees.stream().map((employee)->{
-            LoginUserResponseDTO loginUserResponseDTO = modelMapper.map(employee, LoginUserResponseDTO.class);
+            LoginUserResponseDTO loginUserResponseDTO = new LoginUserResponseDTO();
+            loginUserResponseDTO.setEmployeeCode(employee.getEmployeeCode());
+            if(employee.getDepartment() != null) {
+                loginUserResponseDTO.setDepartment(employee.getDepartment().getDepartment());
+                loginUserResponseDTO.setDepartmentId(employee.getDepartment().getDepartmentId());
+                loginUserResponseDTO.setDepartmentDescription(employee.getDepartment().getDescription());
+                loginUserResponseDTO.setManagerId(employee.getDepartment().getManager().getEmployeeId());
+            }
+            loginUserResponseDTO.setAddresses(employee.getAddresses());
+            loginUserResponseDTO.setAccount(employee.getAccount());
+            loginUserResponseDTO.setUanNumber(employee.getUanNumber());
+            loginUserResponseDTO.setPanNumber(employee.getPanNumber());
+            loginUserResponseDTO.setContact(employee.getContact());
+            loginUserResponseDTO.setFirstName(employee.getFirstName());
+            loginUserResponseDTO.setLastName(employee.getLastName());
+            loginUserResponseDTO.setSalary(employee.getSalary());
+            loginUserResponseDTO.setJoinDate(employee.getJoinDate());
+            loginUserResponseDTO.setAdhaarNumber(employee.getAdhaarNumber());
+            loginUserResponseDTO.setDateOfBirth(employee.getDateOfBirth());
+            loginUserResponseDTO.setPosition(employee.getPosition());
+            loginUserResponseDTO.setProfileImage(employee.getProfileImage());
+            loginUserResponseDTO.setGender(employee.getGender());
             User userEmployee = userRepository.findByEmployee(employee);
             loginUserResponseDTO.setUserId(userEmployee.getUserId());
             loginUserResponseDTO.setEmail(userEmployee.getEmail());

@@ -1,6 +1,7 @@
 package com.example.HRMSAvisoft.controller;
 
 import com.example.HRMSAvisoft.dto.CreateDepartmentDTO;
+import com.example.HRMSAvisoft.dto.DepartmentsResponseDTO;
 import com.example.HRMSAvisoft.dto.ErrorResponseDTO;
 import com.example.HRMSAvisoft.entity.Department;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
@@ -13,8 +14,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/department")
@@ -29,9 +32,22 @@ public class DepartmentController {
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("")
-    public ResponseEntity<List<Department>> getAllDepartments() {
+    public ResponseEntity<List<DepartmentsResponseDTO>> getAllDepartments() {
         List<Department> departments = departmentService.getAllDepartments();
-        return ResponseEntity.ok(departments);
+        List<DepartmentsResponseDTO> departmentsResponseDTOS = departments.stream().map(department ->{
+            DepartmentsResponseDTO departmentsResponseDTO = new DepartmentsResponseDTO();
+            departmentsResponseDTO.setDepartmentId(department.getDepartmentId());
+            departmentsResponseDTO.setDescription(department.getDescription());
+            departmentsResponseDTO.setDepartment(department.getDepartment());
+            departmentsResponseDTO.setManagerId(department.getManager().getEmployeeId());
+            departmentsResponseDTO.setManagerEmployeeCode(department.getManager().getEmployeeCode());
+            departmentsResponseDTO.setManagerFirstName(department.getManager().getFirstName());
+            departmentsResponseDTO.setManagerLastName(department.getManager().getLastName());
+
+            return departmentsResponseDTO;
+        }).collect(Collectors.toUnmodifiableList());
+
+        return ResponseEntity.ok(departmentsResponseDTOS);
     }
 
     @PostMapping("")

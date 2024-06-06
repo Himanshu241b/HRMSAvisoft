@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -145,7 +144,7 @@ public class PerformanceServiceTests {
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(reviewer));
         when(performanceRepository.findByReviewer(reviewer)).thenReturn(performanceList);
 
-        List<Performance> result = performanceService.getPerformanceOfReviewer(1L);
+        List<Performance> result = performanceService.getPerformanceByReviewer(1L);
 
         assertEquals(2, result.size());
         assertEquals(reviewer, result.get(0).getReviewer());
