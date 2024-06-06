@@ -18,7 +18,10 @@ public class LoginUserResponseDTO {
     private String email;
     private String createdAt;
     private Set<Role> roles;
-    private Department department;
+    private String department;
+    private Long departmentId;
+    private String departmentDescription;
+    private Long managerId;
     private String firstName;
     private String lastName;
     private String contact;

@@ -6,10 +6,11 @@ import com.example.HRMSAvisoft.entity.User;
 import com.example.HRMSAvisoft.exception.EmployeeNotFoundException;
 import com.example.HRMSAvisoft.service.JWTService;
 import com.example.HRMSAvisoft.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +64,20 @@ public class UserController {
     }
 
 
+    @Operation(
+            tags = "createUser",
+            description = "Create a new user",
+            responses = {
+                    @ApiResponse(
+                            description = "created",
+                            responseCode = "201"
+                    ),
+                    @ApiResponse(
+                            description = "email already exists",
+                            responseCode = "400"
+                    )
+            }
+    )
     @PostMapping("/addNewUser")
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     public ResponseEntity<Map<String ,Object>>addNewUser(@AuthenticationPrincipal User loggedInUser,
@@ -94,7 +109,12 @@ public class UserController {
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
-            userResponse.setDepartment(employee.getDepartment());
+            if(employee.getDepartment() != null) {
+                userResponse.setDepartment(employee.getDepartment().getDepartment());
+                userResponse.setDepartmentId(employee.getDepartment().getDepartmentId());
+                userResponse.setDepartmentDescription(employee.getDepartment().getDescription());
+                userResponse.setManagerId(employee.getDepartment().getManager().getEmployeeId());
+            }
             userResponse.setEmployeeCode(employee.getEmployeeCode());
             userResponse.setAdhaarNumber(employee.getAdhaarNumber());
             userResponse.setPanNumber(employee.getPanNumber());
