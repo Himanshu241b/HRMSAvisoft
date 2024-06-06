@@ -65,6 +65,7 @@ public class EmployeeController {
                 loginUserResponseDTO.setDepartmentDescription(employee.getDepartment().getDescription());
                 loginUserResponseDTO.setManagerId(employee.getDepartment().getManager().getEmployeeId());
             }
+            loginUserResponseDTO.setEmployeeId(employee.getEmployeeId());
             loginUserResponseDTO.setAddresses(employee.getAddresses());
             loginUserResponseDTO.setAccount(employee.getAccount());
             loginUserResponseDTO.setUanNumber(employee.getUanNumber());
@@ -103,6 +104,7 @@ public class EmployeeController {
                 loginUserResponseDTO.setDepartmentDescription(employee.getDepartment().getDescription());
                 loginUserResponseDTO.setManagerId(employee.getDepartment().getManager().getEmployeeId());
             }
+            loginUserResponseDTO.setEmployeeId(employee.getEmployeeId());
             loginUserResponseDTO.setAddresses(employee.getAddresses());
             loginUserResponseDTO.setAccount(employee.getAccount());
             loginUserResponseDTO.setUanNumber(employee.getUanNumber());

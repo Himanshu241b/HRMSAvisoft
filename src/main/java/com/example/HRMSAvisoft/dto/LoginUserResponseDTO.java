@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class LoginUserResponseDTO {
     private Long userId;
+    private Long employeeId;
     private String employeeCode;
     private String email;
     private String createdAt;
