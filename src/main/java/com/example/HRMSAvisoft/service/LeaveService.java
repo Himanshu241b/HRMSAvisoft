@@ -54,7 +54,7 @@ public class LeaveService {
         if (leaveRequest.getNumberOfDays() > totalAvailableLeave) {
             throw new InsufficientLeaveBalanceException(totalAvailableLeave);
         }
-    leaveRequest.setEmployee(employee);
+
     leaveRequest.setStatus(LeaveStatus.PENDING);
     return leaveRequestRepository.save(leaveRequest);
 }
