@@ -31,7 +31,6 @@ public class PerformanceController {
         this.performanceService = performanceService;
     }
 
-    @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<AllPerformanceOfEmployeeDTO>> getAllPerformanceOfEmployee(@PathVariable("employeeId") Long employeeId) throws EmployeeNotFoundException {
         List<Performance> performanceListOfEmployee = performanceService.getAllPerformanceOfEmployee(employeeId);
@@ -93,8 +92,8 @@ public class PerformanceController {
     }
 
     @GetMapping("/reviewer/{reviewerId}")
-    public ResponseEntity<Map<String, Object>> getPerformanceOfReviewer(@PathVariable("reviewerId") Long reviewerId){
-        List<Performance> performanceListOfReviewer = performanceService.getPerformanceOfReviewer(reviewerId);
+    public ResponseEntity<Map<String, Object>> getPerformanceByReviewer(@PathVariable("reviewerId") Long reviewerId)throws  EntityNotFoundException{
+        List<Performance> performanceListOfReviewer = performanceService.getPerformanceByReviewer(reviewerId);
         List<AllPerformanceOfEmployeeDTO> allPerformanceOfEmployeeDTOs = performanceListOfReviewer.stream().map((performance)->{
             AllPerformanceOfEmployeeDTO allPerformanceOfEmployeeDTO = new AllPerformanceOfEmployeeDTO();
             allPerformanceOfEmployeeDTO.setPerformanceId(performance.getPerformanceId());
@@ -112,8 +111,6 @@ public class PerformanceController {
 
         return ResponseEntity.status(200).body(Map.of("success",true, "message","performance fetched successfully", "performanceList", allPerformanceOfEmployeeDTOs));
     }
-
-
 
 
     @PreAuthorize("hasAnyAuthority('Role_Superadmin','Role_Admin')")

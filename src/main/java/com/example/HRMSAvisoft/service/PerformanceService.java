@@ -70,7 +70,7 @@ public class PerformanceService {
         return performanceRepository.findAll();
     }
 
-    public List<Performance> getPerformanceOfReviewer(Long reviewerId){
+    public List<Performance> getPerformanceByReviewer(Long reviewerId)throws EntityNotFoundException{
         Employee reviewer = employeeRepository.findById(reviewerId).orElseThrow(()-> new EntityNotFoundException("Reviewer not found"));
         return performanceRepository.findByReviewer(reviewer);
     }
