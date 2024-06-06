@@ -31,7 +31,9 @@ public class SecurityConfig {
         http
                 .csrf(csrfSpec -> csrfSpec.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**", "/swagger-ui/",
+                                "/swagger-ui.html").permitAll()
+
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
