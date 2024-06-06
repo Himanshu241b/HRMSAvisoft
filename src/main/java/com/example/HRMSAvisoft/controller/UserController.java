@@ -110,6 +110,7 @@ public class UserController {
             userResponse.setRoles(loggedInUser.getRoles());
             userResponse.setCreatedAt(loggedInUser.getCreatedAt());
             Employee employee = loggedInUser.getEmployee();
+            userResponse.setEmployeeId(employee.getEmployeeId());
             userResponse.setFirstName(employee.getFirstName());
             userResponse.setLastName(employee.getLastName());
             userResponse.setContact(employee.getContact());
