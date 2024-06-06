@@ -40,7 +40,7 @@ public class LeaveBalanceScheduler {
                         leaveBalance.setCarryForward(leaveType.getCarryForwardLimit());
                     }
                     leaveBalance.setAccruedLeave(leaveType.getLeavesPerMonth());
-                    leaveBalance.setMonthlyUsedLeave(0);
+
 
                     // Save the updated leave balance
                     leaveBalanceRepository.save(leaveBalance);

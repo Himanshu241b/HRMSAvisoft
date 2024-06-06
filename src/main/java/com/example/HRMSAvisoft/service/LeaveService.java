@@ -96,6 +96,7 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
         leaveRequestRepository.save(leaveRequest);
     }
 
+
     public Page <LeaveRequest>getPendingLeaveRequestsForEmployee(Long employeeId, Pageable pageable)throws EmployeeNotFoundException{
         Employee employee=employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
         return leaveRequestRepository.findByEmployeeAndStatus(employee, LeaveStatus.PENDING, pageable);
@@ -117,4 +118,9 @@ public Page<LeaveRequest> getPendingLeaveRequests(Pageable pageable){
         Employee employee=employeeRepository.findById(employeeId).orElseThrow(()->new EmployeeNotFoundException(employeeId));
         return leaveRequestRepository.findByEmployee(employee,pageable);
     }
+
+
+//    public int sumOFUnplannedLeavesTakenByEmployeeForAMonth(Long employeeId){
+//        return 0;
+//    }
 }
