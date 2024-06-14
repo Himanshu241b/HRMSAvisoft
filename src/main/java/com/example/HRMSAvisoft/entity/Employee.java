@@ -65,12 +65,17 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Performance> performanceList = new ArrayList<Performance>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Payroll> payrollList = new ArrayList<Payroll>();
+
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "accountId")
     private Account account;
+
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<LeaveRequest> leaveRequests = new ArrayList<>();
+
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<LeaveBalance> leaveBalances = new ArrayList<>();
